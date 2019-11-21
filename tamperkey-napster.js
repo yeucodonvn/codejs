@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Naspter
-// @version      0.2
+// @version      0.2.1
 // @description  This script Autoplay Naspter
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js
@@ -20,6 +20,7 @@
     var REPEAT_NUMB = 20;//                          will increase from 1-5;
     var ADDED_EVENT = 0;
     var CORRECT_ARTIST = true;
+	var play_loading = true;
 
 	//check pasue button loading
 	//document.querySelector("#player-transport-controls > div.transport-top > div.player-play-button > div.player-loading")
@@ -27,10 +28,8 @@
 	function play_button(){
         var playElm = document.querySelector("#player-transport-controls > div.transport-top > div.player-play-button > div.player-loading");
         var checked = playElm.getAttribute("class");
-		var toggle="player-loading"?true:false;
-        if(toggle){
-            location.reload();
-        }
+		play_loading="player-loading"?true:false;
+        
     };
 
 	function setShuffle(toggle){
@@ -59,9 +58,9 @@
 				if(ADDED_EVENT!==1){
 					console.log("Check Loanding");
 					setRandomInterval(play_button(), 20000);
-					if(REPEAT_NUMB > 0){
+					if(REPEAT_NUMB > 0 && play_loading){
 						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 68000, 108000);
-						
+
 					}else{
                         location.reload();
                      }
@@ -75,7 +74,7 @@
 
     function run(){
         console.log("Naspter AutoPlay - MANAGER");
-		
+
 		setAutoPlay(true);console.log("Naspter setAutoPlay");
 		setShuffle(true);console.log("Naspter setShuffle");
         setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);

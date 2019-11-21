@@ -1,11 +1,11 @@
 
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.2.5
+// @version      0.2.6
 // @description  This script Autoplay Youtube
 // @author       bjemtj
-// @updateURL    https://githubusercontent.com/yeucodonvn/ytbmusic/master/tamperkey-ytbmusic.js
-// @downloadURL  https://githubusercontent.com/yeucodonvn/ytbmusic/master/tamperkey-ytbmusic.js
+// @updateURL    https://github.com/yeucodonvn/codejs/blob/master/tamperkey-ytbmusic.js
+// @downloadURL  https://github.com/yeucodonvn/codejs/blob/master/tamperkey-ytbmusic.js
 // @match        *music.youtube.com/playlist?list=*
 // @run-at       document-start
 // @grant        none

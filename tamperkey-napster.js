@@ -57,10 +57,9 @@
 			setTimeout(function() {
 				f();
 				if(ADDED_EVENT!==1){
-					setTimeout(play_button(), 20000);
+					setRandomInterval(play_button(), 20000);
 					if(REPEAT_NUMB > 0){
 						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 68000, 108000);
-						
 					}else{
                         location.reload();
                      }
@@ -74,7 +73,6 @@
 
     function run(){
         console.log("YouTube AutoPlay - MANAGER");
-		
 		setAutoPlay(true);console.log("YouTube setAutoPlay");
 		setShuffle(true);console.log("YouTube setShuffle");
         setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);

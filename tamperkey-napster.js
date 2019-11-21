@@ -51,19 +51,16 @@
 		//	setAutoPlay(true);
 		//}
     };
-	function play(){
-		var play = document.querySelector("#ember44 > a.play-button.icon-play-button").click();;
-		}
 
 
 		function setRandomInterval(f, min, max) {
 			setTimeout(function() {
 				f();
 				if(ADDED_EVENT!==1){
-
+					setTimeout(play_button(), 20000);
 					if(REPEAT_NUMB > 0){
-						setTimeout(play_button(), 20000);
 						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 68000, 108000);
+						
 					}else{
                         location.reload();
                      }
@@ -75,10 +72,9 @@
 		};
 
 
-    function run() {
+    function run(){
         console.log("YouTube AutoPlay - MANAGER");
-		setTimeout(play(), 5000);
-		console.log("YouTube play");
+		
 		setAutoPlay(true);console.log("YouTube setAutoPlay");
 		setShuffle(true);console.log("YouTube setShuffle");
         setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);

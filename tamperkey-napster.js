@@ -2,8 +2,8 @@
 // ==UserScript==
 // @name         Naspter
 // @version      0.2
-// @description  This script Autoplay Youtube
-// @author       bjemtj
+// @description  This script Autoplay Naspter
+// @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js
 // @match        *app.napster.com/**
@@ -57,9 +57,11 @@
 			setTimeout(function() {
 				f();
 				if(ADDED_EVENT!==1){
+					console.log("Check Loanding");
 					setRandomInterval(play_button(), 20000);
 					if(REPEAT_NUMB > 0){
 						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 68000, 108000);
+						
 					}else{
                         location.reload();
                      }
@@ -72,9 +74,10 @@
 
 
     function run(){
-        console.log("YouTube AutoPlay - MANAGER");
-		setAutoPlay(true);console.log("YouTube setAutoPlay");
-		setShuffle(true);console.log("YouTube setShuffle");
+        console.log("Naspter AutoPlay - MANAGER");
+		
+		setAutoPlay(true);console.log("Naspter setAutoPlay");
+		setShuffle(true);console.log("Naspter setShuffle");
         setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
     };
 

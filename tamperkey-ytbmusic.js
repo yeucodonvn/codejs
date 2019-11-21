@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.2.4
+// @version      0.2.5
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @match        *music.youtube.com/playlist?list=*

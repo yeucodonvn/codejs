@@ -4,6 +4,8 @@
 // @version      0.2.5
 // @description  This script Autoplay Youtube
 // @author       bjemtj
+// @updateURL    https://raw.githubusercontent.com/yeucodonvn/ytbmusic/master/tamperkey-ytbmusic.js
+// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/ytbmusic/master/tamperkey-ytbmusic.js
 // @match        *music.youtube.com/playlist?list=*
 // @run-at       document-start
 // @grant        none

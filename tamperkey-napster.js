@@ -1,6 +1,6 @@
 
 // ==UserScript==
-// @name         Nápter
+// @name         Naspter
 // @version      0.2
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -22,16 +22,17 @@
     var CORRECT_ARTIST = true;
 
 	//check pasue button loading
-	//document.querySelector(".player-play-button")
+	//document.querySelector("#player-transport-controls > div.transport-top > div.player-play-button > div.player-loading")
 	//class="player-loading active"
 	function play_button(){
-        var playElm = document.querySelector(".player-play-button");
+        var playElm = document.querySelector("#player-transport-controls > div.transport-top > div.player-play-button > div.player-loading");
         var checked = playElm.getAttribute("class");
-        if(checked=="player-loading active"?false:true)){
+		var toggle="player-loading"?true:false;
+        if(toggle){
             location.reload();
         }
     };
-   
+
 	function setShuffle(toggle){
         var ShuffleElm = document.querySelector("#ember57");
         var checked = ShuffleElm.getAttribute("class");
@@ -46,19 +47,23 @@
         if(toggle == (checked=="Repeat On"?false:true)){
             autoPlayElm.click();
         }
-		else{
-			setAutoPlay(true);
+		//else{
+		//	setAutoPlay(true);
+		//}
+    };
+	function play(){
+		var play = document.querySelector("#ember44 > a.play-button.icon-play-button").click();;
 		}
-    }, 2000;
 
 
 		function setRandomInterval(f, min, max) {
 			setTimeout(function() {
-				f(); 
+				f();
 				if(ADDED_EVENT!==1){
-					play_button();
+
 					if(REPEAT_NUMB > 0){
-						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+						setTimeout(play_button(), 20000);
+						setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 68000, 108000);
 					}else{
                         location.reload();
                      }
@@ -66,19 +71,19 @@
 				}
 				ADDED_EVENT = 1;
 			}, min + Math.random() * (max - min));
-  
+
 		};
-		
+
 
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
-		
-        setAutoPlay(true);
-		setShuffle(true);
-
+		setTimeout(play(), 5000);
+		console.log("YouTube play");
+		setAutoPlay(true);console.log("YouTube setAutoPlay");
+		setShuffle(true);console.log("YouTube setShuffle");
         setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
     };
 
-    setTimeout(run, 5000);
+    setTimeout(run, 10000);
 })();
 

@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Naspter
-// @version      0.2.3
+// @version      0.2.4
 // @description  This script Autoplay Naspter
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js
@@ -14,16 +14,11 @@
 
 (function() {
     'use strict';
-
-    
+	
     var BEFORE_DURATION = 80;//                     will increase from 1-20;
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
     var ADDED_EVENT = 0;
     
-	
-
-
-
 	function seekSliderBar(){
         var player = document.querySelector('[title="Next track"]');
 		player.click();
@@ -37,7 +32,6 @@
                         REPEAT_NUMB--;
                 };
             ADDED_EVENT = 1;
-        }
     };
 
     function run(){

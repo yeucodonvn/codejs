@@ -15,7 +15,7 @@
 (function() {
     'use strict';
 
-    var REPEAT_NUMB = 2;//                          will increase from 1-5;
+    var REPEAT_NUMB = 200;//                          will increase from 1-5;
 
    function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){

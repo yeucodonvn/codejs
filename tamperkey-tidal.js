@@ -1,12 +1,12 @@
 
 // ==UserScript==
-// @name         Naspter
+// @name         Tidal
 // @version      0.2.4
-// @description  This script Autoplay Naspter
+// @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
-// @match        *listen.tidal.com**
+// @match        https://listen.tidal.com/*
 // @run-at       document-start
 // @grant        none
 // @namespace http://tampermonkey.net/

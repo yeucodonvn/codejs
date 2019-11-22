@@ -14,32 +14,17 @@
 
 (function() {
     'use strict';
-	
-    var BEFORE_DURATION = 80;//                     will increase from 1-20;
+
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
-    var ADDED_EVENT = 0;
-    
-	function seekSliderBar(){
-        var player = document.querySelector('[title="Next track"]');
-		player.click();
-        if(ADDED_EVENT!==1){
-                        console.log(REPEAT_NUMB);
-                        if(REPEAT_NUMB > 0){
-                            setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000);
-                        }else{
-                            location.reload();
-                        }
-                        REPEAT_NUMB--;
-                };
-            ADDED_EVENT = 1;
-    };
 
-    function run(){
-        console.log("Naspter AutoPlay - MANAGER");
-		
-        setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000);
-    };
-
-    setTimeout(run, 5000);
+   function setRandomInterval(f, min, max) {
+			if(REPEAT_NUMB>0){
+				setTimeout(function() {
+					f();
+					setRandomInterval(f, min, max)
+				}, min + Math.random() * (max - min));
+			} else {location.reload();}
+				REPEAT_NUMB--;
+	};
+setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
 })();
-

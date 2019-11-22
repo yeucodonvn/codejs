@@ -6,7 +6,7 @@
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
-// @match        *app.napster.com/**
+// @match        *listen.tidal.com**
 // @run-at       document-start
 // @grant        none
 // @namespace http://tampermonkey.net/

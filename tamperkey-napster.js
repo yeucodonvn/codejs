@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Naspter
-// @version      0.2.4
+// @version      0.2.5
 // @description  This script Autoplay Naspter
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js

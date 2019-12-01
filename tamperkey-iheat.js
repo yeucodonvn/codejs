@@ -33,7 +33,7 @@
         console.log("YouTube AutoPlay - MANAGER");
 		play_btn();
 
-        setRandomInterval(function(){document.querySelector('[data-test="skip-button]').click()}, 88000, 128000);
+       	setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);
     };
 
     setTimeout(run, 5000);

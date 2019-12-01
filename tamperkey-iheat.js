@@ -12,7 +12,7 @@
 (function() {
     'use strict';
 
-    var REPEAT_NUMB = 200;
+    var REPEAT_NUMB = 2;
 
    function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
@@ -23,17 +23,17 @@
 			} else {location.reload();}
 				REPEAT_NUMB--;
 	};
-	
+
 	function play_btn(){
 	var element = document.querySelector('[data-test="play-button"]');
 		element.click();
 	}
-	
+
 	function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		play_btn();
 
-       	setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);
+        setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);
     };
 
     setTimeout(run, 5000);

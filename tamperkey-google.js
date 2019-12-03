@@ -6,7 +6,7 @@
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-google.js
 // @description  try to take over the world!
 // @author       You
-// @match        https://beta.music.apple.com/*
+// @match        https://play.google.com/music*
 // @grant        none
 // ==/UserScript==
 

@@ -17,5 +17,5 @@
     setRandomInterval(f, min, max) 
   }, min + Math.random() * (max - min));
 };
-setRandomInterval(function(){$('#player-bar-forward').click();}, 88000, 148000);
+setRandomInterval(function(){document.querySelector('#player-bar-forward').click();}, 88000, 148000);
 })();

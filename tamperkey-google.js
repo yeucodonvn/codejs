@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         google
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-google.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-google.js
 // @description  try to take over the world!

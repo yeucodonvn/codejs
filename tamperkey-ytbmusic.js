@@ -2,6 +2,7 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
 // @version      0.2.8
+// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js

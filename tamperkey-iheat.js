@@ -2,6 +2,7 @@
 // @name         iheart
 // @namespace    http://tampermonkey.net/
 // @version      0.3
+// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-iheat.js
@@ -30,7 +31,7 @@
 	}
 	
 	function run() {
-        console.log("YouTube AutoPlay - MANAGER");
+        console.log("IHEAT AutoPlay - MANAGER");
 		play_btn();
 
         setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);

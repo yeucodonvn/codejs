@@ -2,6 +2,7 @@
 // @name         apple
 // @namespace    http://tampermonkey.net/
 // @version      1.2
+// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @description  try to take over the world!

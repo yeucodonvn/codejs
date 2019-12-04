@@ -2,6 +2,7 @@
 // @name         deezer
 // @namespace    http://tampermonkey.net/
 // @version      0.1
+// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @description  try to take over the world!

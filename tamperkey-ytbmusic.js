@@ -44,17 +44,17 @@
         }, 2000);
     };
 
-    function seekSliderBar(per){
+    function seekSliderBar(){
         var ytplayer = document.getElementById("movie_player");
 
-        ytplayer.seekTo(ytplayer.getDuration()*per, true);
+        ytplayer.seekTo(ytplayer.getDuration(), true);
         if(ADDED_EVENT!==1){
             ytplayer.addEventListener("onStateChange", function(state){
                 if(state === 0){
                     if(CORRECT_ARTIST){
                         console.log(REPEAT_NUMB);
                         if(REPEAT_NUMB > 0){
-                            setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000, 0.9);
+                            setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000);
                         }else{
                            location.reload();
                         }
@@ -77,7 +77,7 @@
         setRepeatAll();
 		setShuffle()			//setTimeout(setShuffle(),2000,2000);
 
-        setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000, 0.9);
+        setTimeout(seekSliderBar,(Math.floor(Math.random() * 20) + BEFORE_DURATION)*1000);
     };
 
     setTimeout(run, 5000);

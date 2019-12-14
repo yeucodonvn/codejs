@@ -83,7 +83,7 @@
         }, 2000);
     };
 
-    var REPEAT_NUMB = 300;
+    var REPEAT_NUMB = 200;
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");
 
@@ -91,7 +91,7 @@
         clickPlay();
         setRepeatAll();
 		setTimeout(clickNext_first,30*1000);
-        setInterval(clickNext,120*1000);
+        setInterval(clickNext,150*1000);
     };
 
     setTimeout(run, 5000);

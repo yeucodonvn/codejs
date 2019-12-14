@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.5
+// @version      1.6
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -49,9 +49,19 @@
         }, 10000);
     };
 	function clickNext_first(){
-	    console.log("Click Next First");
+	    console.log("Click First Next");
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         repeatElm.click();
+    };
+
+	function clickstop(){
+	    console.log("Click Stop");
+		setTimeout(function(){
+             var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
+             if(repeatElm !== null){
+                  repeatElm.click();
+              }
+         },5000);
     };
 
     function clickNext(){
@@ -66,11 +76,13 @@
                     REPEAT_NUMB--;
                 }
                 if(REPEAT_NUMB<0){
-                    window.location.reload();
+					clickstop();
+					setTimeout(function (){window.location.reload();},20*1000);
                 }
             }
         }, 2000);
     };
+
     var REPEAT_NUMB = 300;
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");

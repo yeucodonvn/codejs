@@ -71,7 +71,7 @@
             }
         }, 2000);
     };
-    var REPEAT_NUMB = 5;
+    var REPEAT_NUMB = 300;
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");
 

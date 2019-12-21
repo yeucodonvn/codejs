@@ -16,11 +16,12 @@
     'use strict';
 
     function setRepeatAll(){
+		console.log("Click Repeat");
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
                 var repeatLabel = repeatElm.getAttribute("aria-label");
-                if(repeatLabel == "**FUSE.Repeat.All**"){
+                if(repeatLabel == "Repeat all"){
                     clearInterval(loopClickRepeat);
                 }else{
                     repeatElm.click();
@@ -30,6 +31,9 @@
         }, 2000);
     };
     function clickPlay(){
+	console.log("Click Play");
+	//var xPathRes = document.evaluate ('/html/body/div[2]/div[4]/div/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+	//xPathRes.singleNodeValue.click();
         var repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset.ember-view[aria-label='Shuffle']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
@@ -88,7 +92,7 @@
         console.log("Apple Music AutoPlay - MANAGER");
 
         $(window).off('beforeunload.windowReload');
-        clickPlay();
+       	setTimeout(clickPlay,10*1000);
         setRepeatAll();
 		setTimeout(clickNext_first,30*1000);
         setInterval(clickNext,150*1000);

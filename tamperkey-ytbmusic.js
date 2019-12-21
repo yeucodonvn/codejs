@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.2.9
+// @version      0.3
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -60,7 +60,7 @@
                         }
                         REPEAT_NUMB--;
                     }else{
-                        window.location.href = 'https://music.youtube.com/playlist?list='+ARTIST_ID;
+                        window.location.reload();
                     }
                 }
             });

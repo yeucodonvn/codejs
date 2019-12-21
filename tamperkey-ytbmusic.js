@@ -16,7 +16,7 @@
 (function() {
     'use strict';
 
-    var ARTIST_ID = "PL_2SVRWG1wuP31KNu4sQPvtmL2Fc5JcZA";
+    var ARTIST_ID = "PL_2SVRWG1wuOzBu2LpGUYEZoocdWf5Ewc";
     var BEFORE_DURATION = 60;//                     will increase from 1-20;
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
     var ADDED_EVENT = 0;
@@ -60,7 +60,7 @@
                         }
                         REPEAT_NUMB--;
                     }else{
-                        window.location.reload();
+                        window.location.href = 'https://music.youtube.com/playlist?list='+ARTIST_ID;
                     }
                 }
             });

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.6
+// @version      1.7
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -32,15 +32,16 @@
     };
     function clickPlay(){
 	console.log("Click Play");
-	//var xPathRes = document.evaluate ('/html/body/div[2]/div[4]/div/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-	//xPathRes.singleNodeValue.click();
+	
         var repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset.ember-view[aria-label='Shuffle']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
                 var repeatLabel = repeatElm.getAttribute("aria-label");
                 console.log(repeatElm);
                 if(repeatLabel == "Shuffle"){
-                    repeatElm.click();
+                    //repeatElm.click();
+			var xPathRes = document.evaluate ('/html/body/div[2]/div[4]/div/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+				xPathRes.singleNodeValue.click();
                     setTimeout(function(){
                         var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
                         if(playBtn == null){

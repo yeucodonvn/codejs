@@ -71,7 +71,7 @@
 	var REPEAT_tmp = 1;
     function clickNext(){
         console.log("Click Next");
-	document.querySelector("#ember40 > div.album-header-metadata > h1").innerHTML = "alexalex2019 Da Play "+REPEAT_tmp;
+	document.querySelector("#ember40 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){

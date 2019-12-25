@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7
+// @version      1.7.1
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -68,9 +68,10 @@
               }
          },5000);
     };
-
+	var REPEAT_tmp = 1;
     function clickNext(){
         console.log("Click Next");
+	document.querySelector("#ember40 > div.album-header-metadata > h1").innerHTML = "alexalex2019 Da Play "+REPEAT_tmp;
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
@@ -79,10 +80,11 @@
                     clearInterval(loopClickRepeat);
                     repeatElm.click();
                     REPEAT_NUMB--;
+		    REPEAT_tmp++;
                 }
                 if(REPEAT_NUMB<0){
-					clickstop();
-					setTimeout(function (){window.location.reload();},20*1000);
+			clickstop();
+			setTimeout(function (){window.location.reload();},20*1000);
                 }
             }
         }, 2000);

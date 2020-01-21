@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.1
+// @version      1.7.2
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -31,8 +31,7 @@
         }, 2000);
     };
     function clickPlay(){
-	console.log("Click Play");
-	
+		console.log("Click Play");
         var repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset.ember-view[aria-label='Shuffle']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
@@ -40,19 +39,29 @@
                 console.log(repeatElm);
                 if(repeatLabel == "Shuffle"){
                     //repeatElm.click();
-			var xPathRes = document.evaluate ('/html/body/div[2]/div[4]/div/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-				xPathRes.singleNodeValue.click();
-                    setTimeout(function(){
+					var xPathRes = document.evaluate ('/html/body/div[5]/div/div[3]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+					xPathRes.singleNodeValue.click();
+                    /*setTimeout(function(){
                         var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
                         if(playBtn == null){
-                            clearInterval(loopClickRepeat);
+                           clearInterval(loopClickRepeat);
                         }
-                    },5000);
+                    },5000);*/
+					clearInterval(loopClickRepeat);
                 }
             }
 
         }, 10000);
     };
+
+	function searchplaybtn(){
+		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
+        if(playBtn != null){
+			playBtn.click();
+			console.log("click play btn");
+        }
+    };
+
 	function clickNext_first(){
 	    console.log("Click First Next");
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
@@ -71,7 +80,7 @@
 	var REPEAT_tmp = 1;
     function clickNext(){
         console.log("Click Next");
-	document.querySelector("#ember40 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
+		document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
@@ -96,9 +105,10 @@
 
         $(window).off('beforeunload.windowReload');
        	setTimeout(clickPlay,10*1000);
-        setRepeatAll();
 		setTimeout(clickNext_first,30*1000);
-        setInterval(clickNext,150*1000);
+        setTimeout(setRepeatAll,10*1000);
+        setInterval(clickNext,120*1000);
+		setInterval(searchplaybtn,50*1000);
     };
 
     setTimeout(run, 5000);

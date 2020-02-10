@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.2
+// @version      1.7.3
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -57,8 +57,10 @@
 	function searchplaybtn(){
 		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
         if(playBtn != null){
-			playBtn.click();
-			console.log("click play btn");
+			//playBtn.click();
+			var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
+			nexttElm.click();
+			console.log("search play click next");
         }
     };
 
@@ -80,7 +82,7 @@
 	var REPEAT_tmp = 1;
     function clickNext(){
         console.log("Click Next");
-		document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
+		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){

@@ -15,7 +15,7 @@
 function play(){
 	 console.log("play");
 	var play = document.querySelector("[aria-label='Next']").click();
-	setTimeout(pause,100*60*1000);
+	setTimeout(pause,180*60*1000);
 }
 
 function Shuffle(){

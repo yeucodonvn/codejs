@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.2.1
+// @version      0.3
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
@@ -12,6 +12,8 @@
 // ==/UserScript==
 
 (function() {
+    'use strict';
+	
 	var PARAMS;
     $.ajax ( {
         type:       'GET',
@@ -63,6 +65,7 @@ function run() {
 
         $(window).off('beforeunload.windowReload');
 		Shuffle();
+		console.log(PARAMS.TIME_PLAY_DEEZER);
        	setTimeout(play,10*1000);
     };
 

@@ -27,8 +27,6 @@
         }
     } );
 
-    var PARAMS.REPEAT_NUMB_IHEART = 200;
-
 	function play_btn(){
 		console.log("play btn");
 		var element = document.querySelector('[data-test="play-button"]');
@@ -37,7 +35,7 @@
             if(element !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
                 if(repeatLabel == "paused"){
-					console.log("click play btn repeat "+PARAMS.REPEAT_NUMB_IHEART);
+					console.log("click play btn");
                     element.click();
 					setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);
                 }else{
@@ -65,7 +63,7 @@
 	};
 
 	function run() {
-        console.log("IHEAT AutoPlay - MANAGER");
+        console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+PARAMS.REPEAT_NUMB_IHEART);
 		play_btn();
 		//setTimeout(play_btn, 5000);
     };

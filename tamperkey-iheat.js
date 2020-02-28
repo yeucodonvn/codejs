@@ -13,8 +13,21 @@
 // ==/UserScript==
 (function() {
     'use strict';
+	var PARAMS;
+    $.ajax ( {
+        type:       'GET',
+        url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
+        dataType:   'JSON',
+        success:    function (apiJSON) {
+            PARAMS = apiJSON;
+        },
+        error:      function(err){
+            alert("Cannot load JSON file");
+            alert(err);
+        }
+    } );
 
-    var REPEAT_NUMB = 200;
+    var PARAMS.REPEAT_NUMB_IHEART = 200;
 
 	function play_btn(){
 		console.log("play btn");
@@ -24,7 +37,7 @@
             if(element !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
                 if(repeatLabel == "paused"){
-					console.log("click play btn");
+					console.log("click play btn repeat "+PARAMS.REPEAT_NUMB_IHEART);
                     element.click();
 					setRandomInterval(function(){document.querySelector('[data-test="skip-button"]').click()}, 88000, 128000);
                 }else{
@@ -41,14 +54,14 @@
 	};
 
    function setRandomInterval(f, min, max) {
-			if(REPEAT_NUMB>0){
+			if(PARAMS.REPEAT_NUMB_IHEART>0){
 				console.log("next");
 				setTimeout(function() {
 					f();
 					setRandomInterval(f, min, max)
 				}, min + Math.random() * (max - min));
 			} else {location.reload();}
-				REPEAT_NUMB--;
+				PARAMS.REPEAT_NUMB_IHEART--;
 	};
 
 	function run() {

@@ -42,6 +42,7 @@
 
    function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
+				console.log("next");
 				setTimeout(function() {
 					f();
 					setRandomInterval(f, min, max)

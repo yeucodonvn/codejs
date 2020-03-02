@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
@@ -60,6 +60,14 @@ function reload(){
 	}
 }
 
+function error_dialog(){	 
+	var errordialog= document.querySelector('[class="modal-dialog"]')!==null;
+	if(errordialog)	{
+		console.log("Click error dialog");
+		document.querySelector('[class="btn btn-default"]').click();
+	}
+}
+
 function run() {
         console.log("Deezer");
 
@@ -67,6 +75,7 @@ function run() {
 		Shuffle();
 		console.log(PARAMS.TIME_PLAY_DEEZER);
        	setTimeout(play,10*1000);
+		setInterval(error_dialog,50*1000);
     };
 
     setTimeout(run, 5000);

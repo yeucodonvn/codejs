@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.3
+// @version      1.7.4
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -38,9 +38,7 @@
                 var repeatLabel = repeatElm.getAttribute("aria-label");
                 console.log(repeatElm);
                 if(repeatLabel == "Shuffle"){
-                    //repeatElm.click();
-					var xPathRes = document.evaluate ('/html/body/div[5]/div/div[3]/div/div/div[1]/div[2]/div[1]/div[2]/button[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-					xPathRes.singleNodeValue.click();
+                    repeatElm.click();
                     /*setTimeout(function(){
                         var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
                         if(playBtn == null){

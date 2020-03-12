@@ -118,7 +118,7 @@
         $(window).off('beforeunload.windowReload');
        	setTimeout(clickPlay,10*1000);
 		setTimeout(clickNext_first,30*1000);
-        setTimeout(setRepeatAll,10*1000);
+        setTimeout(setRepeatAll,30*1000);
         setInterval(clickNext,120*1000);
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,20*60*1000);

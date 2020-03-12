@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.5
+// @version      1.7.4
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*
@@ -63,14 +63,12 @@
     };
 
 	function searchplaydisable(){
-		var playbtn = document.querySelector('[data-test-playback-control-play]');
+		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
 		if(playbtn){
-			var nextbtn = document.querySelector('[data-test-playback-control-next]');
-			var getplay=playbtn.getAttribute("disabled");
-			var getnext=playbtn.getAttribute("disabled");
-			if(getplay&&getnext){
+			var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
+			if(nextbtn){
+				console.log("Check Disabled Button Found");
 				location.reload();
-			cons	ole.log("check disabled button ok");
 			}
 		}
     };

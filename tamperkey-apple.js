@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.4
+// @version      1.7.6
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://beta.music.apple.com/*

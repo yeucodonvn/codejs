@@ -121,7 +121,7 @@
         setTimeout(setRepeatAll,30*1000);
         setInterval(clickNext,120*1000);
 		setInterval(searchplaybtn,50*1000);
-		setInterval(searchplaydisable,20*60*1000);
+		setInterval(searchplaydisable,10*60*1000);
     };
 
     setTimeout(run, 5000);

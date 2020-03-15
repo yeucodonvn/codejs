@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.1
+// @version      0.4.2
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -31,7 +31,7 @@
 	
     var ADDED_EVENT = 0;
     var CORRECT_ARTIST = true;
-	
+	var REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
 
     function setShufflealbum(){
         var element = document.querySelector('[aria-label="Shuffle"]');
@@ -69,7 +69,7 @@
 
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
-		PARAMS.REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
+		
 		if(PARAMS.SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
@@ -79,8 +79,8 @@
             ytplayer.addEventListener("onStateChange", function(state){
                 if(state === 0){
                     if(CORRECT_ARTIST){
-                        console.log(PARAMS.REPEAT_NUMB);
-                        if(PARAMS.REPEAT_NUMB > 0){
+                        console.log(REPEAT_NUMB);
+                        if(REPEAT_NUMB > 0){
                             clickLike();
 
                             var loopGetDuration = setInterval(function(){
@@ -99,7 +99,7 @@
                         }else{
                            location.reload();
                         }
-                        PARAMS.REPEAT_NUMB--;
+                        REPEAT_NUMB--;
                     }else{
                         window.location.href = 'https://music.youtube.com/playlist?list='+PARAMS.ARTIST_ID;
                     }
@@ -114,7 +114,7 @@
         var loopClickLikeRepeat = setInterval(function(){
             var btnRender = document.getElementById("like-button-renderer");
             if(btnRender != null){
-                if(Math.floor(Math.random() * 5) > 1){
+                if(Math.floor(Math.random() * 15) > 1){
                     console.log("Like Click");
                     btnRender.querySelector('[aria-label="Like"]').click();
                 }

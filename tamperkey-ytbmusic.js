@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.2
+// @version      0.4.4
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -22,6 +22,7 @@
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;
+			REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
         },
         error:      function(err){
             alert("Cannot load JSON file");
@@ -31,7 +32,7 @@
 	
     var ADDED_EVENT = 0;
     var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
+	var REPEAT_NUMB = 0;
 
     function setShufflealbum(){
         var element = document.querySelector('[aria-label="Shuffle"]');

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.5.1
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -20,6 +20,7 @@
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;
+			temp_number=PARAMS.REPEAT_NUMB_IHEART;
         },
         error:      function(err){
             alert("Cannot load JSON file");
@@ -112,10 +113,9 @@
 		document.querySelector('[data-test="shuffle"]').click();
 	};
 	
-
 	function run() {
-        console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+PARAMS.REPEAT_NUMB_IHEART);
-		temp_number=PARAMS.REPEAT_NUMB_IHEART;
+        console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
+		
 		
 		play_btn();
 		//setTimeout(shuffle, 15000);

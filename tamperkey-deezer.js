@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.4.1
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
@@ -21,6 +21,7 @@
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;
+		TIME_PLAY_DEEZER=PARAMS.TIME_PLAY_DEEZER;
         },
         error:      function(err){
             alert("Cannot load JSON file");
@@ -31,7 +32,7 @@
 function play(){
 	 console.log("play");
 	var play = document.querySelector("[aria-label='Next']").click();
-	setTimeout(pause,PARAMS.TIME_PLAY_DEEZER);
+	setTimeout(pause,TIME_PLAY_DEEZER);
 }
 
 function Shuffle(){
@@ -67,13 +68,13 @@ function error_dialog(){
 		document.querySelector('[class="btn btn-default"]').click();
 	}
 }
-
+var TIME_PLAY_DEEZER=0;
 function run() {
         console.log("Deezer");
 
         $(window).off('beforeunload.windowReload');
 		Shuffle();
-		console.log(PARAMS.TIME_PLAY_DEEZER);
+		console.log(TIME_PLAY_DEEZER);
        	setTimeout(play,10*1000);
 		setInterval(error_dialog,50*1000);
     };

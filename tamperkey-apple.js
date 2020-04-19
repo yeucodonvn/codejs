@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.6
+// @version      1.8
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
-// @match        *https://beta.music.apple.com/*
+// @match        *https://music.apple.com/*
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js

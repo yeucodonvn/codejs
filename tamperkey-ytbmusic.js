@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.4
+// @version      0.4.5
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -16,6 +16,9 @@
     'use strict';
 	
 	var PARAMS;
+	var ADDED_EVENT = 0;
+	var CORRECT_ARTIST = true;
+	var REPEAT_NUMB = 0;
     $.ajax ( {
         type:       'GET',
         url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
@@ -29,10 +32,7 @@
             alert(err);
         }
     } );
-	
-    var ADDED_EVENT = 0;
-    var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = 0;
+
 
     function setShufflealbum(){
         var element = document.querySelector('[aria-label="Shuffle"]');

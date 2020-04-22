@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.1
+// @version      0.5.2
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -14,7 +14,8 @@
 (function() {
     'use strict';
 	var PARAMS;
-    $.ajax ( {
+	var temp_number = 0;
+   	$.ajax ( {
         type:       'GET',
         url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
         dataType:   'JSON',
@@ -83,7 +84,7 @@
 			console.log("Click Confirm");
         }
     };
-	var temp_number = 0;
+
 	function get_time() {
 			if(temp_number>0){
 				console.log(temp_number);

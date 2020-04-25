@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.6
+// @version      0.4.7
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -18,7 +18,13 @@
 	var PARAMS;
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = 0;
+	var REPEAT_NUMB = 2000;
+	var SEEK_EVENT=true;
+	var LISTEN_DURATION_RANGE=10;
+	var LISTEN_DURATION=60;
+	var GOTO_PERCENT=0.9;
+	var ARTIST_ID='PL_2SVRWG1wuNYWc4mYWLmg_rIxqnG97Pi';
+	/*
     $.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
@@ -26,12 +32,17 @@
         success:    function (apiJSON) {
             PARAMS = apiJSON;
 			REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
+			SEEK_EVENT = PARAMS.SEEK_EVENT;
+			LISTEN_DURATION_RANGE = PARAMS.LISTEN_DURATION_RANGE;
+			LISTEN_DURATION = PARAMS.LISTEN_DURATION;
+			GOTO_PERCENT = PARAMS.GOTO_PERCENT;
+			ARTIST_ID = PARAMS.ARTIST_ID;
         },
         error:      function(err){
             alert("Cannot load JSON file");
             alert(err);
         }
-    } );
+    } );*/
 
 
     function setShufflealbum(){
@@ -71,7 +82,7 @@
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
 		
-		if(PARAMS.SEEK_EVENT){
+		if(SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
         }
@@ -95,14 +106,14 @@
                                     clearInterval(loopGetDuration);
                                 }
                             }, 1000);
-                            var rndDuration = (Math.floor(Math.random() * PARAMS.LISTEN_DURATION_RANGE) + PARAMS.LISTEN_DURATION);
-                            setTimeout(seekSliderBar, rndDuration*1000, PARAMS.GOTO_PERCENT, rndDuration);
+                            var rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
+                            setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
                            location.reload();
                         }
                         REPEAT_NUMB--;
                     }else{
-                        window.location.href = 'https://music.youtube.com/playlist?list='+PARAMS.ARTIST_ID;
+                        window.location.href = 'https://music.youtube.com/playlist?list='+ARTIST_ID;
                     }
                 }
             });
@@ -157,12 +168,12 @@
             console.log("Get duration");
             var totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             if(totalDuration_First > 0 && totalDuration_First < 1000){
-                var rndDuration_First = (Math.floor(Math.random() * PARAMS.LISTEN_DURATION_RANGE) + PARAMS.LISTEN_DURATION);
+                var rndDuration_First = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                 var rndStart_First = Math.floor(Math.random() * (parseInt(totalDuration_First) - parseInt(rndDuration_First) - 5));
                 console.log("Total "+totalDuration_First+" - Start from " + rndStart_First);
                 var ytplayer = document.getElementById("movie_player");
                 setTimeout(ytplayer.seekTo, 5000, rndStart_First, true);
-                setTimeout(seekSliderBar, rndDuration_First*1000, PARAMS.GOTO_PERCENT, rndDuration_First);
+                setTimeout(seekSliderBar, rndDuration_First*1000, GOTO_PERCENT, rndDuration_First);
                 clearInterval(loopGetDuration_First);
             }
         },1000);

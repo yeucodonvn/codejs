@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.4.3
+// @version      0.4.4
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
@@ -15,7 +15,8 @@
     'use strict';
 	
 	var PARAMS;	
-	var TIME_PLAY_DEEZER=0;
+	var TIME_PLAY_DEEZER=9000000;
+	/*
     	$.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
@@ -28,7 +29,7 @@
             alert("Cannot load JSON file");
             alert(err);
         }
-    } );
+    } );*/
 	
 function play(){
 	 console.log("play");

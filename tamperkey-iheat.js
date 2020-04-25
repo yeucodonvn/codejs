@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.2
+// @version      0.5.3
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -17,7 +17,7 @@
 	var temp_number = 0;
    	$.ajax ( {
         type:       'GET',
-        url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
+        url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;

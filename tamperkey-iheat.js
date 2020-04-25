@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.3
+// @version      0.5.4
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -14,7 +14,8 @@
 (function() {
     'use strict';
 	var PARAMS;
-	var temp_number = 0;
+	var temp_number = 221;
+	/*
    	$.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
@@ -27,7 +28,7 @@
             alert("Cannot load JSON file");
             alert(err);
         }
-    } );
+    } );*/
 
 	function play_btn(){
 		

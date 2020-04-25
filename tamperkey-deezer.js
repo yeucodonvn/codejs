@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.4.2
+// @version      0.4.3
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
@@ -18,7 +18,7 @@
 	var TIME_PLAY_DEEZER=0;
     	$.ajax ( {
         type:       'GET',
-        url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
+        url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;

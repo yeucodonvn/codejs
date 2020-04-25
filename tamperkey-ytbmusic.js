@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.5
+// @version      0.4.6
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -21,7 +21,7 @@
 	var REPEAT_NUMB = 0;
     $.ajax ( {
         type:       'GET',
-        url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
+        url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
         dataType:   'JSON',
         success:    function (apiJSON) {
             PARAMS = apiJSON;

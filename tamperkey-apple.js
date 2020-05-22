@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.8
+// @version      1.7.9
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -61,7 +61,15 @@
 			console.log("search play click next");
         }
     };
-
+	function Failed_to_fetch_err(){
+		var dialogok=document.querySelector("#musickit-dialog");
+		if(dialogok!==null){
+			var titleok=document.querySelector("#mk-dialog-title").textContent;
+			if(titleok=="Failed to fetch"){
+				window.location.reload();
+			}
+		}
+    };
 	function searchplaydisable(){
 		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
 		if(playbtn){
@@ -112,17 +120,28 @@
     };
 
     var REPEAT_NUMB = 200;
-    function run() {
-        console.log("Apple Music AutoPlay - MANAGER");
-
-        $(window).off('beforeunload.windowReload');
-       	setTimeout(clickPlay,10*1000);
+	function plfunc(){
+		setTimeout(clickPlay,10*1000);
 		setTimeout(clickNext_first,30*1000);
         setTimeout(setRepeatAll,30*1000);
         setInterval(clickNext,120*1000);
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,10*60*1000);
+    	setInterval(Failed_to_fetch_err,50*1000);
+	}
+
+    function run() {
+        console.log("Apple Music AutoPlay - MANAGER");
+
+        $(window).off('beforeunload.windowReload');
+       	var previewbtn=document.querySelector("[aria-label='Preview']");
+		if(previewbtn!==null){
+			console.log("wait 30s");
+			setTimeout(plfunc,30*1000);
+		}
+		else {	setTimeout(plfunc,10*1000);	};
     };
 
-    setTimeout(run, 5000);
+
+    setTimeout(run, 10000);
 })();

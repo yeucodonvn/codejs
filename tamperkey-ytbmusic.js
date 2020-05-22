@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.7
+// @version      0.4.8
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -137,7 +137,7 @@
 
 	function checkVideoPaused(){
         setInterval(function(){
-            var yesBtn = document.getElementById("button");
+            var yesBtn = document.querySelector(".style-scope.yt-button-renderer.style-blue-text[id='button']");
             if(!yesBtn){
                 yesBtn.click();
             }

@@ -102,10 +102,12 @@
     };
 	var REPEAT_tmp = 1;
     function clickNext(){
-	    if(search_click==2)   {
-	       clickstop();
-			setTimeout(function (){window.location.reload();},20*1000);
-	    };
+	    var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
+        	if(playBtn != null){			
+		    if(search_click==2) {
+			    window.location.reload();
+		    };
+        	}
         console.log("Click Next");
 		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.7.9
+// @version      1.8
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -52,14 +52,17 @@
         }, 10000);
     };
 
+	var search_click=0;
 	function searchplaybtn(){
 		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
-        if(playBtn != null){
+        	if(playBtn != null){
 			//playBtn.click();
 			var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
 			nexttElm.click();
 			console.log("search play click next");
-        }
+			search_click++;
+        	}
+		
     };
 	function Failed_to_fetch_err(){
 		var dialogok=document.querySelector("#musickit-dialog");
@@ -99,6 +102,10 @@
     };
 	var REPEAT_tmp = 1;
     function clickNext(){
+	    if(search_click==2)   {
+	       clickstop();
+			setTimeout(function (){window.location.reload();},20*1000);
+	    };
         console.log("Click Next");
 		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");

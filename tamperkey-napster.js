@@ -17,30 +17,43 @@
     'use strict';
 
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
-
+	var temp_load = 0;
    function setRandomInterval(f, min, max) {
-			if(REPEAT_NUMB>0){
-				setTimeout(function() {
-					f();
-					setRandomInterval(f, min, max)
-				}, min + Math.random() * (max - min));
-			} else {location.reload();}
-				REPEAT_NUMB--;
+			
 	};
+	// thay the cho code cjs
+	function next(){	
+	        console.log("click next");
+	      var repeatElm = document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]');
+        var loopClickRepeat = setInterval(function(){
+			if(REPEAT_NUMB>0){
+					clearInterval(loopClickRepeat);
+                    repeatElm.click();
+                    REPEAT_NUMB--;
+			} else {location.reload();}
+        }, 2000);
+	};
+	
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
 	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
 	};
-
+	
 	function loadidng(){
 		console.log("check load");
-        		var loopClickRepeat = setInterval(function(){
+        var loopClickRepeat = setInterval(function(){
             var load = document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2");
             if(load){
-                clearInterval(loopClickRepeat);
+				clearInterval(loopClickRepeat);
+				setTimeout(clickshuffle,10*1000);
+				// thay the cho code cjs
+				setInterval(next, 88000, 128000);
+                
             }else{
-               setTimeout(clickshuffle,10*1000);
-				setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+				console.log("loading");
+				temp_load++;
+				if(temp_load>50){location.reload();}
+               //clearInterval(loopClickRepeat);
             }
 
         }, 2000);

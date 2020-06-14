@@ -13,6 +13,7 @@
 // ==/UserScript==
 
 (function() {
+	var REPEAT_NUMB=200;
 	/*
 function setRandomInterval(f, min, max) {
   setTimeout(function() {

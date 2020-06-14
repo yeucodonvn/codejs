@@ -32,10 +32,25 @@
 			} else {location.reload();}
         }, 5000);
 	};
-	
+	function setRepeatAll(){
+		console.log("Click Repeat");
+        var repeatElm = document.querySelector('#ember53');
+        var loopClickRepeat = setInterval(function(){
+            if(repeatElm !== null){
+                var repeatLabel = repeatElm.getAttribute("title");
+                if(repeatLabel == "Repeat On"){
+                    clearInterval(loopClickRepeat);
+                }else{
+                    repeatElm.click();
+                }
+            }
+
+        }, 2000);
+    };
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
 	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
+		  setRepeatAll();
 	};
 	
 	function loadidng(){

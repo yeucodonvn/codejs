@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Naspter
-// @version      0.2.5
+// @version      0.3
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Naspter
 // @author       yeucodon
@@ -27,5 +27,20 @@
 			} else {location.reload();}
 				REPEAT_NUMB--;
 	};
-setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+function clickshuffle(){	
+	        console.log("click shuffleAll");
+	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
+	};
+	
+function run() {
+        console.log("Tidal AutoPlay - MANAGER");
+
+        $(window).off('beforeunload.windowReload');
+       	setTimeout(clickshuffle,10*1000);
+		setInterval(search_footer_player,50*1000);
+        setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+    };
+
+    setTimeout(run, 5000);
 })();
+

@@ -40,19 +40,19 @@
 	};
 	
 	function loadidng(){
+		
 		console.log("check load");
         var loopClickRepeat = setInterval(function(){
-            var load = document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2");
+            var load = document.querySelector(".playlist-radio-variety-row");
             if(load){
 				clearInterval(loopClickRepeat);
 				setTimeout(clickshuffle,10*1000);
 				// thay the cho code cjs
-				setInterval(next, 88000, 128000);
-                
+				setInterval(next,128000);
             }else{
 				console.log("loading");
 				temp_load++;
-				if(temp_load>50){location.reload();}
+				if(temp_load>20){location.reload();}
                //clearInterval(loopClickRepeat);
             }
 

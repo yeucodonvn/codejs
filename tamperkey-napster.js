@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         Naspter
 // @version      0.3
@@ -31,7 +30,7 @@
                     repeatElm.click();
                     REPEAT_NUMB--;
 			} else {location.reload();}
-        }, 2000);
+        }, 5000);
 	};
 	
 	function clickshuffle(){	
@@ -49,6 +48,8 @@
 				setTimeout(clickshuffle,10*1000);
 				// thay the cho code cjs
 				setInterval(next,128000);
+				setInterval(checkstop,40*1000);
+				setInterval(checkloading,40*1000);
             }else{
 				console.log("loading");
 				temp_load++;
@@ -58,7 +59,36 @@
 
         }, 2000);
 	};
-
+	//check sa
+	var checkloadingtemp=0;
+	function checkloading() {
+		var loopClickRepeat = setInterval(function(){
+			var loadingactiv =	document.querySelector(".player-loading.active");
+			if(loadingactiv){
+			console.log("checkstop");
+			checkloadingtemp++;
+				if(checkloadingtemp>5){
+					console.log("loading active");
+					document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]').click();
+				}
+			}
+			else{
+				clearInterval(loopClickRepeat);
+				checkloadingtemp=0;
+				}
+        }, 5000);		
+    };
+	
+	
+	function checkstop() {        
+		var playbtn =	document.querySelector('.icon-pause2[title="Pause"]');
+		var times =	document.querySelector('.player-time').textContent;
+			var p = times.split('/').shift();
+		if(playbtn && p=="0:00"){
+			console.log("checkstop");
+			document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]').click();
+		}		
+    };
 	function run() {
         console.log("napster AutoPlay - MANAGER");
 	

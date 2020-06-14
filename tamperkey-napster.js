@@ -72,7 +72,7 @@
                //clearInterval(loopClickRepeat);
             }
 
-        }, 2000);
+        }, 5000);
 	};
 	//check sa
 	var checkloadingtemp=0;

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         amazon
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.2.1
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js

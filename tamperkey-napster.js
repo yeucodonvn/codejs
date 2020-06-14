@@ -27,25 +27,26 @@
 			} else {location.reload();}
 				REPEAT_NUMB--;
 	};
-function clickshuffle(){	
+	function clickshuffle(){	
 	        console.log("click shuffleAll");
 	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
 	};
 
 	function loadidng(){
+		console.log("check load");
         		var loopClickRepeat = setInterval(function(){
             var load = document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2");
-            if(load == "Repeat all"){
+            if(load){
                 clearInterval(loopClickRepeat);
             }else{
                setTimeout(clickshuffle,10*1000);
-       		 setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+				setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
             }
 
         }, 2000);
-};
+	};
 
-function run() {
+	function run() {
         console.log("napster AutoPlay - MANAGER");
 	
         $(window).off('beforeunload.windowReload');

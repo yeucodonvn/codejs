@@ -8,7 +8,7 @@
 // @description  try to take over the world!
 // @author       You
 // @match        https://music.amazon.com/*
-// @match        https://music.amazon.co.uk*
+// @match        https://music.amazon.co.uk/*
 // @grant        none
 // ==/UserScript==
 
@@ -23,7 +23,7 @@ function setRandomInterval(f, min, max) {
 };
 setRandomInterval(function(){document.querySelector('[aria-label="Play next song"]').click();}, 88000, 148000);
 */
-function next(){	
+function next(){
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[aria-label="Play next song"]');
         var loopClickRepeat = setInterval(function(){
@@ -34,13 +34,72 @@ function next(){
 			} else {location.reload();}
         }, 2000);
 	};
+	function clickplay(){
+	        console.log("click play");
+	      document.querySelector(".playAll.iconOnlyButton.button").click();
+		  setRepeatAll();
+		  setShuffle();
+	};
+	function setRepeatAll(){
+		console.log("Click Repeat");
 
-function run() {
-        console.log("AMAZON AutoPlay - MANAGER");
-
-        $(window).off('beforeunload.windowReload');
-       	setInterval(next,128000);
+        var loopClickRepeat = setInterval(function(){
+			var repeatElm = document.querySelector('.repeatButton.playerIconRepeat.transportButton.transportButton[aria-label="Repeat All"]');
+            if(repeatElm !== null){
+                var repeatLabel = repeatElm.getAttribute("class");
+				//console.log(repeatLabel);
+                if(repeatLabel == "repeatButton playerIconRepeat transportButton on transportButton"){
+                    clearInterval(loopClickRepeat);
+                }else{
+                    repeatElm.click();
+                }
+            }
+        }, 2000);
     };
+	function setShuffle(){
+		console.log("Click Shuffle");
+
+        var loopClickRepeat = setInterval(function(){
+			var repeatElm = document.querySelector('[aria-label="Shuffle All"]');
+            if(repeatElm !== null){
+                var repeatLabel = repeatElm.getAttribute("aria-checked");
+				//console.log(repeatLabel);
+                if(repeatLabel == "true"){
+                    clearInterval(loopClickRepeat);
+                }else{
+                    repeatElm.click();
+                }
+            }
+        }, 2000);
+    };
+
+	function loadidng(){
+
+			console.log("check load");
+			var loopClickRepeat = setInterval(function(){
+				var load = document.querySelector(".playAll.iconOnlyButton.button");
+				if(load){
+					clearInterval(loopClickRepeat);
+					setTimeout(clickplay,10*1000);
+					// thay the cho code cjs
+					setInterval(next,128000);
+				}else{
+					console.log("loading");
+					temp_load++;
+					if(temp_load>20){location.reload();}
+				   //clearInterval(loopClickRepeat);
+				}
+
+			}, 5000);
+		};
+
+	function run() {
+			console.log("AMAZON AutoPlay - MANAGER");
+
+			$(window).off('beforeunload.windowReload');
+			loadidng();
+
+		};
 
     setTimeout(run, 5000);
 })();

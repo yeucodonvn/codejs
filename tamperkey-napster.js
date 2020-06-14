@@ -31,16 +31,26 @@ function clickshuffle(){
 	        console.log("click shuffleAll");
 	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
 	};
-	
-function run() {
-        console.log("Tidal AutoPlay - MANAGER");
 
+	function loadidng(){
+        		var loopClickRepeat = setInterval(function(){
+            var load = document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2");
+            if(load == "Repeat all"){
+                clearInterval(loopClickRepeat);
+            }else{
+               setTimeout(clickshuffle,10*1000);
+       		 setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+            }
+
+        }, 2000);
+};
+
+function run() {
+        console.log("napster AutoPlay - MANAGER");
+	
         $(window).off('beforeunload.windowReload');
-       	setTimeout(clickshuffle,10*1000);
-		setInterval(search_footer_player,50*1000);
-        setRandomInterval(function(){document.querySelector('[title="Next track"]').click();}, 88000, 128000);
+       	loadidng();
     };
 
     setTimeout(run, 5000);
 })();
-

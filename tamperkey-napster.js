@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Naspter
-// @version      0.3
+// @version      0.3.1
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Naspter
 // @author       yeucodon
@@ -44,15 +44,15 @@
                     repeatElm.click();
                 }
             }
-
         }, 2000);
     };
+
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
 	      document.querySelector("#ember44 > a.shuffle-button.icon-shuffle2").click();
 		  setRepeatAll();
 	};
-	
+
 	function loadidng(){
 		
 		console.log("check load");
@@ -74,7 +74,7 @@
 
         }, 5000);
 	};
-	//check sa
+	//check load
 	var checkloadingtemp=0;
 	function checkloading() {
 		var loopClickRepeat = setInterval(function(){
@@ -85,6 +85,8 @@
 				if(checkloadingtemp>5){
 					console.log("loading active");
 					document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]').click();
+					if(checkloadingtemp>20){location.reload();}
+					
 				}
 			}
 			else{

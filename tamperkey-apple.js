@@ -104,9 +104,9 @@
     function clickNext(){
 	    var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
         	if(playBtn != null){			
-		    if(search_click==2) {
-			    window.location.reload();
-		    };
+				if(search_click==2) {
+					window.location.reload();
+				};
         	}
         console.log("Click Next");
 		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
@@ -121,7 +121,7 @@
 			var min = 128,
 				max = 158;
 			var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
-			console.log(rand);
+				console.log(rand);
 			setTimeout(clickNext,rand*1000);
                 }
                 if(REPEAT_NUMB<0){

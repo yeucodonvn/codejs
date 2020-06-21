@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      1.8
+// @version      2
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -119,6 +119,11 @@
                     repeatElm.click();
                     REPEAT_NUMB--;
 		    REPEAT_tmp++;
+			var min = 128,
+				max = 158;
+			var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
+			console.log(rand);
+			setTimeout(clickNext,rand*1000);
                 }
                 if(REPEAT_NUMB<0){
 			clickstop();
@@ -133,7 +138,7 @@
 		setTimeout(clickPlay,10*1000);
 		setTimeout(clickNext_first,30*1000);
         setTimeout(setRepeatAll,30*1000);
-        setInterval(clickNext,120*1000);
+        setTimeout(clickNext,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,10*60*1000);
     	setInterval(Failed_to_fetch_err,50*1000);

@@ -26,13 +26,17 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 function next(){
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[aria-label="Play next song"]');
-        var loopClickRepeat = setInterval(function(){
 			if(REPEAT_NUMB>0){
-					clearInterval(loopClickRepeat);
                     repeatElm.click();
                     REPEAT_NUMB--;
+					// thay the cho code cjs
+					var min = 88,
+						max = 128;
+					var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
+					console.log(rand);
+					setTimeout(next,rand*1000);
+					// het
 			} else {location.reload();}
-        }, 2000);
 	};
 	function clickplay(){
 	        console.log("click play");
@@ -82,7 +86,7 @@ function next(){
 					clearInterval(loopClickRepeat);
 					setTimeout(clickplay,10*1000);
 					// thay the cho code cjs
-					setInterval(next,128000);
+					setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 				}else{
 					console.log("loading");
 					temp_load++;

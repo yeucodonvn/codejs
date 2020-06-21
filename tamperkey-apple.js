@@ -111,7 +111,6 @@
         console.log("Click Next");
 		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
-        var loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
                 var repeatLabel = repeatElm.getAttribute("aria-label");
                 if(repeatLabel == "Next"){
@@ -130,7 +129,6 @@
 			setTimeout(function (){window.location.reload();},20*1000);
                 }
             }
-        }, 2000);
     };
 
     var REPEAT_NUMB = 200;

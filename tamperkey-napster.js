@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Naspter
-// @version      0.3.1
+// @version      0.3.2
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Naspter
 // @author       yeucodon
@@ -17,20 +17,20 @@
 
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
 	var temp_load = 0;
-   function setRandomInterval(f, min, max) {
-			
-	};
-	// thay the cho code cjs
+
 	function next(){	
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]');
-        var loopClickRepeat = setInterval(function(){
-			if(REPEAT_NUMB>0){
-					clearInterval(loopClickRepeat);
+		if(REPEAT_NUMB>0){
+		clearInterval(loopClickRepeat);
                     repeatElm.click();
                     REPEAT_NUMB--;
-			} else {location.reload();}
-        }, 5000);
+		var min = 88,
+			max = 128;
+		var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
+		console.log(rand);
+		setTimeout(next,rand*1000);				
+		} else {location.reload();}
 	};
 	function setRepeatAll(){
 		console.log("Click Repeat");
@@ -54,7 +54,6 @@
 	};
 
 	function loadidng(){
-		
 		console.log("check load");
         var loopClickRepeat = setInterval(function(){
             var load = document.querySelector(".playlist-radio-variety-row");
@@ -62,7 +61,7 @@
 				clearInterval(loopClickRepeat);
 				setTimeout(clickshuffle,10*1000);
 				// thay the cho code cjs
-				setInterval(next,128000);
+				setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 				setInterval(checkstop,40*1000);
 				setInterval(checkloading,40*1000);
             }else{

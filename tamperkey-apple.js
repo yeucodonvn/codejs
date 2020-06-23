@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2
+// @version      2.1
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -114,7 +114,7 @@
             if(repeatElm !== null){
                 var repeatLabel = repeatElm.getAttribute("aria-label");
                 if(repeatLabel == "Next"){
-                    clearInterval(loopClickRepeat);
+                    //clearInterval(loopClickRepeat);
                     repeatElm.click();
                     REPEAT_NUMB--;
 		    REPEAT_tmp++;

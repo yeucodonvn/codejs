@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.4.9
+// @version      0.5
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -155,9 +155,7 @@
         },60 * 1000);
 
     };
-
-    function run() {
-        console.log("YouTube AutoPlay - MANAGER");
+	function running() {
 		setShufflealbum();
         setRepeatAll();
 		setShuffle()			//setTimeout(setShuffle(),2000,2000);
@@ -176,7 +174,17 @@
                 setTimeout(seekSliderBar, rndDuration_First*1000, GOTO_PERCENT, rndDuration_First);
                 clearInterval(loopGetDuration_First);
             }
-        },1000);
+        },2000);
+    };
+    function run() {
+        console.log("YouTube AutoPlay - MANAGER");
+		 $(window).off('beforeunload.windowReload');
+       	var previewbtn=document.querySelector('[aria-label="Shuffle"]');
+		if(previewbtn!==null){
+			console.log("wait 30s");
+			setTimeout(plfunc,30*1000);
+		}
+		else {	setTimeout(plfunc,10*1000);	};
     };
 
     setTimeout(run, 5000);

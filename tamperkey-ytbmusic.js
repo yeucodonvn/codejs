@@ -182,9 +182,9 @@
        	var previewbtn=document.querySelector('[aria-label="Shuffle"]');
 		if(previewbtn!==null){
 			console.log("wait 30s");
-			setTimeout(plfunc,30*1000);
+			setTimeout(running,30*1000);
 		}
-		else {	setTimeout(plfunc,10*1000);	};
+		else {	setTimeout(running,10*1000);	};
     };
 
     setTimeout(run, 5000);

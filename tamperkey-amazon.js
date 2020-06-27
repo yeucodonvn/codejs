@@ -30,8 +30,8 @@ function next(){
                     repeatElm.click();
                     REPEAT_NUMB--;
 					// thay the cho code cjs
-					var min = 88,
-						max = 128;
+					var min = 128,
+						max = 168;
 					var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
 					console.log(rand);
 					setTimeout(next,rand*1000);

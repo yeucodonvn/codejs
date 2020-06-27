@@ -86,7 +86,7 @@ function next(){
 					clearInterval(loopClickRepeat);
 					setTimeout(clickplay,10*1000);
 					// thay the cho code cjs
-					setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
+					setTimeout(next,(Math.floor(Math.random() * (168 - 128))+128)*1000);
 				}else{
 					console.log("loading");
 					temp_load++;

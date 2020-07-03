@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.4
+// @version      0.5.5
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -39,20 +39,9 @@
             if(element !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
                 if(repeatLabel == "paused"){
-					shuffle();
 					console.log("click play btn");
                     //element.click();
 					setTimeout(element.click(), 3000);
-
-					var loopGetDuration_First = setInterval(function(){
-					var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="player-total-time"]').textContent.trim());
-					if(totalDuration>0){
-						console.log("Get duration Total "+totalDuration);
-						clearInterval(loopGetDuration_First);
-						setTimeout(get_time,(totalDuration-10)*1000);
-					}
-					}
-				)
                 }else{
 					console.log("search play btn");
                     clearInterval(loopClickRepeat);
@@ -110,17 +99,13 @@
 			get_time();
 		}
 	};
-	function shuffle(){
-		console.log("Click shuffle");
-		document.querySelector('[data-test="shuffle"]').click();
-	};
+
 	
 	function run() {
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
 		
 		
 		play_btn();
-		//setTimeout(shuffle, 15000);
 		setInterval(searchconfirm,25*60*1000);
 		setInterval(get_loading,50*1000);
     };

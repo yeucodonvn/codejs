@@ -96,7 +96,7 @@
                             clickLike();
 
                             var loopGetDuration = setInterval(function(){
-                                console.log("Get duration");
+                                //console.log("Get duration");
                                 var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
                                 if(totalDuration > 0 && totalDuration < 1000){
                                     var rndStart = Math.floor(Math.random() * (parseInt(totalDuration) - parseInt(listenDuration) - 5));
@@ -164,7 +164,7 @@
 		checkspinloader()
 		clickLike();
          var loopGetDuration_First = setInterval(function(){
-            console.log("Get duration");
+            //console.log("Get duration");
             var totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             if(totalDuration_First > 0 && totalDuration_First < 1000){
                 var rndDuration_First = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);

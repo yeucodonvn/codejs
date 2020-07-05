@@ -18,7 +18,7 @@
 	var PARAMS;
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = 20;
+	var REPEAT_NUMB = 100;
 	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
 	var LISTEN_DURATION=60;
@@ -109,6 +109,7 @@
                             var rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
+				localStorage.clear();
                            location.reload();
                         }
                         REPEAT_NUMB--;

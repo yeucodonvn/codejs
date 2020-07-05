@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Naspter
-// @version      0.3.2
+// @version      0.4
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Naspter
 // @author       yeucodon
@@ -22,7 +22,7 @@
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]');
 		if(REPEAT_NUMB>0){
-		clearInterval(loopClickRepeat);
+		//clearInterval(loopClickRepeat);
                     repeatElm.click();
                     REPEAT_NUMB--;
 		var min = 88,

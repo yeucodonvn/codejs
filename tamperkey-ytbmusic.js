@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.5
+// @version      0.6
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -18,7 +18,7 @@
 	var PARAMS;
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = 2000;
+	var REPEAT_NUMB = 20;
 	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
 	var LISTEN_DURATION=60;
@@ -126,7 +126,7 @@
         var loopClickLikeRepeat = setInterval(function(){
             var btnRender = document.getElementById("like-button-renderer");
             if(btnRender != null){
-                if(Math.floor(Math.random() * 15) > 1){
+                if(Math.floor(Math.random() * 15) > 10){
                     console.log("Like Click");
                     btnRender.querySelector('[aria-label="Like"]').click();
                 }

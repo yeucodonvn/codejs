@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tidal
-// @version      0.2.5
+// @version      0.2.3
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Tidal
 // @author       yeucodon
@@ -17,7 +17,7 @@
 
     var REPEAT_NUMB = 200;        
 
-   function setRandomInterval(f, min, max) {
+   	function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {
 					f();
@@ -28,13 +28,12 @@
 	};
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
-
-			document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
+		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
 	};
 	function search_footer_player(){	
-	        console.log("search footer player");
 		var searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
 		if(searchft==null){
+			console.log("search footer player");
 			clickshuffle();
 			}
 		
@@ -44,9 +43,9 @@
         console.log("Tidal AutoPlay - MANAGER");
 
         $(window).off('beforeunload.windowReload');
-       	setTimeout(clickshuffle,10*1000);
+       		setTimeout(clickshuffle,10*1000);
 		setInterval(search_footer_player,50*1000);
-        setRandomInterval(function(){document.querySelector('[title="Next"]').click()}, 88000, 128000);
+        	setRandomInterval(function(){document.querySelector('[title="Next"]').click()}, 88000, 128000);
     };
 
     setTimeout(run, 5000);

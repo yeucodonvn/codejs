@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Naspter
-// @version      0.4
+// @version      0.5
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Naspter
 // @author       yeucodon
@@ -17,7 +17,7 @@
 
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
 	var temp_load = 0;
-
+	var urllist="http://us.napster.com/playlist/mp.277470983";
 	function next(){	
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]');
@@ -30,7 +30,8 @@
 		var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
 		console.log(rand);
 		setTimeout(next,rand*1000);				
-		} else {location.reload(true);}
+		} else {//location.reload(true);
+				closetab();}
 	};
 	function setRepeatAll(){
 		console.log("Click Repeat");
@@ -46,6 +47,12 @@
             }
         }, 2000);
     };
+	
+	function closetab(){
+	window.open("http://us.napster.com/playlist/mp.277470983");
+	setTimeout(function(){ window.close()}, 1000);
+	};
+	
 
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
@@ -55,7 +62,11 @@
 
 	function loadidng(){
 		console.log("check load");
+		checklogin();
         var loopClickRepeat = setInterval(function(){
+			if(window.location.href=="https://app.napster.com/"){
+					window.location.href=urllist;
+				}
             var load = document.querySelector(".playlist-radio-variety-row");
             if(load){
 				clearInterval(loopClickRepeat);
@@ -64,6 +75,7 @@
 				setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 				setInterval(checkstop,40*1000);
 				setInterval(checkloading,40*1000);
+				setInterval(checklogin,40*1000);
             }else{
 				console.log("loading");
 				temp_load++;
@@ -71,7 +83,7 @@
                //clearInterval(loopClickRepeat);
             }
 
-        }, 5000);
+        }, 10000);
 	};
 	//check load
 	var checkloadingtemp=0;
@@ -94,8 +106,29 @@
 				}
         }, 5000);		
     };
-	
-	
+	function login_err() {
+		console.log("dsfdf");
+        var loginerr = document.querySelector("#login > div.login-error");
+			if(loginerr){
+				document.querySelector("#login > form > button").click();
+			}
+    };
+	function checklogin(){
+		console.log("checkstop");
+		var formlogin = document.querySelector("#login > form");
+		var urllogin="https://app.napster.com/login/";
+		if(formlogin!=null&&window.location.href==urllogin)
+		{	
+			document.querySelector("#username").click();
+			console.log("username");
+			document.querySelector("#login > form > button").click();
+			//setTimeout(function(){document.querySelector("#login > form > button").click()}, 15000);
+			//setimeout run code trực tiếp
+			//setTimeout(function(){ window.open("http://us.napster.com/playlist/mp.277470983")}, 10000);
+			setInterval(login_err,20*1000);
+
+		}
+	};
 	function checkstop() {        
 		var playbtn =	document.querySelector('.icon-pause2[title="Pause"]');
 		var times =	document.querySelector('.player-time').textContent;
@@ -107,9 +140,9 @@
     };
 	function run() {
         console.log("napster AutoPlay - MANAGER");
-	
+		
         $(window).off('beforeunload.windowReload');
-       	loadidng();
+       	setTimeout(loadidng,15*1000);
     };
 
     setTimeout(run, 5000);

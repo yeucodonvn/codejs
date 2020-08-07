@@ -23,7 +23,7 @@
 					f();
 					setRandomInterval(f, min, max)
 				}, min + Math.random() * (max - min));
-			} else {location.reload();}
+			} else {location.reload(true);}
 				REPEAT_NUMB--;
 	};
 	function clickshuffle(){	

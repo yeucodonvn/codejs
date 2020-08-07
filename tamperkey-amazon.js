@@ -36,7 +36,7 @@ function next(){
 					console.log(rand);
 					setTimeout(next,rand*1000);
 					// het
-			} else {location.reload();}
+			} else {location.reload(true);}
 	};
 	function clickplay(){
 	        console.log("click play");
@@ -90,7 +90,7 @@ function next(){
 				}else{
 					console.log("loading");
 					temp_load++;
-					if(temp_load>20){location.reload();}
+					if(temp_load>20){location.reload(true);}
 				   //clearInterval(loopClickRepeat);
 				}
 

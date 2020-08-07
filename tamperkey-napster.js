@@ -30,7 +30,7 @@
 		var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
 		console.log(rand);
 		setTimeout(next,rand*1000);				
-		} else {location.reload();}
+		} else {location.reload(true);}
 	};
 	function setRepeatAll(){
 		console.log("Click Repeat");
@@ -67,7 +67,7 @@
             }else{
 				console.log("loading");
 				temp_load++;
-				if(temp_load>20){location.reload();}
+				if(temp_load>20){location.reload(true);}
                //clearInterval(loopClickRepeat);
             }
 
@@ -84,7 +84,7 @@
 				if(checkloadingtemp>5){
 					console.log("loading active");
 					document.querySelector('[class="player-advance-button icon-next2"][title="Next track"]').click();
-					if(checkloadingtemp>20){location.reload();}
+					if(checkloadingtemp>20){location.reload(true);}
 					
 				}
 			}

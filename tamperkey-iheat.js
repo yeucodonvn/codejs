@@ -88,7 +88,7 @@
 					}
 					}
 				)
-			} else {location.reload();}
+			} else {location.reload(true);}
 	};
 	function get_loading(){
 		var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="player-total-time"]').textContent.trim());

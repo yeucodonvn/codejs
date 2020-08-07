@@ -110,7 +110,7 @@
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
 				localStorage.clear();
-                           location.reload();
+                           location.reload(true);
                         }
                         REPEAT_NUMB--;
                     }else{

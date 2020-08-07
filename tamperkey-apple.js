@@ -69,7 +69,7 @@
 		if(dialogok!==null){
 			var titleok=document.querySelector("#mk-dialog-title").textContent;
 			if(titleok=="Failed to fetch"){
-				window.location.reload();
+				window.location.reload(true);
 			}
 		}
     };
@@ -79,7 +79,7 @@
 			var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
 			if(nextbtn){
 				console.log("Check Disabled Button Found");
-				location.reload();
+				location.reload(true);
 			}
 		}
     };
@@ -105,7 +105,7 @@
 	    var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
         	if(playBtn != null){			
 				if(search_click==2) {
-					window.location.reload();
+					window.location.reload(true);
 				};
         	}
         console.log("Click Next");
@@ -126,7 +126,7 @@
                 }
                 if(REPEAT_NUMB<0){
 			clickstop();
-			setTimeout(function (){window.location.reload();},20*1000);
+			setTimeout(function (){window.location.reload(true);},20*1000);
                 }
             }
     };

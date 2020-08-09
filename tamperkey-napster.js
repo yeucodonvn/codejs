@@ -53,15 +53,15 @@
 		  setRepeatAll();
 	};
 
-	function loadidng(){
+	async function loadidng(){
 		console.log("check load");
         var loopClickRepeat = setInterval(function(){
             var load = document.querySelector(".playlist-radio-variety-row");
             if(load){
 				clearInterval(loopClickRepeat);
-				setTimeout(clickshuffle,10*1000);
+				await setTimeout(clickshuffle,10*1000);
 				// thay the cho code cjs
-				setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
+				await setTimeout(next,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 				setInterval(checkstop,40*1000);
 				setInterval(checkloading,40*1000);
             }else{

@@ -100,8 +100,9 @@
               }
          },5000);
     };
+
 	var REPEAT_tmp = 1;
-    function clickNext(){
+    async function clickNext(){
 	    var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
         	if(playBtn != null){			
 				if(search_click==2) {
@@ -125,18 +126,18 @@
 			setTimeout(clickNext,rand*1000);
                 }
                 if(REPEAT_NUMB<0){
-			clickstop();
-			setTimeout(function (){window.location.reload(true);},20*1000);
+					await clickstop();
+					await setTimeout(function (){window.location.reload(true);},20*1000);
                 }
             }
     };
 
     var REPEAT_NUMB = 200;
-	function plfunc(){
-		setTimeout(clickPlay,10*1000);
-		setTimeout(clickNext_first,30*1000);
-        setTimeout(setRepeatAll,30*1000);
-        setTimeout(clickNext,(Math.floor(Math.random() * (128 - 88))+88)*1000);
+	async function plfunc(){
+		await setTimeout(clickPlay,10*1000);
+		await setTimeout(clickNext_first,30*1000);
+        await setTimeout(setRepeatAll,30*1000);
+        await setTimeout(clickNext,(Math.floor(Math.random() * (128 - 88))+88)*1000);
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,10*60*1000);
     	setInterval(Failed_to_fetch_err,50*1000);

@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.1
+// @version      2.2
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
+// @match        *https://beta.music.apple.com/*
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @grant        none
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
-// @namespace http://tampermonkey.net/
+// @require  		https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @namespace 		http://tampermonkey.net/
 // ==/UserScript==
 
 (function() {

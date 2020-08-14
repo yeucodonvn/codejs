@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.5
+// @version      0.5.6
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -79,7 +79,7 @@
 			if(temp_number>0){
 				console.log(temp_number);
 				var loopGetDuration_First = setInterval(function(){
-					var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="player-total-time"]').textContent.trim());
+					var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-duration"]').textContent.trim());
 					if(totalDuration>0){
 						console.log("Get duration Total "+totalDuration);
 						clearInterval(loopGetDuration_First);
@@ -91,9 +91,10 @@
 			} else {location.reload(true);}
 	};
 	function get_loading(){
-		var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="player-total-time"]').textContent.trim());
-		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="player-current-time"]').textContent.trim());
-		if(current_time==0&&totalDuration==0){
+		var chkcircle = document.querySelector('[aria-label="Play Button"]').getElementsByTagName("circle").length;
+		var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-duration"]').textContent.trim());
+		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-postion"]').textContent.trim());
+		if(chkcircle ==1 && current_time==0 && totalDuration==0){
 			console.log("loading error, click next ");
 			document.querySelector('[data-test="skip-button"]').click();
 			get_time();

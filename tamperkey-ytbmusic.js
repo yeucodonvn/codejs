@@ -139,8 +139,6 @@
             }
         },5 * 1000);
     }
-//document.querySelector("#player-page")
-//<ytmusic-player-page id="player-page" slot="player-page" class="style-scope ytmusic-app" player-page-type="classic" video-mode_="" style="visibility: hidden;"><!--css-build:shady-->
 	function checkplayerpage(){
 		console.log("player-page");
         var repeatElm = document.querySelector("#player-page");

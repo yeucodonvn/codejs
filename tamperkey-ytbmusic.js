@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6
+// @version      0.6.2
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -24,6 +24,7 @@
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
 	var ARTIST_ID='PL_2SVRWG1wuNYWc4mYWLmg_rIxqnG97Pi';
+	var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
 	/*
     $.ajax ( {
         type:       'GET',
@@ -46,15 +47,18 @@
 
 
     function setShufflealbum(){
-        var element = document.querySelector('[aria-label="Shuffle"]');
-		element.click();
+        
+		console.log(Shufflealbum);
+		Shufflealbum.click();
     };
 	function setShuffle(){
+		console.log("set Shuffle");
         var element = document.querySelector(".shuffle.style-scope.ytmusic-player-bar");
 		element.click();
     };
 
     function setRepeatAll(){
+		console.log("set RepeatAll");
         var repeatElm = document.querySelector(".repeat.style-scope.ytmusic-player-bar");
         var loopClickRepeat = setInterval(function(){
             var repeatLabel = repeatElm.getAttribute("aria-label");
@@ -135,7 +139,16 @@
             }
         },5 * 1000);
     }
-
+//document.querySelector("#player-page")
+//<ytmusic-player-page id="player-page" slot="player-page" class="style-scope ytmusic-app" player-page-type="classic" video-mode_="" style="visibility: hidden;"><!--css-build:shady-->
+	function checkplayerpage(){
+		console.log("player-page");
+        var repeatElm = document.querySelector("#player-page");
+            var repeatLabel = repeatElm.getAttribute("style");
+            if(repeatLabel == "visibility: hidden;"){
+                Shufflealbum.click();
+            }
+    };
 	function checkVideoPaused(){
         setInterval(function(){
             var yesBtn = document.querySelector(".style-scope.yt-button-renderer.style-blue-text[id='button']");
@@ -156,13 +169,15 @@
         },60 * 1000);
 
     };
-	function running() {
+	
+	async function running() {
+		console.log("PLAY");
 		setShufflealbum();
-        setRepeatAll();
-		setShuffle()			//setTimeout(setShuffle(),2000,2000);
-		checkVideoPaused();
-		checkspinloader()
-		clickLike();
+        await setRepeatAll();
+		await setShuffle()			//setTimeout(setShuffle(),2000,2000);
+		await checkVideoPaused();
+		await checkspinloader()
+		await clickLike();
          var loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
             var totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
@@ -176,12 +191,12 @@
                 clearInterval(loopGetDuration_First);
             }
         },2000);
+		await setTimeout(checkplayerpage,60*1000);
     };
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		 $(window).off('beforeunload.windowReload');
-       	var previewbtn=document.querySelector('[aria-label="Shuffle"]');
-		if(previewbtn!==null){
+		if(Shufflealbum!==null){
 			console.log("wait 30s");
 			setTimeout(running,30*1000);
 		}

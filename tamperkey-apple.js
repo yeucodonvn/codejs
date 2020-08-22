@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.2
+// @version      2.3
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -71,8 +71,12 @@
 			var titleok=document.querySelector("#mk-dialog-title").textContent;
 			if(titleok=="Failed to fetch"){
 				window.location.reload(true);
-			}
+			};
+			if(titleok=="undefined"){
+				window.location.reload(true);
+			};
 		}
+		
     };
 	function searchplaydisable(){
 		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');

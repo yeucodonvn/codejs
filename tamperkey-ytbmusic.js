@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.2
+// @version      0.6.3
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -14,7 +14,7 @@
 
 (function() {
     'use strict';
-	
+
 	var PARAMS;
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
@@ -24,7 +24,7 @@
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
 	var ARTIST_ID='PL_2SVRWG1wuNYWc4mYWLmg_rIxqnG97Pi';
-	var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
+
 	/*
     $.ajax ( {
         type:       'GET',
@@ -47,7 +47,7 @@
 
 
     function setShufflealbum(){
-        
+        var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
 		console.log(Shufflealbum);
 		Shufflealbum.click();
     };
@@ -85,7 +85,7 @@
 
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
-		
+
 		if(SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
@@ -140,10 +140,11 @@
         },5 * 1000);
     }
 	function checkplayerpage(){
-		console.log("player-page");
+		var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
         var repeatElm = document.querySelector("#player-page");
             var repeatLabel = repeatElm.getAttribute("style");
             if(repeatLabel == "visibility: hidden;"){
+				console.log("player-page");
                 Shufflealbum.click();
             }
     };
@@ -167,7 +168,7 @@
         },60 * 1000);
 
     };
-	
+
 	async function running() {
 		console.log("PLAY");
 		setShufflealbum();
@@ -176,6 +177,9 @@
 		await checkVideoPaused();
 		await checkspinloader()
 		await clickLike();
+		
+		
+		
          var loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
             var totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
@@ -194,6 +198,7 @@
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		 $(window).off('beforeunload.windowReload');
+		 var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
 		if(Shufflealbum!==null){
 			console.log("wait 30s");
 			setTimeout(running,30*1000);

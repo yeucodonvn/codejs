@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         amazon
 // @namespace    http://tampermonkey.net/
-// @version      0.2.3
+// @version      0.2.5
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
@@ -76,9 +76,16 @@ function next(){
             }
         }, 2000);
     };
+	function check_notify(){
+		var dilog= document.querySelector("#dialogBoxView > section > div.dialogContainer");
+		var title = document.querySelector("#dialogBoxView > section > div.dialogContainer > div.dialogBody.dialogBoxFocus").textContent;
+	    if(dilog!=null && title=="We are unable to complete your action.  Please try again later. " ){
+			console.log("check_notify");
+			window.location.reload(true);
+		}
+	};
 
 	function loadidng(){
-
 			console.log("check load");
 			var loopClickRepeat = setInterval(function(){
 				var load = document.querySelector(".playAll.iconOnlyButton.button");
@@ -87,6 +94,7 @@ function next(){
 					setTimeout(clickplay,10*1000);
 					// thay the cho code cjs
 					setTimeout(next,(Math.floor(Math.random() * (168 - 128))+128)*1000);
+					setInterval(check_notify,10*60*1000);
 				}else{
 					console.log("loading");
 					temp_load++;

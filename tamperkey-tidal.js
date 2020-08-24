@@ -26,6 +26,7 @@
 			} else {location.reload(true);}
 				REPEAT_NUMB--;
 	};
+	
 	function clickshuffle(){	
 	        console.log("click shuffleAll");
 		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
@@ -36,14 +37,12 @@
 			console.log("search footer player");
 			clickshuffle();
 			}
-		
 	};
-	
+
 	function run() {
         console.log("Tidal AutoPlay - MANAGER");
-
         $(window).off('beforeunload.windowReload');
-       		setTimeout(clickshuffle,10*1000);
+       	setTimeout(clickshuffle,10*1000);
 		setInterval(search_footer_player,50*1000);
         	setRandomInterval(function(){document.querySelector('[title="Next"]').click()}, 88000, 128000);
     };

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         amazon
 // @namespace    http://tampermonkey.net/
-// @version      0.2.5
+// @version      0.2.6
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
@@ -23,7 +23,7 @@ function setRandomInterval(f, min, max) {
 };
 setRandomInterval(function(){document.querySelector('[aria-label="Play next song"]').click();}, 88000, 148000);
 */
-function next(){
+	/*function next(){
 	        console.log("click next");
 	      var repeatElm = document.querySelector('[aria-label="Play next song"]');
 			if(REPEAT_NUMB>0){
@@ -37,7 +37,12 @@ function next(){
 					setTimeout(next,rand*1000);
 					// het
 			} else {location.reload(true);}
+			
 	};
+	*/
+	function next(){
+		location.reload(true);
+	}
 	function clickplay(){
 	        console.log("click play");
 	      document.querySelector(".playAll.iconOnlyButton.button").click();
@@ -93,7 +98,8 @@ function next(){
 					clearInterval(loopClickRepeat);
 					setTimeout(clickplay,10*1000);
 					// thay the cho code cjs
-					setTimeout(next,(Math.floor(Math.random() * (168 - 128))+128)*1000);
+					//setTimeout(next,(Math.floor(Math.random() * (168 - 128))+128)*1000);
+					setTimeout(next,16*60*60*1000);
 					setInterval(check_notify,10*60*1000);
 				}else{
 					console.log("loading");

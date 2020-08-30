@@ -16,7 +16,7 @@
     'use strict';
 
     var REPEAT_NUMB = 200;        
-
+	//auto next
    	/*function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {

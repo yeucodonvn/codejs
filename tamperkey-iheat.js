@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.7
+// @version      0.5.8
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -14,7 +14,7 @@
 (function() {
     'use strict';
 	var PARAMS;
-	var temp_number = 221;
+	var temp_number = 200;
 	/*
    	$.ajax ( {
         type:       'GET',
@@ -31,17 +31,16 @@
     } );*/
 
 	function play_btn(){
-		
 		console.log("play btn");
+		var shuffle = document.querySelector('[data-test="Shuffle"]');
 		var element = document.querySelector('[data-test="play-button"]');
-		console.log(element);
 		var loopClickRepeat = setInterval(function(){
-            if(element !== null){
+            if(element !== null && shuffle !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
                 if(repeatLabel == "paused"){
-					console.log("click play btn");
-                    //element.click();
-					setTimeout(element.click(), 3000);
+					console.log("click shuffle");
+                    shuffle.click();
+					setTimeout(play, 10000);
                 }else{
 					console.log("search play btn");
                     clearInterval(loopClickRepeat);
@@ -65,7 +64,13 @@
 
         return s;
     };
-
+	function play(){
+		var element = document.querySelector('[data-test="play-button"]');
+		console.log("click play btn");
+		console.log(element);
+		element.click();
+		setTimeout(get_time, 5000);
+    };
 	function searchconfirm(){
 		var confirmdlg = document.querySelector('[class="confirm-dialog dialog-container"]');
         if(confirmdlg != null){
@@ -78,21 +83,26 @@
 	function get_time() {//dem lui reload
 			if(temp_number>0){
 				console.log(temp_number);
-				var loopGetDuration_First = setInterval(function(){
-					var totalDuration = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-duration"]').textContent.trim());
-					if(totalDuration>0){
-						console.log("Get duration Total "+totalDuration);
-						clearInterval(loopGetDuration_First);
-						temp_number--;
-						setTimeout(get_time,(totalDuration-5)*1000);
-					}
-					}
-				)
+				var loopGetDuration = setInterval(
+				function(){
+						var Duration = document.querySelector('[data-test="seekbar-duration"]');
+						if(Duration!==null){
+							clearInterval(loopGetDuration);
+							var totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
+							var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-position"]').textContent.trim());
+							if(totalDuration>0){
+								var endtime=totalDuration-current_time;
+								console.log("Get duration Total "+endtime);
+								temp_number--;
+								setTimeout(get_time,(endtime+5)*1000);
+							}
+						}
+					},5000);
 			} else {location.reload(true);}
 	};
 	function get_loading(){
 		var chkcircle = document.querySelector('[aria-label="Play Button"]').getElementsByTagName("circle").length;
-		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-postion"]').textContent.trim());
+		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-position"]').textContent.trim());
 		if(chkcircle ==1 && current_time!=0){
 			console.log("loading error, click next ");
 			document.querySelector('[data-test="skip-button"]').click();
@@ -103,9 +113,8 @@
 	
 	function run() {
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
-		
-		
-		play_btn();
+		console.log("wait 15s ");
+		setTimeout(play_btn, 15000);
 		setInterval(searchconfirm,25*60*1000);
 		setInterval(get_loading,50*1000);
     };

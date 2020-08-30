@@ -37,21 +37,16 @@
 		var loopClickRepeat = setInterval(function(){
             if(element !== null && shuffle !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
-                if(repeatLabel == "playing"){
+                if(repeatLabel == "paused"){
+					clearInterval(loopClickRepeat);
 					console.log("click shuffle");
                     shuffle.click();
 					setTimeout(play, 10000);
                 }else{
 					console.log("search play btn");
-                    clearInterval(loopClickRepeat);
                 }
 			}
-			else{
-				console.log("search element");
-				clearInterval(loopClickRepeat);
-				setTimeout(play_btn, 2000);
-			}
-        }, 5000);
+		}, 5000);
 	};
     function hmsToSecondsOnly(str) {
         var p = str.split(':'),

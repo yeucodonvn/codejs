@@ -37,7 +37,7 @@
 		var loopClickRepeat = setInterval(function(){
             if(element !== null && shuffle !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
-                if(repeatLabel == "paused"){
+                if(repeatLabel == "playing"){
 					console.log("click shuffle");
                     shuffle.click();
 					setTimeout(play, 10000);

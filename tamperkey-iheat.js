@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.8
+// @version      0.5.9
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -64,7 +64,7 @@
 		console.log("click play btn");
 		console.log(element);
 		element.click();
-		setTimeout(get_time, 5000);
+		setTimeout(get_time, 10000);
     };
 	function searchconfirm(){
 		var confirmdlg = document.querySelector('[class="confirm-dialog dialog-container"]');
@@ -90,6 +90,9 @@
 								console.log("Get duration Total "+endtime);
 								temp_number--;
 								setTimeout(get_time,(endtime+5)*1000);
+							}else{
+								document.querySelector('[data-test="next-button"]').click();
+								REPEAT_NUMB--;
 							}
 						}
 					},5000);
@@ -100,7 +103,7 @@
 		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-position"]').textContent.trim());
 		if(chkcircle ==1 && current_time!=0){
 			console.log("loading error, click next ");
-			document.querySelector('[data-test="skip-button"]').click();
+			document.querySelector('[data-test="next-button"]').click();
 			get_time();
 		}
 	};

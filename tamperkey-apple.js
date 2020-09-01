@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5
+// @version      2.5.1
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -52,19 +52,30 @@
 
         }, 10000);
     };
-
+	
 	var search_click=0;
 	function searchplaybtn(){
+		var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
 		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
         	if(playBtn != null){
 			//playBtn.click();
-			var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
 			nexttElm.click();
 			console.log("search play click next");
 			search_click++;
-        	}
-		
-    };
+			}
+			
+		// dung giua chung
+		var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		var playbacktime=hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
+		if(!tabsound && playbacktime!==0)
+		{
+			nexttElm.click();
+			console.log("search dung giua chung");
+			search_click++;
+		}
+		if(search_click==5) {window.location.reload(true);};
+	};
+	
 	function Failed_to_fetch_err(){
 		var dialogok=document.querySelector("#musickit-dialog");
 		if(dialogok!==null){
@@ -78,15 +89,17 @@
 		}
 		
     };
+	
+	var check_disable=0;
 	function searchplaydisable(){
 		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
-		if(playbtn){
-			var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
-			if(nextbtn){
+		var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
+		if(playbtn || nextbtn){
 				console.log("Check Disabled Button Found");
-				location.reload(true);
-			}
+				clickPlay();
+				check_disable++;
 		}
+		if(check_disable==5) {window.location.reload(true);};
     };
 
 
@@ -152,14 +165,18 @@
 	function get_time() {		//dem lui reload
 			if(REPEAT_NUMB>0){
 				console.log(REPEAT_NUMB);
-					var ltime = hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
+					var playbacktime = hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
 					var endtime = hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
-						if(ltime>0&&endtime>0){
+						if(playbacktime>0&&endtime>0){
 							console.log("Get End Time "+endtime);
 							REPEAT_NUMB--;
 							setTimeout(get_time,(endtime+20)*1000);
+						}else
+						{
+							//nếu total time =0 thì next bài
+							document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']").click();
+							REPEAT_NUMB--;
 						}
-						else{document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']").click();}
 			} else {clickstop();
 					setTimeout(function (){window.location.reload(true);},20*1000);}
 	};
@@ -179,7 +196,7 @@
 		else {	setTimeout(get_time,10*1000);	};
 
 		setInterval(searchplaybtn,50*1000);
-		setInterval(searchplaydisable,10*60*1000);
+		setInterval(searchplaydisable,60*1000);
     	setInterval(Failed_to_fetch_err,50*1000);
 	}
 

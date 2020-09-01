@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.3
+// @version      0.6.4
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -19,7 +19,7 @@
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
 	var REPEAT_NUMB = 100;
-	var SEEK_EVENT=true;
+	//var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
@@ -86,10 +86,10 @@
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
 
-		if(SEEK_EVENT){
+		/*if(SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
-        }
+        }*/
 
         if(ADDED_EVENT!==1){
             ytplayer.addEventListener("onStateChange", function(state){
@@ -199,11 +199,11 @@
         console.log("YouTube AutoPlay - MANAGER");
 		 $(window).off('beforeunload.windowReload');
 		 var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
-		if(Shufflealbum!==null){
-			console.log("wait 30s");
-			setTimeout(running,30*1000);
+		if(Shufflealbum==null){
+			console.log("wait 40s");
+			setTimeout(running,40*1000);
 		}
-		else {	setTimeout(running,10*1000);	};
+		else {	setTimeout(running,20*1000);	};
     };
 
     setTimeout(run, 5000);

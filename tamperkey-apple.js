@@ -15,7 +15,15 @@
 
 (function() {
     'use strict';
+	/*https://developer.apple.com/documentation/musickitjs/accessing_musickit_features_using_javascript
+	let music = MusicKit.getInstance();
+	music.seekToTime(50);
+	https://developer.apple.com/documentation/musickitjs/musickit
+	seekToTime(time);
+	MusicKit.PlayerRepeatMode=0;
+	MusicKit.PlayerRepeatMode ="all";
 
+	*/
     function setRepeatAll(){
 		console.log("Click Repeat");
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
@@ -150,6 +158,9 @@
                 }
             }
     };
+	
+	
+
 	*/
 	function hmsToSecondsOnly(str) {
         var p = str.split(':'),            s = 0, m = 1;

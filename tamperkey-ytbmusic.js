@@ -92,7 +92,7 @@
         }*/
 
         if(ADDED_EVENT!==1){
-            ytplayer.addEventListener("onStateChange", function(state){
+            ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html
                 if(state === 0){
                     if(CORRECT_ARTIST){
                         console.log(REPEAT_NUMB);

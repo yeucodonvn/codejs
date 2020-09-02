@@ -14,6 +14,19 @@
 
 (function() {
 	var REPEAT_NUMB=200;
+	
+	/*
+	amznMusic.appConfig
+	amznMusic.appConfig.deviceId
+	https://github.com/deannyyy/gitTest/blob/37c878582d8b0b140a342d049892438b27c345f6/beardedspice-master/BeardedSpice/MediaStrategies/AmazonMusic.js
+	amznMusic.widgets.player.getCurrent().duration;
+	
+	var p=amznMusic.widgets.player; 
+	p.isPlaying()
+	p.pause()
+	p.resume()
+	*/
+	
 	/*
 function setRandomInterval(f, min, max) {
   setTimeout(function() {
@@ -40,6 +53,8 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 			
 	};
 	*/
+	
+	
 	function next(){
 		location.reload(true);
 	}
@@ -84,9 +99,11 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 	function check_notify(){
 		var dilog= document.querySelector("#dialogBoxView > section > div.dialogContainer");
 		var title = document.querySelector("#dialogBoxView > section > div.dialogContainer > div.dialogBody.dialogBoxFocus").textContent;
-	    if(dilog!=null && title=="We are unable to complete your action.  Please try again later. " ){
+	    if(dilog!=null){
+			if(title=="We are unable to complete your action.  Please try again later. " ){
 			console.log("check_notify");
 			window.location.reload(true);
+			}
 		}
 	};
 

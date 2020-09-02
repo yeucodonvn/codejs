@@ -30,6 +30,14 @@
         }
     } );*/
 
+	/* 
+	API jwplayer	https://developer.jwplayer.com/jwplayer/docs/jw8-javascript-api-reference
+	jwplayer().seek(position)
+	jwplayer().getDuration()
+
+	*/
+
+
 	function play_btn(){
 		console.log("play btn");
 		var shuffle = document.querySelector('[data-test="Shuffle"]');

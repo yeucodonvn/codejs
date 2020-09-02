@@ -31,6 +31,19 @@
         }
     } );*/
 	
+	
+	/*
+	https://greasyfork.org/en/scripts/397299-deezer-media-session-support/code
+	dzPlayer
+	dzPlayer.position
+	dzPlayer.duration
+	dzPlayer.control.pause;
+	dzPlayer.control.setRepeat(1);
+	dzPlayer.control.seek(0.5); 0.5 =	50%
+	
+	*/
+	
+	
 function play(){
 	 console.log("play");
 	var play = document.querySelector("[aria-label='Next']").click();

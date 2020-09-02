@@ -86,10 +86,10 @@
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
 
-		/*if(SEEK_EVENT){
+		(SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
-        }*/
+        }
 
         if(ADDED_EVENT!==1){
             ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html

@@ -92,14 +92,13 @@
         }
 
         if(ADDED_EVENT!==1){
-            ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html
+            ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html		chỗ này để cập nhật mỗi khi chạy next bài mới
                 if(state === 0){
                     if(CORRECT_ARTIST){
                         console.log(REPEAT_NUMB);
                         if(REPEAT_NUMB > 0){
                             clickLike();
-
-                            var loopGetDuration = setInterval(function(){
+							var loopGetDuration = setInterval(function(){
                                 //console.log("Get duration");
                                 var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
                                 if(totalDuration > 0 && totalDuration < 1000){
@@ -113,7 +112,7 @@
                             var rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
-				localStorage.clear();
+							localStorage.clear();
                            location.reload(true);
                         }
                         REPEAT_NUMB--;

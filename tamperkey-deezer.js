@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.4.4
+// @version      0.4.5
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.deezer.com/*
+// @match        *.deezer.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -46,8 +46,34 @@
 	
 function play(){
 	 console.log("play");
-	var play = document.querySelector("[aria-label='Next']").click();
-	setTimeout(pause,TIME_PLAY_DEEZER);
+	if(playbtn()==1){
+		play_click();
+		document.querySelector("[aria-label='Next']").click();
+		setTimeout(pause,TIME_PLAY_DEEZER);
+		}
+}
+function play_click(){
+	try{
+		 document.querySelector('[class="states-button-action is-active"]').click();
+	}
+	catch(err) {
+		console.log("lỗi play_click "+err.message )
+	};
+}
+function playbtn(){
+	try{
+		var x =0;
+		var playbtn = document.querySelector('[class="states-button-action is-active"]').textContent.trim();
+		switch(playbtn){
+			case "Listen": return x=1;
+			case "Now Playing": return x=2;
+			case "Pause": return x=3;
+			case "Resume": return x=4;
+		}
+	}
+	catch(err) {
+		console.log("lỗi "+err.message )
+	};
 }
 
 function Shuffle(){
@@ -59,22 +85,12 @@ function Shuffle(){
 }
 function pause(){
 	 console.log("pause");
-	var repeatElm = document.querySelector("[class='svg-icon-group-btn is-highlight']");
-	var repeatLabel = repeatElm.getAttribute("aria-label");
-	if(repeatLabel == "Pause"){
-	repeatElm.click();
-		setTimeout(reload,10*1000);
-	}
+	if(playbtn()==2){
+		play_click();
+		setTimeout(window.location.reload(true),10*1000);
+	}else{setTimeout(window.location.reload(true),10*1000);)
 }
 
-function reload(){
-	 console.log("reload");
-	var repeatElm = document.querySelector("[class='svg-icon-group-btn is-highlight']");
-	var repeatLabel = repeatElm.getAttribute("aria-label");
-	if(repeatLabel == "Play"){
-		window.location.reload();
-	}
-}
 
 function error_dialog(){	 
 	var errordialog= document.querySelector('[class="modal-dialog"]')!==null;

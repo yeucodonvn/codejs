@@ -15,7 +15,7 @@
     'use strict';
 	
 	var PARAMS;	
-	var TIME_PLAY_DEEZER=9000000;
+	var temp_number = 200;
 	/*
     	$.ajax ( {
         type:       'GET',
@@ -31,83 +31,76 @@
         }
     } );*/
 	
-	
-	/*
-	https://greasyfork.org/en/scripts/397299-deezer-media-session-support/code
-	dzPlayer
-	dzPlayer.position
-	dzPlayer.duration
-	dzPlayer.control.pause;
-	dzPlayer.control.setRepeat(1);
-	dzPlayer.control.seek(0.5); 0.5 =	50%
-	
-	*/
-	
-	
-function play(){
-	 console.log("play");
-	if(playbtn()==1){
-		play_click();
-		document.querySelector("[aria-label='Next']").click();
-		setTimeout(pause,TIME_PLAY_DEEZER);
-		}
-}
-function play_click(){
-	try{
-		 document.querySelector('[class="states-button-action is-active"]').click();
-	}
-	catch(err) {
-		console.log("lỗi play_click "+err.message )
+function get_time() {//dem lui reload
+		if (temp_number > 0) {
+			console.log(temp_number);
+			var loopGetDuration = setInterval(
+				function () {
+					var Duration = document.querySelector('[data-qa="remaining_time"]');
+					if (Duration !== null) {
+						clearInterval(loopGetDuration);
+						var totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
+						var current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+						if (totalDuration > 0) {
+							var endtime = totalDuration - current_time;
+							console.log("Get duration Total " + endtime);
+							temp_number--;
+							setTimeout(get_time, (endtime + 5) * 1000);
+						} else {
+							document.querySelector('.SkipButton.Tuner__Control__Button.Tuner__Control__SkipForward__Button.TunerControl').click();
+							
+						}
+					}
+				}, 5000);
+		} else { location.reload(true); }
 	};
-}
-function playbtn(){
-	try{
-		var x =0;
-		var playbtn = document.querySelector('[class="states-button-action is-active"]').textContent.trim();
-		switch(playbtn){
-			case "Listen": return x=1;
-			case "Now Playing": return x=2;
-			case "Pause": return x=3;
-			case "Resume": return x=4;
+
+	function hmsToSecondsOnly(str) {
+		var p = str.split(':'),
+			s = 0, m = 1;
+
+		while (p.length > 0) {
+			s += m * parseInt(p.pop(), 10);
+			m *= 60;
 		}
-	}
-	catch(err) {
-		console.log("lỗi "+err.message )
+
+		return s;
 	};
+
+	function repeatbtn() {
+		var loopsearch = setInterval(function () {
+		var Shufflealbum = document.querySelector('[data-qa="tuner_repeat_button"]');
+		var repeaaria = Shufflealbum.getAttribute("aria-label")
+			if (Shufflealbum == "Repeat all") {
+				console.log("Repeat");
+			clearInterval(loopsearch);
+			} else {
+				Shufflealbum.click();;
+			}
+	},3000)
 }
 
-function Shuffle(){
-	 console.log("Shuffle");
-	var Shuffle= document.querySelector("[aria-label='Turn on Shuffle']")!==null;
-	if(Shuffle)	{
-		document.querySelector("[aria-label='Turn on Shuffle']").click();
-	}
-}
-function pause(){
-	 console.log("pause");
-	if(playbtn()==2){
-		play_click();
-		setTimeout(window.location.reload(true),10*1000);
-	}else{setTimeout(window.location.reload(true),10*1000);)
-}
-
-
-function error_dialog(){	 
-	var errordialog= document.querySelector('[class="modal-dialog"]')!==null;
-	if(errordialog)	{
-		console.log("Click error dialog");
-		document.querySelector('[class="btn btn-default"]').click();
-	}
-}
 function run() {
-        console.log("Deezer");
-
+        console.log("Pandora");
+		var temp_load = 0;
         $(window).off('beforeunload.windowReload');
-		Shuffle();
-		console.log(TIME_PLAY_DEEZER);
-       	setTimeout(play,10*1000);
-		setInterval(error_dialog,50*1000);
-    };
+		
+		var loopsearch = setInterval(function () {
+			var Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');
+			if (Shufflealbum == null) {
+				clearInterval(loopsearch);
+				Shufflealbum.click();
+				setTimeout(repeatbtn, 10 * 1000);
+				setTimeout(get_time, 10 * 1000);
+			} else {
+				temp_load++;
+				console.log("wait 10s");
+			}
+			if (temp_load > 10) {
+				window.location.reload(true);
+            }
+		},10000)
+};
 
     setTimeout(run, 5000);
 

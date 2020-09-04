@@ -100,7 +100,6 @@
 								setTimeout(get_time,(endtime+5)*1000);
 							}else{
 								document.querySelector('[data-test="next-button"]').click();
-								REPEAT_NUMB--;
 							}
 						}
 					},5000);

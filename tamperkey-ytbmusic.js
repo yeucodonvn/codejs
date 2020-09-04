@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.4
+// @version      0.6.5
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -86,7 +86,7 @@
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
 
-		(SEEK_EVENT){
+		if(SEEK_EVENT){
             var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
         }

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         deezer
+// @name         pandora
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -10,6 +10,7 @@
 // @match        *https://www.pandora.com/*
 // @grant        none
 // ==/UserScript==
+
 
 (function() {
     'use strict';

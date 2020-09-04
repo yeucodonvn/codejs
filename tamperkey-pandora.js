@@ -68,17 +68,43 @@ function get_time() {//dem lui reload
 		return s;
 	};
 
-	function repeatbtn() {
-		var loopsearch = setInterval(function () {
-		var Shufflealbum = document.querySelector('[data-qa="tuner_repeat_button"]');
-		var repeaaria = Shufflealbum.getAttribute("aria-label")
-			if (Shufflealbum == "Repeat all") {
-				console.log("Repeat");
-			clearInterval(loopsearch);
-			} else {
-				Shufflealbum.click();;
-			}
-	},3000)
+var search_click=0;
+	function search_play(){
+		
+		var current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+		var demloi=0;
+		var demok=0;
+		// so sánh giây có bị dừng
+		console.log("search dung giua chung");
+			var loopchecktime = setInterval(function(){
+				var temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+				if(current_time==temp_time){	
+					demloi++;				
+					}
+				if(demloi>3)				
+				{
+					document.querySelector('.SkipButton.Tuner__Control__Button.Tuner__Control__SkipForward__Button.TunerControl').click();
+					get_time();	
+					search_click++;
+					clearInterval(loopchecktime);
+				}else{demok++;}				
+				if(demok>3){clearInterval(loopchecktime);}
+			}, 2000);
+			
+		if(search_click==10) {window.location.reload(true);};
+	};
+
+function repeatbtn() {
+		var loopsearch = setInterval(function() {
+			var Shufflealbum = document.querySelector('[data-qa="tuner_repeat_button"]');
+			var repeaaria = Shufflealbum.getAttribute("aria-label");
+				if (repeaaria == "Repeat all") {
+					console.log("Repeat");
+					clearInterval(loopsearch);
+				} else {
+					Shufflealbum.click();;
+				}
+		},3000)
 }
 
 function run() {
@@ -88,11 +114,12 @@ function run() {
 		
 		var loopsearch = setInterval(function () {
 			var Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');
-			if (Shufflealbum == null) {
+			if (Shufflealbum !== null) {
 				clearInterval(loopsearch);
 				Shufflealbum.click();
 				setTimeout(repeatbtn, 10 * 1000);
 				setTimeout(get_time, 10 * 1000);
+				setInterval(search_play_spin_load, 50 * 1000);
 			} else {
 				temp_load++;
 				console.log("wait 10s");

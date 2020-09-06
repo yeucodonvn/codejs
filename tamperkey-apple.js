@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.1
+// @version      2.5.2
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -120,12 +120,15 @@
 
 	function clickstop(){
 	    console.log("Click Stop");
-		setTimeout(function(){
-             var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
-             if(repeatElm !== null){
-                  repeatElm.click();
-              }
-         },5000);
+		var loopstop = setInterval(function(){
+			var stoplb = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
+			var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+			if(stoplb == null ||tabsound==false){
+				setTimeout(function (){window.location.reload(true);},20*1000);
+				clearInterval(loopstop);
+			}else{stoplb.click();}
+		},5000)
+		 
     };
 	/*	auto next
 	var REPEAT_tmp = 1;
@@ -189,7 +192,7 @@
 							REPEAT_NUMB--;
 						}
 			} else {clickstop();
-					setTimeout(function (){window.location.reload(true);},20*1000);}
+					}
 	};
 	
     var REPEAT_NUMB = 200;

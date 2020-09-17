@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.2
+// @version      2.5.3
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -22,7 +22,10 @@
 	seekToTime(time);
 	MusicKit.PlayerRepeatMode=0;
 	MusicKit.PlayerRepeatMode ="all";
-
+	music.currentPlaybackTimeRemaining
+	music.currentPlaybackDuration
+	kết hợp seektotime với gettime và check audio sound = true thay cho addEventListener
+	music.addEventListener("onPlaybackStateChange"
 	*/
     function setRepeatAll(){
 		console.log("Click Repeat");
@@ -65,6 +68,8 @@
 	function searchplaybtn(){
 		var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
 		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
+		var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		var playbacktime=hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
         	if(playBtn != null){
 			//playBtn.click();
 			nexttElm.click();
@@ -73,15 +78,14 @@
 			}
 			
 		// dung giua chung
-		var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
-		var playbacktime=hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
-		if(!tabsound && playbacktime!==0)
+		
+		else if(!tabsound && playbacktime!==0)
 		{
 			nexttElm.click();
 			console.log("search dung giua chung");
 			search_click++;
 		}
-		if(search_click==5) {window.location.reload(true);};
+		if(search_click==25) {window.location.reload(true);};
 	};
 	
 	function Failed_to_fetch_err(){
@@ -92,6 +96,10 @@
 				window.location.reload(true);
 			};
 			if(titleok=="undefined"){
+				window.location.reload(true);
+			};
+			
+			if(titleok=="MEDIA_LICENSE"){
 				window.location.reload(true);
 			};
 		}

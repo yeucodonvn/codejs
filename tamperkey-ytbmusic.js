@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.5
+// @version      0.6.6
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -159,13 +159,14 @@
 	function checkspinloader(){
         setInterval(function(){
             var spinloader = document.querySelector('.play-pause-button-spinner.style-scope.ytmusic-player-bar');
+			var autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 			var gethidden=spinloader.getAttribute("aria-hidden");
-            if(!gethidden){
+            if(!gethidden || autdioo){
                 document.querySelector('[aria-label="Next song"]').click();
 				console.log("check spin loader");
             }
         },60 * 1000);
-
+		
     };
 
 	async function running() {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         pandora
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
@@ -75,14 +75,15 @@ var search_click=0;
 		var demloi=0;
 		var demok=0;
 		// so sánh giây có bị dừng
-		console.log("search dung giua chung");
+		
 			var loopchecktime = setInterval(function(){
-				var temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-				if(current_time==temp_time){	
+				var temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+				if(current_time==temp_time){
 					demloi++;				
 					}
 				if(demloi>3)				
-				{
+				{	
+					console.log("search dung giua chung");
 					document.querySelector('.SkipButton.Tuner__Control__Button.Tuner__Control__SkipForward__Button.TunerControl').click();
 					get_time();	
 					search_click++;
@@ -119,7 +120,7 @@ function run() {
 				Shufflealbum.click();
 				setTimeout(repeatbtn, 10 * 1000);
 				setTimeout(get_time, 10 * 1000);
-				setInterval(search_play_spin_load, 50 * 1000);
+				setInterval(search_play, 50 * 1000);
 			} else {
 				temp_load++;
 				console.log("wait 10s");

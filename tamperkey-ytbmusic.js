@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.6
+// @version      0.6.7
 // @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
-// @match        *music.youtube.com/playlist?list=*
+// @match        *music.youtube.com/*
 // @run-at       document-start
 // @grant        none
 // @namespace	 https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -19,7 +19,7 @@
 	var ADDED_EVENT = 0;
 	var CORRECT_ARTIST = true;
 	var REPEAT_NUMB = 100;
-	//var SEEK_EVENT=true;
+	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
@@ -48,15 +48,18 @@
 
     function setShufflealbum(){
         var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
-		console.log(Shufflealbum);
-		Shufflealbum.click();
+		var autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		if(Shufflealbum!==null&& autdioo==false){
+			console.log(Shufflealbum);
+			Shufflealbum.click();
+		}
     };
 	function setShuffle(){
 		console.log("set Shuffle");
         var element = document.querySelector(".shuffle.style-scope.ytmusic-player-bar");
 		element.click();
     };
-
+	
     function setRepeatAll(){
 		console.log("set RepeatAll");
         var repeatElm = document.querySelector(".repeat.style-scope.ytmusic-player-bar");
@@ -82,12 +85,14 @@
 
         return s;
     };
-
+	
+	
+		
     function seekSliderBar(gotoPercent, listenDuration){
         var ytplayer = document.getElementById("movie_player");
 
 		if(SEEK_EVENT){
-            var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
+			var totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
             ytplayer.seekTo(totalDuration * gotoPercent, true);
         }
 
@@ -112,8 +117,8 @@
                             var rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
-							localStorage.clear();
-                           location.reload(true);
+							ytplayer.stopVideo();
+							setTimeout(location.reload(true),5000);
                         }
                         REPEAT_NUMB--;
                     }else{
@@ -156,29 +161,30 @@
         },60 * 1000);
 
     };
+	var intcheck=0;
 	function checkspinloader(){
         setInterval(function(){
-            var spinloader = document.querySelector('.play-pause-button-spinner.style-scope.ytmusic-player-bar');
 			var autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+			var spinloader = document.querySelector('.play-pause-button-spinner.style-scope.ytmusic-player-bar');
 			var gethidden=spinloader.getAttribute("aria-hidden");
-            if(!gethidden || autdioo){
+            if(!gethidden || autdioo==false){
                 document.querySelector('[aria-label="Next song"]').click();
 				console.log("check spin loader");
+				intcheck++;
             }
+			if(intcheck>30)(location.reload(true));
         },60 * 1000);
 		
     };
 
-	async function running() {
+	function running() {
 		console.log("PLAY");
 		setShufflealbum();
-        await setRepeatAll();
-		await setShuffle()			//setTimeout(setShuffle(),2000,2000);
-		await checkVideoPaused();
-		await checkspinloader()
-		await clickLike();
-		
-		
+        setRepeatAll();
+		setShuffle()			//setTimeout(setShuffle(),2000,2000);
+		checkVideoPaused();
+		checkspinloader()
+		clickLike();
 		
          var loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
@@ -193,7 +199,7 @@
                 clearInterval(loopGetDuration_First);
             }
         },2000);
-		await setTimeout(checkplayerpage,60*1000);
+		setTimeout(checkplayerpage,60*1000);
     };
     function run() {
         console.log("YouTube AutoPlay - MANAGER");

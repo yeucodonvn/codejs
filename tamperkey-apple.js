@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.3
+// @version      2.5.4
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -26,6 +26,15 @@
 	music.currentPlaybackDuration
 	kết hợp seektotime với gettime và check audio sound = true thay cho addEventListener
 	music.addEventListener("onPlaybackStateChange"
+	
+	let music = MusicKit.getInstance();
+	music.addEventListener("onPlaybackStateChange", function(onPlaybackStateChange){alert(state);})
+
+	this.storekit.addEventListener(Yt.authorizationStatusDidChange,(function(t){var n=t.authorizationStatus;l._hasAuthorized=[Lt.AUTHORIZED,Lt.RESTRICTED].includes(n)}))
+
+	onPlaybackStateChange
+	onreadystatechange
+https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
     function setRepeatAll(){
 		console.log("Click Repeat");
@@ -75,33 +84,29 @@
 			nexttElm.click();
 			console.log("search play click next");
 			search_click++;
+			}else if(tabsound==false && playbacktime!==0)	// dung giua chung
+			{
+				nexttElm.click();
+				console.log("search dung giua chung");
+				search_click++;
 			}
-			
-		// dung giua chung
-		
-		else if(!tabsound && playbacktime!==0)
-		{
-			nexttElm.click();
-			console.log("search dung giua chung");
-			search_click++;
-		}
 		if(search_click==25) {window.location.reload(true);};
 	};
 	
 	function Failed_to_fetch_err(){
 		var dialogok=document.querySelector("#musickit-dialog");
 		if(dialogok!==null){
-			var titleok=document.querySelector("#mk-dialog-title").textContent;
+			/*var titleok=document.querySelector("#mk-dialog-title").textContent;
 			if(titleok=="Failed to fetch"){
 				window.location.reload(true);
 			};
 			if(titleok=="undefined"){
 				window.location.reload(true);
 			};
-			
 			if(titleok=="MEDIA_LICENSE"){
 				window.location.reload(true);
-			};
+			};*/
+			window.location.reload(true);
 		}
 		
     };
@@ -110,7 +115,7 @@
 	function searchplaydisable(){
 		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
 		var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
-		if(playbtn || nextbtn){
+		if(playbtn!==null || nextbtn!==null){
 				console.log("Check Disabled Button Found");
 				clickPlay();
 				check_disable++;
@@ -140,34 +145,27 @@
     };
 	/*	auto next
 	var REPEAT_tmp = 1;
-    async function clickNext(){
-	    var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
-        	if(playBtn != null){			
-				if(search_click==2) {
-					window.location.reload(true);
-				};
-        	}
-        console.log("Click Next");
-		//document.querySelector("#ember41 > div.album-header-metadata > h1").innerHTML = 'alexalex2019 đã next '+REPEAT_tmp+" bài";
-        var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
-            if(repeatElm !== null){
-                var repeatLabel = repeatElm.getAttribute("aria-label");
-                if(repeatLabel == "Next"){
-                    //clearInterval(loopClickRepeat);
-                    repeatElm.click();
-                    REPEAT_NUMB--;
-		    REPEAT_tmp++;
-			var min = 128,
-				max = 158;
-			var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
-				console.log(rand);
-			setTimeout(clickNext,rand*1000);
-                }
-                if(REPEAT_NUMB<0){
-					await clickstop();
-					await setTimeout(function (){window.location.reload(true);},20*1000);
-                }
-            }
+    function clickNext(){
+	    let music = MusicKit.getInstance();
+		var totalduration = music.currentPlaybackDuration;
+		var min = 60,
+			max = 40;
+		var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
+		console.log(rand);	
+		music.seekToTime(rand);
+		var percent = totalduration *0.9;
+		//setTimeout(f,s,...) f function, s giay cua setTimeout ... lenh truyen vao f
+		
+		
+            repeatElm.click();
+            REPEAT_NUMB--;
+			REPEAT_tmp++;
+			
+			if(REPEAT_NUMB<0){
+			clickstop();
+			setTimeout(function (){window.location.reload(true);},20*1000);
+		}
+            
     };
 	
 	
@@ -187,8 +185,9 @@
 	function get_time() {		//dem lui reload
 			if(REPEAT_NUMB>0){
 				console.log(REPEAT_NUMB);
-					var playbacktime = hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
-					var endtime = hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
+				let music = MusicKit.getInstance();
+				var playbacktime = music.currentPlaybackDuration;		//hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
+				var endtime = music.currentPlaybackTimeRemaining; //hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
 						if(playbacktime>0&&endtime>0){
 							console.log("Get End Time "+endtime);
 							REPEAT_NUMB--;

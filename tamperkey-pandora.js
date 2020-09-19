@@ -68,14 +68,11 @@ function get_time() {//dem lui reload
 		return s;
 	};
 
-var search_click=0;
+	var search_click=0;
 	function search_play(){
-		
 		var current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
 		var demloi=0;
 		var demok=0;
-		// so sánh giây có bị dừng
-		
 			var loopchecktime = setInterval(function(){
 				var temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
 				if(current_time==temp_time){

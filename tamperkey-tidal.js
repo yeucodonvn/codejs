@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tidal
-// @version      0.4
+// @version      0.5
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Tidal
 // @author       yeucodon
@@ -28,10 +28,23 @@
 	};
 */
 	function clickshuffle(){	
-	        console.log("click shuffleAll");
+	    
+		console.log("click shuffleAll");
 		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
 		setTimeout(get_time, 10000);
 	};
+	function checkstop(){
+		var stop =setInterval(function(){
+			var playbtn = document.querySelector('[data-test="play"]');
+			if(playbtn){
+				//document.querySelector('.playback-controls__button--white-icon').click();
+				playbtn.click();
+				console.log("search stop");
+				clearInterval(stop);
+			}			
+		},5000)
+	};
+	
 	function search_footer_player(){
 		var searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
 		if(searchft==null){
@@ -69,8 +82,8 @@
 	};
 	
 	function hmsToSecondsOnly(str) {
-        var p = str.split(':'),            s = 0, m = 1;
-
+        var p = str.split(':'),  
+            s = 0, m = 1;
         while (p.length > 0) {
             s += m * parseInt(p.pop(), 10);
             m *= 60;
@@ -103,15 +116,25 @@
 					},5000);
 			} else {location.reload(true);}
 	};
-	
+	function ruuun(){
+		setTimeout(clickshuffle,10*1000);
+		setInterval(search_footer_player,50*1000);
+		setInterval(search_play_spin_load,50*1000);
+		setInterval(checkstop,50*1000);
+        
+	}
 	function run() {
         console.log("Tidal AutoPlay - MANAGER");
         $(window).off('beforeunload.windowReload');
-       	setTimeout(clickshuffle,10*1000);
-		setInterval(search_footer_player,50*1000);
-		setInterval(search_play_spin_load,50*1000);
-        	//setRandomInterval(function(){document.querySelector('[title="Next"]').click()}, 88000, 128000);
-			//setTimeout(function(){location.reload(true)},10*60*60*1000);
+		var intload =0;
+       	var load = setInterval(function(){
+			var shuflle = document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']");
+			if(shuflle!==null){
+				ruuun();
+				clearInterval(load);
+			}else{intload++;}
+			if(intload>7){window.location.reload(true);}
+		},5000)
     };
 
     setTimeout(run, 5000);

@@ -114,7 +114,29 @@
 			get_time();
 		}
 	};
-
+	
+	function searchstop(){
+		var stop=!!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-position"]').textContent.trim());
+		var demloi=0;
+		var demok=0;
+		if(stop==false){
+			console.log("search dung");
+			var loopchecktime = setInterval(function(){
+				var temp_time = hmsToSecondsOnly(document.querySelector('[data-test="seekbar-position"]').textContent.trim());
+				if(current_time==temp_time){
+					demloi++;
+					}
+				if(demloi>3)
+				{
+					document.querySelector('.playback-controls__button--white-icon').click();
+					get_time();
+					clearInterval(loopchecktime);
+				}else{demok++;}
+				if(demok>3){clearInterval(loopchecktime);}
+			}, 2000);
+		};
+	};
 	
 	function run() {
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
@@ -122,6 +144,7 @@
 		setTimeout(play_btn, 15000);
 		setInterval(searchconfirm,25*60*1000);
 		setInterval(get_loading,50*1000);
+		setInterval(searchstop,50*1000);
     };
 
     setTimeout(run, 5000);

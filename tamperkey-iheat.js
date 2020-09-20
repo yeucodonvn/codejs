@@ -40,9 +40,9 @@
 
 	function play_btn(){
 		console.log("play btn");
-		var shuffle = document.querySelector('[data-test="Shuffle"]');
-		var element = document.querySelector('[data-test="play-button"]');
 		var loopClickRepeat = setInterval(function(){
+			var shuffle = document.querySelector('[data-test="Shuffle"]');
+			var element = document.querySelector('[data-test="play-button"]');
             if(element !== null && shuffle !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
                 if(repeatLabel == "paused"){

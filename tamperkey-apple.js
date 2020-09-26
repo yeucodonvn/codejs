@@ -36,6 +36,45 @@
 	onreadystatechange
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
+	
+	/*
+	function seekt(){
+		var searchaudio = setInterval(function(){
+			if(REPEAT_NUMB>0){
+				console.log("REPEAT_NUMB");
+				var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+				if(tabsound==true){
+					clearInterval(searchaudio);
+					let music = MusicKit.getInstance();
+					var duration = parseInt(music.currentPlaybackDuration);
+					var rndplay = 90 + Math.floor(Math.random() * 30);
+					var rndstart = Math.floor(Math.random() * (duration - rndplay - 5));	
+					console.log("start "+rndstart+" Play "+rndplay);
+					music.seekToTime(rndstart);
+					var rndend = Math.floor(duration*0.95);
+					
+					setTimeout(function (rndend){
+						//console.log("end song "+rndend);
+						var duration = parseInt(music.currentPlaybackDuration);
+						music.seekToTime(rndend);
+						var endtime = (duration-rndend+3);
+						//console.log("endtime "+endtime);
+						var buffering = document.querySelector('.web-chrome-playback-lcd.is-buffering');
+						if(buffering!==null){
+							document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']").click();
+							//clickPlay();
+							setTimeout(seekt,2000);
+						}else{
+							setTimeout(seekt,endtime*1000);
+							REPEAT_NUMB--;
+						}
+					},rndplay*1000,rndend);
+				}
+			} else {clickstop();}
+		},2000);
+	};
+	*/
+	
     function setRepeatAll(){
 		console.log("Click Repeat");
         var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
@@ -96,7 +135,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	function Failed_to_fetch_err(){
 		var dialogok=document.querySelector("#musickit-dialog");
 		if(dialogok!==null){
-			/*var titleok=document.querySelector("#mk-dialog-title").textContent;
+			var titleok=document.querySelector("#mk-dialog-title").textContent;
 			if(titleok=="Failed to fetch"){
 				window.location.reload(true);
 			};
@@ -105,8 +144,18 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			};
 			if(titleok=="MEDIA_LICENSE"){
 				window.location.reload(true);
-			};*/
-			window.location.reload(true);
+			};
+			
+			if(titleok=="MEDIA_SESSION: TypeError: Cannot read property 'setServerCertificate' of null"){
+				document.querySelector("#mk-dialog-actions > button").click();
+			};
+		}
+		var dialogbrowser=document.querySelector(".dt-modal__contents");
+		if(dialogbrowser!==null){
+			var titlebrowser= document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__top-content.web-error-dialog__top-content--expanded > h1").textContent;
+			if(titlebrowser=="This Browser is Not Supported"){
+				document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__bottom-content > button").click();
+			};
 		}
 		
     };
@@ -143,30 +192,6 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 		},5000)
 		 
     };
-	/*	auto next
-	var REPEAT_tmp = 1;
-    function clickNext(){
-	    let music = MusicKit.getInstance();
-		var totalduration = music.currentPlaybackDuration;
-		var min = 60,
-			max = 40;
-		var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
-		console.log(rand);	
-		music.seekToTime(rand);
-		var percent = totalduration *0.9;
-		//setTimeout(f,s,...) f function, s giay cua setTimeout ... lenh truyen vao f
-		
-		
-            repeatElm.click();
-            REPEAT_NUMB--;
-			REPEAT_tmp++;
-			
-			if(REPEAT_NUMB<0){
-			clickstop();
-			setTimeout(function (){window.location.reload(true);},20*1000);
-		}
-            
-    };
 	
 	
 
@@ -181,7 +206,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
         return s;
     };
-	//261
+	
 	function get_time() {		//dem lui reload
 			if(REPEAT_NUMB>0){
 				console.log(REPEAT_NUMB);

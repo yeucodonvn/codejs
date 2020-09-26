@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.5.9
+// @version      0.6
 // @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  try to take over the world!
 // @author       You
@@ -140,11 +140,17 @@
 	
 	function run() {
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
-		console.log("wait 15s ");
-		setTimeout(play_btn, 15000);
-		setInterval(searchconfirm,25*60*1000);
-		setInterval(get_loading,50*1000);
-		setInterval(searchstop,50*1000);
+		var loopsearch = setInterval(function(){
+			var element = document.querySelector('[data-test="play-button"]');
+			if(){
+				clearInterval(loopsearch);
+				setTimeout(play_btn, 10000);
+				setInterval(searchconfirm,25*60*1000);
+				setInterval(get_loading,50*1000);
+				setInterval(searchstop,50*1000);
+			};
+		},5000);
+		
     };
 
     setTimeout(run, 5000);

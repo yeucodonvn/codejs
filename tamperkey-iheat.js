@@ -142,7 +142,7 @@
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
 		var loopsearch = setInterval(function(){
 			var element = document.querySelector('[data-test="play-button"]');
-			if(){
+			if(element!==null){
 				clearInterval(loopsearch);
 				setTimeout(play_btn, 10000);
 				setInterval(searchconfirm,25*60*1000);

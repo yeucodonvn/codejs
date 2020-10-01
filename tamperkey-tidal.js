@@ -37,7 +37,7 @@
 		var stop =setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
-				document.querySelector('.playback-controls__button--white-icon').click();
+				document.querySelector('[data-test="next"]').click();
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);

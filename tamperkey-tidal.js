@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tidal
-// @version      0.5
+// @version      0.6
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @description  This script Autoplay Tidal
 // @author       yeucodon
@@ -37,8 +37,8 @@
 		var stop =setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
-				//document.querySelector('.playback-controls__button--white-icon').click();
-				playbtn.click();
+				document.querySelector('.playback-controls__button--white-icon').click();
+				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
 			}			

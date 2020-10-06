@@ -117,7 +117,7 @@
 			} else {location.reload(true);}
 	};
 	
-	// silulate mouse
+	// silulate mouse how to simulate the onclick event
 function simulate(element, eventName)
 {
     var options = extend(defaultOptions, arguments[2] || {});

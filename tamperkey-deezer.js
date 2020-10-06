@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         deezer
 // @namespace    http://tampermonkey.net/
-// @version      0.4.5
-// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.4.6
+
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @description  try to take over the world!
@@ -16,7 +16,7 @@
 	
 	var PARAMS;	
 	var TIME_PLAY_DEEZER=9000000;
-	/*
+	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
     	$.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
@@ -85,10 +85,12 @@ function Shuffle(){
 }
 function pause(){
 	 console.log("pause");
-	if(playbtn()==2){
+	if (playbtn() == 2) {
 		play_click();
-		setTimeout(window.location.reload(true),10*1000);
-	}else{setTimeout(window.location.reload(true),10*1000);)
+		setTimeout(window.location.reload(true), 10 * 1000);
+	} else {
+		setTimeout(window.location.reload(true), 10 * 1000);
+	}
 }
 
 
@@ -102,7 +104,7 @@ function error_dialog(){
 function run() {
         console.log("Deezer");
 
-        $(window).off('beforeunload.windowReload');
+        //$(window).off('beforeunload.windowReload');
 		Shuffle();
 		console.log(TIME_PLAY_DEEZER);
        	setTimeout(play,10*1000);

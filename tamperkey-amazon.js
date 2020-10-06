@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         amazon
 // @namespace    http://tampermonkey.net/
-// @version      0.2.6
-// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.2.7
+
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @description  try to take over the world!
@@ -15,7 +15,7 @@
 (function() {
 	var REPEAT_NUMB=200;
 	
-	/*
+	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 	amznMusic.appConfig
 	amznMusic.appConfig.deviceId
 	https://github.com/deannyyy/gitTest/blob/37c878582d8b0b140a342d049892438b27c345f6/beardedspice-master/BeardedSpice/MediaStrategies/AmazonMusic.js
@@ -131,7 +131,7 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 	function run() {
 			console.log("AMAZON AutoPlay - MANAGER");
 
-			$(window).off('beforeunload.windowReload');
+			//$(window).off('beforeunload.windowReload');
 			loadidng();
 
 		};

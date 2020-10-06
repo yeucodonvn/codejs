@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Naspter
 // @version      0.6
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+
 // @description  This script Autoplay Naspter
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-napster.js
@@ -14,7 +14,7 @@
 
 (function() {
     'use strict';
-
+	/*// @re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js*/
     var REPEAT_NUMB = 200;//                          will increase from 1-5;
 	var temp_load = 0;
 

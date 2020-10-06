@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.4
+// @version      2.5.5
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -9,13 +9,14 @@
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @grant        none
-// @require  		https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+
 // @namespace 		http://tampermonkey.net/
 // ==/UserScript==
 
 (function() {
     'use strict';
-	/*https://developer.apple.com/documentation/musickitjs/accessing_musickit_features_using_javascript
+	/*// @re quire  		https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+	 * https://developer.apple.com/documentation/musickitjs/accessing_musickit_features_using_javascript
 	let music = MusicKit.getInstance();
 	music.seekToTime(50);
 	https://developer.apple.com/documentation/musickitjs/musickit
@@ -195,7 +196,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
 	
 
-	*/
+	
 	function hmsToSecondsOnly(str) {
         var p = str.split(':'),            s = 0, m = 1;
 
@@ -249,7 +250,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");
 
-        $(window).off('beforeunload.windowReload');
+        //$(window).off('beforeunload.windowReload');
        	var previewbtn=document.querySelector("[aria-label='Preview']");
 		if(previewbtn!==null){
 			console.log("wait 30s");

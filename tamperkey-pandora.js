@@ -1,8 +1,7 @@
 // ==UserScript==
 // @name         pandora
 // @namespace    http://tampermonkey.net/
-// @version      0.2
-// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.3
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @description  try to take over the world!
@@ -17,7 +16,8 @@
 	
 	var PARAMS;	
 	var temp_number = 200;
-	/*
+	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+
     	$.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',

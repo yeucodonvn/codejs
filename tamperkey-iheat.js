@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         iheart
 // @namespace    http://tampermonkey.net/
-// @version      0.6
-// @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.7
+
 // @description  try to take over the world!
 // @author       You
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-iheat.js
@@ -16,6 +16,7 @@
 	var PARAMS;
 	var temp_number = 200;
 	/*
+	 * // @re quire 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
    	$.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',

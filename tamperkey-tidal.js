@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         Tidal
-// @version      0.6
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.7
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -17,7 +16,8 @@
 
     var REPEAT_NUMB = 200;        
 	//auto next
-   	/*function setRandomInterval(f, min, max) {
+	/*@re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
+   	function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {
 					f();
@@ -26,7 +26,7 @@
 			} else {location.reload(true);}
 				REPEAT_NUMB--;
 	};
-*/
+
 	function clickshuffle(){	
 	    
 		console.log("click shuffleAll");
@@ -117,7 +117,7 @@
 			} else {location.reload(true);}
 	};
 	
-	// silulate mouse how to simulate the onclick event
+	// silulate mouse
 function simulate(element, eventName)
 {
     var options = extend(defaultOptions, arguments[2] || {});
@@ -184,12 +184,11 @@ var defaultOptions = {
 		setTimeout(clickshuffle,10*1000);
 		setInterval(search_footer_player,50*1000);
 		setInterval(search_play_spin_load,50*1000);
-		setInterval(checkstop,50*1000);
-        
+		setInterval(checkstop, 50 * 1000);
 	}
 	function run() {
         console.log("Tidal AutoPlay - MANAGER");
-        $(window).off('beforeunload.windowReload');
+        //$(window).off('beforeunload.windowReload');
 		var intload =0;
        	var load = setInterval(function(){
 			var shuflle = document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']");

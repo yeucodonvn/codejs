@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - MANAGER
-// @version      0.6.7
-// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @version      0.6.8
+
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -25,7 +25,7 @@
 	var GOTO_PERCENT=0.9;
 	var ARTIST_ID='PL_2SVRWG1wuNYWc4mYWLmg_rIxqnG97Pi';
 
-	/*
+	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
     $.ajax ( {
         type:       'GET',
         url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
@@ -203,7 +203,7 @@
     };
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
-		 $(window).off('beforeunload.windowReload');
+		// $(window).off('beforeunload.windowReload');
 		 var Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
 		if(Shufflealbum==null){
 			console.log("wait 40s");

@@ -6,7 +6,7 @@
 // @author       You
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloudt.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloud.js
-// @match        https://www.iheart.com/playlist/*
+// @match        https://soundcloud.com/*
 // @run-at       document-start
 // @grant        none
 // ==/UserScript==
@@ -34,20 +34,21 @@
 
 
 	function play_btn() {
-		console.log("play btn");
 		var loopClickRepeat = setInterval(function () {
-			var element = document.querySelector('[title="Play"]').click();
+			let element = document.querySelector(".sc-button-play.playButton.sc-button.m-stretch");
 			if (element !== null) {
-				var repeatLabel = element.getAttribute("class");
-				if (repeatLabel == "shuffleControl sc-ir m-shuffling") {
 					clearInterval(loopClickRepeat);
-					console.log("click shuffle");
-					shuffle.click();
+					let rem = element.getAttribute("title")
+					if (rem=="Play") {
+						console.log("play btn");
+						element.click();
+					}
 					setTimeout(shuffle, 10000);
+					setTimeout(repeatpp,1000)
 				} else {
 					console.log("search play btn");
 				}
-			}
+			
 		}, 5000);
 	};
 	function hmsToSecondsOnly(str) {
@@ -61,6 +62,17 @@
 
 		return s;
 	};
+	function repeatpp() {
+		let loop = setInterval(function() {
+			let element = document.querySelector(".repeatControl.sc-ir");
+			let repeatLabel = element.getAttribute("class");
+			if (repeatLabel !== "repeatControl sc-ir m-all") {
+			console.log("click shuffle");
+			element.click();
+			}else{clearInterval(loop);}
+		},1000)
+		
+	};
 	function shuffle() {
 		var element = document.querySelector('[title="Shuffle"]');
 		var repeatLabel = element.getAttribute("class");
@@ -68,13 +80,18 @@
 			console.log("click shuffle");
 			element.click();
 		}
-
 		setInterval(next, 80*1000);
 	};
+
+	
 	function next() {
-		
+		console.log("click next");
 		let loop = setInterval(function(){
-			document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next")
+			if(Math.floor(Math.random() * 15) > 10){
+				console.log("Like Click");
+				document.querySelector('.sc-button-like.playbackSoundBadge__like.sc-button.sc-button-small.sc-button-icon.sc-button-responsive').click();
+			}
+			document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next").click();
 		},70*1000)
 	}
 	// chưa làm fund like
@@ -115,14 +132,7 @@
 
 	function run() {
 		console.log("SOUNDCLOUD AutoPlay - MANAGER - Repeat Number " + temp_number);
-		var loopsearch = setInterval(function () {
-			var element = document.querySelector('[title="Play"]');
-			if (element !== null) {
-				clearInterval(loopsearch);
-				setTimeout(play_btn, 10000);
-			};
-		}, 5000);
-
+				setTimeout(play_btn, 20000);
 	};
 
 	setTimeout(run, 5000);

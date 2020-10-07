@@ -72,12 +72,15 @@
 		setInterval(next, 80*1000);
 	};
 	function next() {
-		document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next")
+		
+		let loop = setInterval(function(){
+			document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next")
+		},70*1000)
 	}
 	// chưa làm fund like
 
 	/*
-		function get_time() {//dem lui reload
+		function f() {//dem lui reload
 				if(temp_number>0){
 					console.log(temp_number);
 					var loopGetDuration = setInterval(

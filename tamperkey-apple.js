@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.5
+// @version      2.5.6
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -9,7 +9,6 @@
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-apple.js
 // @grant        none
-
 // @namespace 		http://tampermonkey.net/
 // ==/UserScript==
 
@@ -40,27 +39,27 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
 	/*
 	function seekt(){
-		var searchaudio = setInterval(function(){
+		let searchaudio = setInterval(function(){
 			if(REPEAT_NUMB>0){
 				console.log("REPEAT_NUMB");
-				var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+				let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 				if(tabsound==true){
 					clearInterval(searchaudio);
 					let music = MusicKit.getInstance();
-					var duration = parseInt(music.currentPlaybackDuration);
-					var rndplay = 90 + Math.floor(Math.random() * 30);
-					var rndstart = Math.floor(Math.random() * (duration - rndplay - 5));	
+					let duration = parseInt(music.currentPlaybackDuration);
+					let rndplay = 90 + Math.floor(Math.random() * 30);
+					let rndstart = Math.floor(Math.random() * (duration - rndplay - 5));	
 					console.log("start "+rndstart+" Play "+rndplay);
 					music.seekToTime(rndstart);
-					var rndend = Math.floor(duration*0.95);
+					let rndend = Math.floor(duration*0.95);
 					
 					setTimeout(function (rndend){
 						//console.log("end song "+rndend);
-						var duration = parseInt(music.currentPlaybackDuration);
+						let duration = parseInt(music.currentPlaybackDuration);
 						music.seekToTime(rndend);
-						var endtime = (duration-rndend+3);
+						let endtime = (duration-rndend+3);
 						//console.log("endtime "+endtime);
-						var buffering = document.querySelector('.web-chrome-playback-lcd.is-buffering');
+						let buffering = document.querySelector('.web-chrome-playback-lcd.is-buffering');
 						if(buffering!==null){
 							document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']").click();
 							//clickPlay();
@@ -78,10 +77,10 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
     function setRepeatAll(){
 		console.log("Click Repeat");
-        var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
-        var loopClickRepeat = setInterval(function(){
+        let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
+        let loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
-                var repeatLabel = repeatElm.getAttribute("aria-label");
+                let repeatLabel = repeatElm.getAttribute("aria-label");
                 if(repeatLabel == "Repeat all"){
                     clearInterval(loopClickRepeat);
                 }else{
@@ -93,10 +92,10 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
     };
     function clickPlay(){
 		console.log("Click Play");
-        var repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset.ember-view[aria-label='Shuffle']");
-        var loopClickRepeat = setInterval(function(){
+        let repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
+        let loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
-                var repeatLabel = repeatElm.getAttribute("aria-label");
+                let repeatLabel = repeatElm.getAttribute("aria-label");
                 console.log(repeatElm);
                 if(repeatLabel == "Shuffle"){
                     repeatElm.click();
@@ -115,10 +114,10 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
 	var search_click=0;
 	function searchplaybtn(){
-		var nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
-		var playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
-		var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
-		var playbacktime=hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
+		let nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
+		let playBtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play']");
+		let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		let playbacktime=hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
         	if(playBtn != null){
 			//playBtn.click();
 			nexttElm.click();
@@ -134,9 +133,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	};
 	
 	function Failed_to_fetch_err(){
-		var dialogok=document.querySelector("#musickit-dialog");
+		let dialogok=document.querySelector("#musickit-dialog");
 		if(dialogok!==null){
-			var titleok=document.querySelector("#mk-dialog-title").textContent;
+			let titleok=document.querySelector("#mk-dialog-title").textContent;
 			if(titleok=="Failed to fetch"){
 				window.location.reload(true);
 			};
@@ -151,9 +150,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				document.querySelector("#mk-dialog-actions > button").click();
 			};
 		}
-		var dialogbrowser=document.querySelector(".dt-modal__contents");
+		let dialogbrowser=document.querySelector(".dt-modal__contents");
 		if(dialogbrowser!==null){
-			var titlebrowser= document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__top-content.web-error-dialog__top-content--expanded > h1").textContent;
+			let titlebrowser= document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__top-content.web-error-dialog__top-content--expanded > h1").textContent;
 			if(titlebrowser=="This Browser is Not Supported"){
 				document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__bottom-content > button").click();
 			};
@@ -163,8 +162,8 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
 	var check_disable=0;
 	function searchplaydisable(){
-		var playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
-		var nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
+		let playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
+		let nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
 		if(playbtn!==null || nextbtn!==null){
 				console.log("Check Disabled Button Found");
 				clickPlay();
@@ -176,16 +175,16 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
 	function clickNext_first(){
 	    console.log("Click First Next");
-        var repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
+        let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
         repeatElm.click();
     };
 	
 
 	function clickstop(){
 	    console.log("Click Stop");
-		var loopstop = setInterval(function(){
-			var stoplb = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
-			var tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+		let loopstop = setInterval(function(){
+			let stoplb = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
+			let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 			if(stoplb == null ||tabsound==false){
 				setTimeout(function (){window.location.reload(true);},20*1000);
 				clearInterval(loopstop);
@@ -198,7 +197,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
 	
 	function hmsToSecondsOnly(str) {
-        var p = str.split(':'),            s = 0, m = 1;
+        let p = str.split(':'),            s = 0, m = 1;
 
         while (p.length > 0) {
             s += m * parseInt(p.pop(), 10);
@@ -213,7 +212,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				console.log(REPEAT_NUMB);
 				let music = MusicKit.getInstance();
 				var playbacktime = music.currentPlaybackDuration;		//hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
-				var endtime = music.currentPlaybackTimeRemaining; //hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
+				let endtime = music.currentPlaybackTimeRemaining; //hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
 						if(playbacktime>0&&endtime>0){
 							console.log("Get End Time "+endtime);
 							REPEAT_NUMB--;
@@ -229,13 +228,13 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	};
 	
     var REPEAT_NUMB = 200;
-	async function plfunc(){
-		await setTimeout(clickPlay,10*1000);
-		await setTimeout(clickNext_first,30*1000);
-        await setTimeout(setRepeatAll,30*1000);
+	function plfunc(){
+		setTimeout(clickPlay, 10 * 1000);
+		setTimeout(clickNext_first, 30 * 1000);
+        setTimeout(setRepeatAll, 30 * 1000);
 		
         //await setTimeout(clickNext,(Math.floor(Math.random() * (128 - 88))+88)*1000);
-		var timmeee=document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining')
+		let timmeee=document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining')
 		if(timmeee!==null){
 			console.log("wait 30s");
 			setTimeout(get_time,30*1000);
@@ -249,14 +248,21 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");
-
-        //$(window).off('beforeunload.windowReload');
-       	var previewbtn=document.querySelector("[aria-label='Preview']");
-		if(previewbtn!==null){
-			console.log("wait 30s");
-			setTimeout(plfunc,30*1000);
-		}
-		else {	setTimeout(plfunc,10*1000);	};
+		let innt=0;
+		//$(window).off('beforeunload.windowReload');
+		let loop = setInterval(function() {
+			let shufflebtn = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
+			if(shufflebtn!==null){
+				console.log("wait 30s");
+				setTimeout(plfunc,30*1000);
+				clearInterval(loop);
+			}else{
+				console("search shuffle");
+				innt++;}
+			if (innt>6) {
+				window.location.reload(true);
+			}
+		},5000)
     };
 
 

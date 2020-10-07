@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloudt.js
+// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloud.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloud.js
 // @match        https://soundcloud.com/*
 // @run-at       document-start

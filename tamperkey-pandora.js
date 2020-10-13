@@ -35,15 +35,15 @@
 function get_time() {//dem lui reload
 		if (temp_number > 0) {
 			console.log(temp_number);
-			var loopGetDuration = setInterval(
+			let loopGetDuration = setInterval(
 				function () {
-					var Duration = document.querySelector('[data-qa="remaining_time"]');
+					let Duration = document.querySelector('[data-qa="remaining_time"]');
 					if (Duration !== null) {
 						clearInterval(loopGetDuration);
-						var totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
-						var current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+						let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
+						let current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
 						if (totalDuration > 0) {
-							var endtime = totalDuration - current_time;
+							let endtime = totalDuration - current_time;
 							console.log("Get duration Total " + endtime);
 							temp_number--;
 							setTimeout(get_time, (endtime + 5) * 1000);
@@ -70,12 +70,12 @@ function get_time() {//dem lui reload
 
 	var search_click=0;
 	function search_play(){
-		var current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
-		var demloi=0;
-		var demok=0;
-			var loopchecktime = setInterval(function(){
-				var temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
-				if(current_time==temp_time){
+		let current_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+		let demloi=0;
+		let demok=0;
+		let loopchecktime = setInterval(function(){
+			let temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
+				if(current_time.equals(temp_time)){
 					demloi++;				
 					}
 				if(demloi>3)				
@@ -93,9 +93,9 @@ function get_time() {//dem lui reload
 	};
 
 function repeatbtn() {
-		var loopsearch = setInterval(function() {
-			var Shufflealbum = document.querySelector('[data-qa="tuner_repeat_button"]');
-			var repeaaria = Shufflealbum.getAttribute("aria-label");
+	let loopsearch = setInterval(function() {
+		let Shufflealbum = document.querySelector('[data-qa="tuner_repeat_button"]');
+		let repeaaria = Shufflealbum.getAttribute("aria-label");
 				if (repeaaria == "Repeat all") {
 					console.log("Repeat");
 					clearInterval(loopsearch);
@@ -107,12 +107,13 @@ function repeatbtn() {
 
 function run() {
         console.log("Pandora");
-		var temp_load = 0;
+		let temp_load = 0;
         $(window).off('beforeunload.windowReload');
 		
-		var loopsearch = setInterval(function () {
-			var Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');
+		let loopsearch = setInterval(function () {
+			let Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');
 			if (Shufflealbum !== null) {
+				console.log("play");
 				clearInterval(loopsearch);
 				Shufflealbum.click();
 				setTimeout(repeatbtn, 10 * 1000);

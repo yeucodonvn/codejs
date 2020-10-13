@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         pandora
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.3.1
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @description  try to take over the world!
@@ -108,7 +108,7 @@ function repeatbtn() {
 function run() {
         console.log("Pandora");
 		let temp_load = 0;
-        $(window).off('beforeunload.windowReload');
+        //$(window).off('beforeunload.windowReload');
 		
 		let loopsearch = setInterval(function () {
 			let Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');

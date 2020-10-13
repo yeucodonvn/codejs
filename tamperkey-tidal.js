@@ -78,7 +78,7 @@
 			}, 2000);
 			search_click++;
 		};
-		if(search_click==10) {window.location.reload(true);};
+		if(search_click>=10) {window.location.reload(true);};
 	};
 	
 	function hmsToSecondsOnly(str) {

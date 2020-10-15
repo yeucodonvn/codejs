@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         pandora
 // @namespace    http://tampermonkey.net/
-// @version      0.3.2
+// @version      0.3.3
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @description  try to take over the world!

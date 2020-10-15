@@ -132,9 +132,11 @@
 				{
 					document.querySelector('.playback-controls__button--white-icon').click();
 					get_time();
+					demloi=0
 					clearInterval(loopchecktime);
 				}else{demok++;}
-				if(demok>3){clearInterval(loopchecktime);}
+				if(demok>3){clearInterval(loopchecktime);
+					demok=0;;}
 			}, 2000);
 		};
 	};

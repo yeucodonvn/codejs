@@ -72,9 +72,10 @@
 				{
 					document.querySelector('.playback-controls__button--white-icon').click();
 					get_time();	//gọi lại get_time để đếm người reload
+					demloi=0;
 					clearInterval(loopchecktime);
 				}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
-				if(demok>3){clearInterval(loopchecktime);}	// check demok 3 lần nếu đúng thì đừng lặp
+				if(demok>3){demok=0;clearInterval(loopchecktime);}	// check demok 3 lần nếu đúng thì đừng lặp
 			}, 5000);
 			search_click++;
 		};

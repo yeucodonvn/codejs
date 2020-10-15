@@ -75,19 +75,21 @@ function get_time() {//dem lui reload
 		let demok=0;
 		let loopchecktime = setInterval(function(){
 			let temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
-				if(current_time===temp_time){
+				if(current_time==temp_time){
 					demloi++;				
 					}
 				if(demloi>3)				
 				{	
+					clearInterval(loopchecktime);
 					console.log("search dung giua chung");
 					document.querySelector('.SkipButton.Tuner__Control__Button.Tuner__Control__SkipForward__Button.TunerControl').click();
 					get_time();	
 					search_click++;
-					clearInterval(loopchecktime);
+					demloi=0;
+					
 				}else{demok++;}				
 				if(demok>3){clearInterval(loopchecktime);}
-			}, 5000);
+			}, 10000);
 			
 		if(search_click==10) {window.location.reload(true);};
 	};

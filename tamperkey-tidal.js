@@ -75,7 +75,7 @@
 					clearInterval(loopchecktime);
 				}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
 				if(demok>3){clearInterval(loopchecktime);}	// check demok 3 lần nếu đúng thì đừng lặp
-			}, 2000);
+			}, 5000);
 			search_click++;
 		};
 		if(search_click>=10) {window.location.reload(true);};

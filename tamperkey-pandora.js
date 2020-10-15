@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         pandora
 // @namespace    http://tampermonkey.net/
-// @version      0.3.1
+// @version      0.3.2
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-pandora.js
 // @description  try to take over the world!
@@ -75,7 +75,7 @@ function get_time() {//dem lui reload
 		let demok=0;
 		let loopchecktime = setInterval(function(){
 			let temp_time = hmsToSecondsOnly(document.querySelector('[data-qa="elapsed_time"]').textContent.trim());
-				if(current_time.equals(temp_time)){
+				if(current_time===temp_time){
 					demloi++;				
 					}
 				if(demloi>3)				
@@ -87,7 +87,7 @@ function get_time() {//dem lui reload
 					clearInterval(loopchecktime);
 				}else{demok++;}				
 				if(demok>3){clearInterval(loopchecktime);}
-			}, 2000);
+			}, 5000);
 			
 		if(search_click==10) {window.location.reload(true);};
 	};
@@ -114,11 +114,14 @@ function run() {
 			let Shufflealbum = document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle');
 			if (Shufflealbum !== null) {
 				console.log("play");
+				setTimeout(() => {
+					document.querySelector('.ButtonRow__button.ButtonRow__button--shuffle').click();
+					setTimeout(repeatbtn, 10 * 1000);
+					setTimeout(get_time, 10 * 1000);
+					setInterval(search_play, 50 * 1000);
+				}, 10000);
 				clearInterval(loopsearch);
-				Shufflealbum.click();
-				setTimeout(repeatbtn, 10 * 1000);
-				setTimeout(get_time, 10 * 1000);
-				setInterval(search_play, 50 * 1000);
+				
 			} else {
 				temp_load++;
 				console.log("wait 10s");

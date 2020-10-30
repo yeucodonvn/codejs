@@ -254,7 +254,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			let shufflebtn = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
 			if(shufflebtn!==null){
 				console.log("wait 30s");
-				setTimeout(plfunc,10*60*60*1000);
+				setTimeout(plfunc,7*60*60*1000);
 				clearInterval(loop);
 			}else{
 				console("search shuffle");

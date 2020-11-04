@@ -12,10 +12,10 @@ forEach(myNodeList, function (index, value) {
 
 //=== distrokid
 
-let firstname ="firstname nhac si";
-let lastname ="lastname nhac si";
+const firstname ="firstname nhac si";
+const lastname ="lastname nhac si";
 
-let  track =['teen bafi hats',
+const  track =['teen bafi hats',
 'teen bafi hats'
 ];
 
@@ -29,7 +29,7 @@ if (track.length !== trackname.length) {
    }
 };
 
-let fname = document.querySelectorAll('[placeholder="First name"]');
+const fname = document.querySelectorAll('[placeholder="First name"]');
 foreac(fname,firstname);
 const lname = document.querySelectorAll('[placeholder="Last name"]');
 foreac(lname,lastname);
@@ -42,13 +42,13 @@ function foreac(element,name) {
 
 
 //=== unitedmaster
-let arname ="nhac si";
+const arname ="nhac si";
 
-let name = document.querySelectorAll('[placeholder="Enter Legal Names"]') ;
+const name = document.querySelectorAll('[placeholder="Enter Legal Names"]') ;
     for(let index = 0; index < name.length; index++) {
         name[index].value=arname;
    };
-let eletmen = document.querySelectorAll('[placeholder]');
+const eletmen = document.querySelectorAll('[placeholder]');
 for(let index = 0; index < eletmen.length; index++) {
     let temmp= eletmen[index].getAttribute('placeholder');
     if (temmp.indexOf("Add title for")>=0 ) {

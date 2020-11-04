@@ -38,7 +38,13 @@ function foreac(element,name) {
     for(let index = 0; index < element.length; index++) {
         trackname[index].value=name;
    }
-}
+   
+}/*
+fname.forEach(element, (firstname)=> {
+    element.value=firstname;
+    
+});*/
+
 
 
 //=== unitedmaster

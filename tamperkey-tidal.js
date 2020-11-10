@@ -32,6 +32,7 @@
 		console.log("click shuffleAll");
 		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
 		setTimeout(get_time, 10000);
+		repeat();
 	};
 	function checkstop(){
 		var stop =setInterval(function(){
@@ -44,6 +45,18 @@
 			}			
 		},5000)
 	};
+	function repeat() {
+		//class^="repeatButton--3iDaJ all--3BIEW"	data-type="button__repeatAll"
+		console.log("click repeat")
+		let loop = setInterval(function() {
+			let repeatt = document.querySelector('[class^="repeatButton"]')
+			let attribute = repeatt.getAttribute('data-type')
+			if (attribute=='button__repeatAll') {
+				clearInterval(loop);
+			}else{repeatt.click()};;
+		})
+
+	}
 	
 	function search_footer_player(){
 		var searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
@@ -180,7 +193,7 @@ var defaultOptions = {
     cancelable: true
 }
 
-//
+
 	function ruuun(){
 		setTimeout(clickshuffle,10*1000);
 		setInterval(search_footer_player,50*1000);

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.5.7
+// @version      2.6
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -37,11 +37,10 @@
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
 	
-	/*
+	
 	function seekt(){
 		let searchaudio = setInterval(function(){
 			if(REPEAT_NUMB>0){
-				console.log("REPEAT_NUMB");
 				let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 				if(tabsound==true){
 					clearInterval(searchaudio);
@@ -65,7 +64,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 							//clickPlay();
 							setTimeout(seekt,2000);
 						}else{
-							setTimeout(seekt,endtime*1000);
+							rnd_play_type(endtime*1000);
 							REPEAT_NUMB--;
 						}
 					},rndplay*1000,rndend);
@@ -73,7 +72,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			} else {clickstop();}
 		},2000);
 	};
-	*/
+	
 	
     function setRepeatAll(){
 		console.log("Click Repeat");
@@ -104,11 +103,12 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
                         if(playBtn == null){
                            clearInterval(loopClickRepeat);
                         }
-                    },5000);*/
+					},5000);*/
+					setTimeout(clickNext_first, 30 * 1000);
+        			setTimeout(setRepeatAll, 30 * 1000);
 					clearInterval(loopClickRepeat);
                 }
             }
-
         }, 10000);
     };
 	
@@ -176,9 +176,47 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	function clickNext_first(){
 	    console.log("Click First Next");
         let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
-        repeatElm.click();
+		repeatElm.click();
+		let innt=0;
+		let loop = setInterval(function() {
+			let timmeee=document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining')
+			if(timmeee!==null){
+				console.log("wait 30s");
+				rnd_play_type(3*1000);
+				clearInterval(loop);
+			}else{
+				console("search playback-lcd");
+				innt++;}
+			if (innt>10) {
+				window.location.reload(true);
+			}
+		},5000)
     };
 	
+	function rnd_play_type(time) {
+		let rdn = Math.floor(Math.random() * 40);
+		console.log("randon "+rdn);
+		if (rdn%2===0) {
+			setTimeout(clickNext,time+3000);
+			console.log(REPEAT_NUMB+" play next btn");
+		}else if (rdn<20) {
+			setTimeout(get_time_full,time+3000);
+			console.log(REPEAT_NUMB+" play full");
+		} else {
+			setTimeout(seekt,time+3000);
+			console.log(REPEAT_NUMB+" play seek");
+		}
+
+	}
+	function clickNext() {
+		if(REPEAT_NUMB>0){
+			let rdn=(Math.floor(Math.random() * (128 - 88))+88);
+			let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
+			repeatElm.click();
+			rnd_play_type(rdn*1000);
+		} else {clickstop();
+				}
+	}
 
 	function clickstop(){
 	    console.log("Click Stop");
@@ -193,9 +231,6 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 		 
     };
 	
-	
-
-	
 	function hmsToSecondsOnly(str) {
         let p = str.split(':'),            s = 0, m = 1;
 
@@ -207,16 +242,15 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
         return s;
     };
 	
-	function get_time() {		//dem lui reload
+	function get_time_full() {		//dem lui reload
 			if(REPEAT_NUMB>0){
-				console.log(REPEAT_NUMB);
 				let music = MusicKit.getInstance();
 				var playbacktime = music.currentPlaybackDuration;		//hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__playback-time').textContent.trim());
 				let endtime = music.currentPlaybackTimeRemaining; //hmsToSecondsOnly(document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining').textContent.trim());
 						if(playbacktime>0&&endtime>0){
 							console.log("Get End Time "+endtime);
 							REPEAT_NUMB--;
-							setTimeout(get_time,(endtime+20)*1000);
+							rnd_play_type((endtime+20)*1000);
 						}else
 						{
 							//nếu total time =0 thì next bài
@@ -230,17 +264,6 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
     var REPEAT_NUMB = 200;
 	function plfunc(){
 		setTimeout(clickPlay, 10 * 1000);
-		setTimeout(clickNext_first, 30 * 1000);
-        setTimeout(setRepeatAll, 30 * 1000);
-		
-        //await setTimeout(clickNext,(Math.floor(Math.random() * (128 - 88))+88)*1000);
-		let timmeee=document.querySelector('.web-chrome-playback-lcd__time-end.web-chrome-playback-lcd__time-end--remaining')
-		if(timmeee!==null){
-			console.log("wait 30s");
-			setTimeout(get_time,30*1000);
-		}
-		else {	setTimeout(get_time,10*1000);	};
-
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,60*1000);
     	setInterval(Failed_to_fetch_err,50*1000);
@@ -249,15 +272,14 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
     function run() {
         console.log("Apple Music AutoPlay - MANAGER");
 		let innt=0;
-		//$(window).off('beforeunload.windowReload');
 		let loop = setInterval(function() {
 			let shufflebtn = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
 			if(shufflebtn!==null){
-				console.log("wait 30s");
-				setTimeout(plfunc,7*60*60*1000);
+				console.log("wait 1 phut");
+				setTimeout(plfunc,60*1000);
 				clearInterval(loop);
 			}else{
-				console("search shuffle");
+				console.log("search shuffle");
 				innt++;}
 			if (innt>6) {
 				window.location.reload(true);

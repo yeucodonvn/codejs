@@ -195,16 +195,16 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	
 	function rnd_play_type(time) {
 		let rdn = Math.floor(Math.random() * 40);
-		console.log("randon "+rdn);
+		console.log("randon ------------- "+rdn);
 		if (rdn%2===0) {
 			setTimeout(clickNext,time+3000);
-			console.log(REPEAT_NUMB+" play next btn");
+			console.log(REPEAT_NUMB+" ------------- play next btn");
 		}else if (rdn<20) {
 			setTimeout(get_time_full,time+3000);
-			console.log(REPEAT_NUMB+" play full");
+			console.log(REPEAT_NUMB+" ------------- play full");
 		} else {
 			setTimeout(seekt,time+3000);
-			console.log(REPEAT_NUMB+" play seek");
+			console.log(REPEAT_NUMB+" ------------- play seek");
 		}
 
 	}

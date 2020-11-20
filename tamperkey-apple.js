@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Apple Music AutoPlay - MANAGER
-// @version      2.6
+// @version      2.7
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -36,6 +36,7 @@
 	onreadystatechange
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
+	
 	
 	
 	function seekt(){
@@ -282,9 +283,11 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				console.log("search shuffle");
 				innt++;}
 			if (innt>6) {
-				window.location.reload(true);
+				if (window.location.href=="https://music.apple.com/account/settings") {
+					clearInterval(loop);
+				}else{window.location.reload(true);}
 			}
-		},5000)
+		},10000)
     };
 
 

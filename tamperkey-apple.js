@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - MANAGER
+// @name         Apple Music AutoPlay - version 2.7
 // @version      2.7
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
@@ -271,7 +271,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	}
 
     function run() {
-        console.log("Apple Music AutoPlay - MANAGER");
+        console.log("Apple Music AutoPlay - version 2.7");
 		let innt=0;
 		let loop = setInterval(function() {
 			let shufflebtn = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");

@@ -283,7 +283,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				console.log("search shuffle");
 				innt++;}
 			if (innt>6) {
-				if (window.location.href=="https://music.apple.com/account/settings") {
+				let url = window.location.href;
+
+				if (url.search("/account/settings")>=0) {
 					clearInterval(loop);
 				}else{window.location.reload(true);}
 			}

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 0.9
-// @version      0.9
+// @name         Tidal - version 1.0
+// @version      1.0
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -37,7 +37,7 @@
 		var stop =setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
-				simulate(document.querySelector('[data-test="next"]'), "click");
+				simulate(document.querySelector('.playback-controls__button--white-icon[data-test="next"]'), "click");
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
@@ -82,7 +82,7 @@
 					}
 				if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
 				{
-					document.querySelector('.playback-controls__button--white-icon').click();
+					document.querySelector('.playback-controls__button--white-icon[data-test="next"]').click();
 					get_time();	//gọi lại get_time để đếm người reload
 					demloi=0;
 					clearInterval(loopchecktime);
@@ -122,14 +122,14 @@
 								temp_number--;
 								setTimeout(get_time,(endtime+5)*1000);
 							}else{
-								document.querySelector('.playback-controls__button--white-icon').click();
+								document.querySelector('.playback-controls__button--white-icon[data-test="next"]').click();
 								REPEAT_NUMB--;
 							}
 						}
 					},5000);
 			} else {location.reload(true);}
 	};
-	
+
 	// silulate mouse
 function simulate(element, eventName)
 {

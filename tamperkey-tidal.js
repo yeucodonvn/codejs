@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal
-// @version      0.8
+// @name         Tidal - version 0.9
+// @version      0.9
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -14,7 +14,7 @@
 (function() {
     'use strict';
 
-    var REPEAT_NUMB = 200;        
+    var REPEAT_NUMB = 200;
 	//auto next
 	/*@re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
    	function setRandomInterval(f, min, max) {
@@ -27,8 +27,7 @@
 				REPEAT_NUMB--;
 	};
 
-	function clickshuffle(){	
-	    
+	function clickshuffle(){
 		console.log("click shuffleAll");
 		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
 		setTimeout(get_time, 10000);
@@ -42,7 +41,7 @@
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
-			}			
+			}
 		},5000)
 	};
 	function repeat() {
@@ -68,7 +67,7 @@
 
 	var search_click=0;
 	function search_play_spin_load(){
-		var spinload=document.querySelector('.svg--3cSMl.spinningCircle--PrOB9');
+		var spinload=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
 		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		var demloi=0;
 		var demok=0;

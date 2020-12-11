@@ -29,7 +29,7 @@
 
 	function clickshuffle(){
 		console.log("click shuffleAll");
-		document.querySelector("[data-track--button-id='shuffleAll'][data-track--content-type='playlist']").click();
+		document.querySelector("[data-test='shuffle-all'][data-track--content-type='playlist']").click();
 		setTimeout(get_time, 10000);
 		repeat();
 	};
@@ -56,7 +56,7 @@
 		})
 
 	}
-	
+
 	function search_footer_player(){
 		var searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
 		if(searchft==null){
@@ -93,9 +93,9 @@
 		};
 		if(search_click>=10) {window.location.reload(true);};
 	};
-	
+
 	function hmsToSecondsOnly(str) {
-        var p = str.split(':'),  
+        var p = str.split(':'),
             s = 0, m = 1;
         while (p.length > 0) {
             s += m * parseInt(p.pop(), 10);
@@ -104,7 +104,7 @@
 
         return s;
     };
-	
+
 	var temp_number=200;
 	function get_time() {//dem lui reload
 			if(temp_number>0){

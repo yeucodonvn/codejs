@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.0
-// @version      1.0
+// @name         Tidal - version 1.1
+// @version      1.1
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js

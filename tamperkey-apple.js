@@ -227,7 +227,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 			if(stoplb == null ||tabsound==false){
 				setTimeout(function (){window.location.reload(true);},20*1000);
-				if(URL.count>1){
+				/*if(URL.count>1){
 					let currenturl=window.location.href;
 					if(URL.find(currenturl)>-1){
 						let indexurl = URL.findIndex(currenturl);
@@ -235,7 +235,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 						 (indexurl+1>URL.count)? tempurl=URL[indexurl+1]:tempurl=URL[0];
 						 window.location.href = 'https://music.apple.com/gb/playlist/'+tempurl;
 					}
-				}
+				}*/
 				clearInterval(loopstop);
 			}else{stoplb.click();}
 		},5000)

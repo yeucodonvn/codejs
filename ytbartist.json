@@ -1,0 +1,7 @@
+{
+    "artist": [
+      { "name":"artist 1", "song":[ "song 1", "song 2", "song 3" ] },
+      { "name":"artist 2", "song":[ "song 1", "song 2", "song 3" ] },
+      { "name":"artist 3", "song":[ "song 1", "song 2", "song 3" ] }
+    ]
+   }

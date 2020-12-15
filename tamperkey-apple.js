@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.7
-// @version      2.7
+// @name         Apple Music AutoPlay - version 2.9
+// @version      2.9
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -26,7 +26,7 @@
 	music.currentPlaybackDuration
 	kết hợp seektotime với gettime và check audio sound = true thay cho addEventListener
 	music.addEventListener("onPlaybackStateChange"
-	
+
 	let music = MusicKit.getInstance();
 	music.addEventListener("onPlaybackStateChange", function(onPlaybackStateChange){alert(state);})
 
@@ -36,9 +36,10 @@
 	onreadystatechange
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
-	
-	
-	
+
+	let URL = ['new-list/pl.u-55D6ZJ1H6MDX680','new-list-2/pl.u-pMylg4aFWoZ5W4l'];
+
+
 	function seekt(){
 		let searchaudio = setInterval(function(){
 			if(REPEAT_NUMB>0){
@@ -48,11 +49,10 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 					let music = MusicKit.getInstance();
 					let duration = parseInt(music.currentPlaybackDuration);
 					let rndplay = 90 + Math.floor(Math.random() * 30);
-					let rndstart = Math.floor(Math.random() * (duration - rndplay - 5));	
+					let rndstart = Math.floor(Math.random() * (duration - rndplay - 5));
 					console.log("start "+rndstart+" Play "+rndplay);
 					music.seekToTime(rndstart);
 					let rndend = Math.floor(duration*0.95);
-					
 					setTimeout(function (rndend){
 						//console.log("end song "+rndend);
 						let duration = parseInt(music.currentPlaybackDuration);
@@ -68,13 +68,13 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 							rnd_play_type(endtime*1000);
 							REPEAT_NUMB--;
 						}
-					},rndplay*1000,rndend);
+					},rndplay*1000,rndend);// truyền rndend vào function, nếu k thì k nhận d
 				}
 			} else {clickstop();}
 		},2000);
 	};
-	
-	
+
+
     function setRepeatAll(){
 		console.log("Click Repeat");
         let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__secondary-btn[aria-label='Repeat']");
@@ -112,7 +112,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
             }
         }, 10000);
     };
-	
+
 	var search_click=0;
 	function searchplaybtn(){
 		let nexttElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
@@ -132,7 +132,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			}
 		if(search_click==25) {window.location.reload(true);};
 	};
-	
+
 	function Failed_to_fetch_err(){
 		let dialogok=document.querySelector("#musickit-dialog");
 		if(dialogok!==null){
@@ -146,7 +146,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			if(titleok=="MEDIA_LICENSE"){
 				window.location.reload(true);
 			};
-			
+
 			if(titleok=="MEDIA_SESSION: TypeError: Cannot read property 'setServerCertificate' of null"){
 				document.querySelector("#mk-dialog-actions > button").click();
 			};
@@ -158,9 +158,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				document.querySelector("#dt-modal-container > div > div.dt-modal__dialog-content > div > article > div.web-error-dialog__bottom-content > button").click();
 			};
 		}
-		
+
     };
-	
+
 	var check_disable=0;
 	function searchplaydisable(){
 		let playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
@@ -193,7 +193,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			}
 		},5000)
     };
-	
+
 	function rnd_play_type(time) {
 		let rdn = Math.floor(Math.random() * 40);
 		console.log("randon ------------- "+rdn);
@@ -212,11 +212,12 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	function clickNext() {
 		if(REPEAT_NUMB>0){
 			let rdn=(Math.floor(Math.random() * (128 - 88))+88);
-			let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
-			repeatElm.click();
-			rnd_play_type(rdn*1000);
-		} else {clickstop();
-				}
+			setTimeout(() => {
+				let repeatElm = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']");
+				repeatElm.click();
+				rnd_play_type(3*1000);
+			}, rdn);
+		} else {clickstop();}
 	}
 
 	function clickstop(){
@@ -226,12 +227,20 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 			if(stoplb == null ||tabsound==false){
 				setTimeout(function (){window.location.reload(true);},20*1000);
+				if(URL.count>1){
+					let currenturl=window.location.href;
+					if(URL.find(currenturl)>-1){
+						let indexurl = URL.findIndex(currenturl);
+						let tempurl ;
+						 (indexurl+1>URL.count)? tempurl=URL[indexurl+1]:tempurl=URL[0];
+						 window.location.href = 'https://music.apple.com/gb/playlist/'+tempurl;
+					}
+				}
 				clearInterval(loopstop);
 			}else{stoplb.click();}
 		},5000)
-		 
     };
-	
+
 	function hmsToSecondsOnly(str) {
         let p = str.split(':'),            s = 0, m = 1;
 
@@ -242,7 +251,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
         return s;
     };
-	
+
 	function get_time_full() {		//dem lui reload
 			if(REPEAT_NUMB>0){
 				let music = MusicKit.getInstance();
@@ -251,7 +260,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 						if(playbacktime>0&&endtime>0){
 							console.log("Get End Time "+endtime);
 							REPEAT_NUMB--;
-							rnd_play_type((endtime+20)*1000);
+							rnd_play_type((endtime+10)*1000);
 						}else
 						{
 							//nếu total time =0 thì next bài
@@ -261,7 +270,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			} else {clickstop();
 					}
 	};
-	
+
     var REPEAT_NUMB = 200;
 	function plfunc(){
 		setTimeout(clickPlay, 10 * 1000);
@@ -283,9 +292,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 				console.log("search shuffle");
 				innt++;}
 			if (innt>6) {
-				let url = window.location.href;
+				let urll = window.location.href;
 
-				if (url.search("/account/settings")>=0) {
+				if (urll.search("/account/settings")>=0) {
 					clearInterval(loop);
 				}else{window.location.reload(true);}
 			}

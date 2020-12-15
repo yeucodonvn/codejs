@@ -67,13 +67,13 @@
 
 	var search_click=0;
 	function search_play_spin_load(){
-		var spinload=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
+		var playbtn=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
 		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		var demloi=0;
 		var demok=0;
 		// so sánh giây có bị dừng
 		//if(spinload==null && current_time !== 0){
-		if(spinload==null){
+		if(playbtn==null){
 			console.log("search dung giua chung");
 			var loopchecktime = setInterval(function(){
 				var temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());

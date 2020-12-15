@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - MANAGER
-// @version      0.6.8
+// @name         YouTube AutoPlay - version 0.8
+// @version      0.8
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -23,7 +23,8 @@
 	var LISTEN_DURATION_RANGE=10;
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
-	var ARTIST_ID='PL_2SVRWG1wuNYWc4mYWLmg_rIxqnG97Pi';
+
+    let urlarr = ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"];
 
 	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
     $.ajax ( {
@@ -45,7 +46,32 @@
         }
     } );*/
 
+    /*
+    search URL tồn tại key list
+    get array list từ json
+    so sánh để lấy ID list, nextx list tiếp lần f5 tiếp theo
+    var ojb = {
+    "ytb" : ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"],
+    "apple" : ["pl.u-55D6ZJ1H6MDX680","url2","url3"]
+            }
+    ;alert(ojb.ytb.indexOf('PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E'));
 
+    var obj= ytbartist.json;
+    for (i in obj.song) {
+        let name = obj.artist[i].name;
+        for (j in obj.artist[i].song) {
+          let songname=  obj.artist[i].song[j];
+        }
+    }
+    let song ="Sleep In Her Rodeo"
+        let cli= document.querySelector('[title="'+song+'"]');
+        if (cli!==null) {
+            document.querySelector("#play-button").click();
+        }else{//next search
+            "https://music.youtube.com/search?q=%22"+songname+"%22%2B%22"+name+"%22"
+        }
+
+    */
     function setShufflealbum(){
         let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
 		let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
@@ -59,7 +85,7 @@
         let element = document.querySelector(".shuffle.style-scope.ytmusic-player-bar");
 		element.click();
     };
-	
+
     function setRepeatAll(){
 		console.log("set RepeatAll");
         let repeatElm = document.querySelector(".repeat.style-scope.ytmusic-player-bar");
@@ -85,9 +111,8 @@
 
         return s;
     };
-	
-	
-		
+//"sr-Cyrl-RS"
+
     function seekSliderBar(gotoPercent, listenDuration){
         let ytplayer = document.getElementById("movie_player");
 
@@ -99,7 +124,6 @@
         if(ADDED_EVENT!==1){
             ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html		chỗ này để cập nhật mỗi khi chạy next bài mới
                 if(state === 0){
-                    if(CORRECT_ARTIST){
                         console.log(REPEAT_NUMB);
                         if(REPEAT_NUMB > 0){
                             clickLike();
@@ -117,19 +141,31 @@
                             let rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
-							ytplayer.stopVideo();
-							setTimeout(location.reload(true),5000);
+							stopvideo(ytplayer);
                         }
                         REPEAT_NUMB--;
-                    }else{
-                        window.location.href = 'https://music.youtube.com/playlist?list='+ARTIST_ID;
-                    }
                 }
             });
 
             ADDED_EVENT = 1;
         }
     };
+    function stopvideo(ytplayer) {
+        ytplayer.stopVideo();
+        setTimeout(function () {
+        if(urlarr.length>1){
+            let currenturl=window.location.href;
+            urlarr.forEach(element => {
+                if(currenturl.search(element)>-1){
+                    let indexurl = urlarr.indexOf(element);
+                    let tempurl ;
+                    (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+                    window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
+                }
+            });
+        }else{window.location.href = 'https://music.youtube.com/playlist?list='+urlarr[0];};
+        },5000);
+    }
 
     function clickLike(){
         let loopClickLikeRepeat = setInterval(function(){
@@ -174,18 +210,19 @@
             }
 			if(intcheck>30)(location.reload(true));
         },60 * 1000);
-		
     };
 
 	function running() {
 		console.log("PLAY");
-		setShufflealbum();
-        setRepeatAll();
-		setShuffle()			//setTimeout(setShuffle(),2000,2000);
-		checkVideoPaused();
-		checkspinloader()
+        setShufflealbum();
+        if (document.documentElement.lang=="en") {
+            setRepeatAll();
+            setShuffle()//setTimeout(setShuffle(),2000,2000);
+            checkVideoPaused();
+		    checkspinloader()
+        }
+
 		clickLike();
-		
         let loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
             let totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
@@ -204,7 +241,7 @@
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		// $(window).off('beforeunload.windowReload');
-        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
+        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
 		if(Shufflealbum==null){
 			console.log("wait 40s");
 			setTimeout(running,40*1000);

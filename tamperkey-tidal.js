@@ -14,7 +14,8 @@
 (function() {
     'use strict';
 
-    var REPEAT_NUMB = 200;
+	var REPEAT_NUMB = 200;
+	let urlarr = ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
 	//auto next
 	/*@re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
    	function setRandomInterval(f, min, max) {
@@ -127,7 +128,17 @@
 							}
 						}
 					},5000);
-			} else {location.reload(true);}
+			} else {if(urlarr.length>1){
+				let currenturl=window.location.href;
+				urlarr.forEach(element => {
+					if(currenturl.search(element)>-1){
+						let indexurl = urlarr.indexOf(element);
+						let tempurl ;
+						(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+						window.location.href = 'https://listen.tidal.com/playlist/'+tempurl;
+					}
+				});
+			}else{window.location.href = 'https://listen.tidal.com/playlist/'+urlarr[0];};;}
 	};
 
 	function ruuun(){

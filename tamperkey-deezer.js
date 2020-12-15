@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         deezer version 0.4.77
+// @name         deezer version 0.4.7
 // @namespace    http://tampermonkey.net/
 // @version      0.4.7
 

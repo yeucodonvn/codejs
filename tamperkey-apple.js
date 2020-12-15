@@ -37,7 +37,7 @@
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
 
-	let URL = ['new-list/pl.u-55D6ZJ1H6MDX680','new-list-2/pl.u-pMylg4aFWoZ5W4l'];
+	let urlarr = ["new-list/pl.u-55D6ZJ1H6MDX680","new-list-2/pl.u-pMylg4aFWoZ5W4l"];
 
 
 	function seekt(){
@@ -226,16 +226,17 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			let stoplb = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Pause']");
 			let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 			if(stoplb == null ||tabsound==false){
-				setTimeout(function (){window.location.reload(true);},20*1000);
-				/*if(URL.count>1){
+				if(urlarr.length>1){
 					let currenturl=window.location.href;
-					if(URL.find(currenturl)>-1){
-						let indexurl = URL.findIndex(currenturl);
-						let tempurl ;
-						 (indexurl+1>URL.count)? tempurl=URL[indexurl+1]:tempurl=URL[0];
-						 window.location.href = 'https://music.apple.com/gb/playlist/'+tempurl;
-					}
-				}*/
+					urlarr.forEach(element => {
+						if(currenturl.search(element)>-1){
+							let indexurl = urlarr.indexOf(element);
+							let tempurl ;
+							(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+							window.location.href = 'https://music.apple.com/gb/playlist/'+tempurl;
+						}
+					});
+				}else{setTimeout(function (){window.location.reload(true);},20*1000);};
 				clearInterval(loopstop);
 			}else{stoplb.click();}
 		},5000)

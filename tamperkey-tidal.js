@@ -89,11 +89,11 @@
 					demloi=0;
 					clearInterval(loopchecktime);
 				}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
-				if(demok>3){demok=0;clearInterval(loopchecktime);}	// check demok 3 lần nếu đúng thì đừng lặp
+				if(demok>3){demok=0;clearInterval(loopchecktime)}	// check demok 3 lần nếu đúng thì đừng lặp
 			}, 5000);
 			search_click++;
 		};
-		if(search_click>=10) {window.location.reload(true);};
+		if(search_click>=10) {window.location.reload(true)};
 	};
 
 	function hmsToSecondsOnly(str) {

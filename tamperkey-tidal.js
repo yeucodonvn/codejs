@@ -30,7 +30,8 @@
 
 	function clickshuffle(){
 		console.log("click shuffleAll");
-		document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']").click();
+		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+		shufflebtn.click();
 		setTimeout(get_time, 10000);
 		repeat();
 	};
@@ -59,7 +60,7 @@
 	}
 
 	function search_footer_player(){
-		var searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
+		let searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
 		if(searchft==null){
 			console.log("search footer player");
 			clickshuffle();
@@ -68,16 +69,16 @@
 
 	var search_click=0;
 	function search_play_spin_load(){
-		var playbtn=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
-		var current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-		var demloi=0;
-		var demok=0;
+		let playbtn=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
+		let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+		let demloi=0;
+		let demok=0;
 		// so sánh giây có bị dừng
 		//if(spinload==null && current_time !== 0){
 		if(playbtn==null){
 			console.log("search dung giua chung");
-			var loopchecktime = setInterval(function(){
-				var temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+			let loopchecktime = setInterval(function(){
+				let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 				if(current_time==temp_time){	//lần đầu check curent=tem dem loi = 1,
 					demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1 
 					}
@@ -96,7 +97,7 @@
 	};
 
 	function hmsToSecondsOnly(str) {
-        var p = str.split(':'),
+        let p = str.split(':'),
             s = 0, m = 1;
         while (p.length > 0) {
             s += m * parseInt(p.pop(), 10);
@@ -110,13 +111,13 @@
 	function get_time() {//dem lui reload
 			if(temp_number>0){
 				console.log(temp_number);
-				var loopGetDuration = setInterval(
+				let loopGetDuration = setInterval(
 				function(){
 						var Duration = document.querySelector('[data-test="duration-time"]');
 						if(Duration!==null){
 							clearInterval(loopGetDuration);
-							var totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
-							var current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+							let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
+							let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 							if(totalDuration>0){
 								var endtime=totalDuration-current_time;
 								console.log("Get duration Total "+endtime);

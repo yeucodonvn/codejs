@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.2
-// @version      1.2
+// @name         Tidal - version 1.3
+// @version      1.3
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -36,7 +36,7 @@
 		repeat();
 	};
 	function checkstop(){
-		var stop =setInterval(function(){
+		let stop = setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"]').click();
@@ -69,13 +69,13 @@
 
 	var search_click=0;
 	function search_play_spin_load(){
-		let playbtn=document.querySelector('.playback-controls__button--white-icon.playbackToggle--3B2S9[aria-label="Pause"]');
+		let playbtn=document.querySelector('.isLoading--1GDqH');
 		let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		let demloi=0;
 		let demok=0;
 		// so sánh giây có bị dừng
 		//if(spinload==null && current_time !== 0){
-		if(playbtn==null){
+		if(playbtn!==null){
 			console.log("search dung giua chung");
 			let loopchecktime = setInterval(function(){
 				let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());

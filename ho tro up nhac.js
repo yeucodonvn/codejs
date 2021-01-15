@@ -83,6 +83,27 @@ for(let index = 0; index < eletmen.length; index++) {
     }
 };
 
+//=============== tax distrokid =====
+//about:config -> dom.event.clipboardevents.enabled -> false
+let  info =['Juan Munoz','593052120','2788 W. Huron Dr.','Deltona','Fl','32738','3868482670'];
+
+document.querySelector('[value="Individual/Sole Proprietor or Single-Member LLC"]').click();
+
+document.querySelector('[name="individualName"]').value=info[0];
+
+document.querySelector("#taxUnitedStates > form > table > tbody > tr:nth-child(12) > td:nth-child(2) > input").value=info[1];
+
+document.querySelector('[name="addressStreet1"]').value=info[2];
+
+document.querySelector('[name="addressCity"]').value=info[3];
+document.querySelector('[name="addressPostalCode"]').value=info[5];
+document.querySelector('[name="phone"]').value=info[6];
+
+document.querySelector('[name="signature"]').value=info[0];
+
+document.querySelector('.taxAffirmation').click();
+
+
 
 
 //==== nháp 

@@ -183,7 +183,7 @@
 		let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
         let repeatElm = document.querySelector("#player-page");
         let repeatLabel = repeatElm.getAttribute("style");
-            if(repeatLabel == "visibility: hidden;"){
+            if(Shufflealbum !==null &&repeatLabel == "visibility: hidden;"){
 				console.log("player-page");
                 Shufflealbum.click();
             }

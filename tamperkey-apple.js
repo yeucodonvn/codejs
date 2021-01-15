@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9
-// @version      2.9
+// @name         Apple Music AutoPlay - version 2.9.1
+// @version      2.9.1
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -233,7 +233,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 							let indexurl = urlarr.indexOf(element);
 							let tempurl ;
 							(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-							window.location.href = 'https://music.apple.com/gb/playlist/'+tempurl;
+							window.location.href = 'https://music.apple.com/us/playlist/'+tempurl;
 						}
 					});
 				}else{setTimeout(function (){window.location.reload(true);},20*1000);};

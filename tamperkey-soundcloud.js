@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         soundcloud
+// @name         soundcloud 0.1
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -48,9 +48,70 @@
 				} else {
 					console.log("search play btn");
 				}
-			
 		}, 5000);
 	};
+	
+	function repeatpp() {
+		let loop = setInterval(function() {
+			let element = document.querySelector(".repeatControl.sc-ir");
+			let repeatLabel = element.getAttribute("class");
+			if (repeatLabel !== "repeatControl sc-ir m-all") {
+			console.log("click shuffle");
+			element.click();
+			}else{clearInterval(loop);}
+		},1000)
+
+	};
+	function shuffle() {
+		var element = document.querySelector('[title="Shuffle"]');
+		var repeatLabel = element.getAttribute("class");
+		if (repeatLabel !== "shuffleControl sc-ir m-shuffling") {
+			console.log("click shuffle");
+			element.click();
+			clickLike();
+			clickFollow();
+		}
+		//setInterval(next, 80*1000);
+	};
+
+	function clickLike(){
+        let loopClickLikeRepeat = setInterval(function(){
+            let btnRender = document.querySelector('[aria-label="Like"]');
+            if(btnRender != null){
+                if(Math.floor(Math.random() * 125) > 100){
+                    console.log("Like Click");
+					btnRender.click();
+                }
+                clearInterval(loopClickLikeRepeat);
+            }
+        },100 * 1000);
+	}
+	
+	function clickFollow(){
+        let loopClickLikeRepeat = setInterval(function(){
+            let btnRender = document.querySelector('[aria-label="Follow"]');
+            if(btnRender != null){
+                if(Math.floor(Math.random() * 105) > 100){
+                    console.log("Like Click");
+					btnRender.click();
+                }
+                clearInterval(loopClickLikeRepeat);
+            }
+        },100 * 1000);
+	}
+
+	function next() {
+		console.log("click next");
+		let loop = setInterval(function(){
+			if(Math.floor(Math.random() * 15) > 10){
+				console.log("Like Click");
+				document.querySelector('.sc-button-like.playbackSoundBadge__like.sc-button.sc-button-small.sc-button-icon.sc-button-responsive').click();
+			}
+			document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next").click();
+		},70*1000)
+	}
+
+	/*
 	function hmsToSecondsOnly(str) {
 		var p = str.split(':'),
 			s = 0, m = 1;
@@ -62,41 +123,7 @@
 
 		return s;
 	};
-	function repeatpp() {
-		let loop = setInterval(function() {
-			let element = document.querySelector(".repeatControl.sc-ir");
-			let repeatLabel = element.getAttribute("class");
-			if (repeatLabel !== "repeatControl sc-ir m-all") {
-			console.log("click shuffle");
-			element.click();
-			}else{clearInterval(loop);}
-		},1000)
-		
-	};
-	function shuffle() {
-		var element = document.querySelector('[title="Shuffle"]');
-		var repeatLabel = element.getAttribute("class");
-		if (repeatLabel !== "shuffleControl sc-ir m-shuffling") {
-			console.log("click shuffle");
-			element.click();
-		}
-		setInterval(next, 80*1000);
-	};
 
-	
-	function next() {
-		console.log("click next");
-		let loop = setInterval(function(){
-			if(Math.floor(Math.random() * 15) > 10){
-				console.log("Like Click");
-				document.querySelector('.sc-button-like.playbackSoundBadge__like.sc-button.sc-button-small.sc-button-icon.sc-button-responsive').click();
-			}
-			document.querySelector(".skipControl.sc-ir.playControls__control.playControls__next.skipControl__next").click();
-		},70*1000)
-	}
-	// chưa làm fund like
-
-	/*
 		function f() {//dem lui reload
 				if(temp_number>0){
 					console.log(temp_number);

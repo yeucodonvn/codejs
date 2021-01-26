@@ -85,7 +85,7 @@ for(let index = 0; index < eletmen.length; index++) {
 
 //=============== tax distrokid =====
 //about:config -> dom.event.clipboardevents.enabled -> false
-let  info =['Juan Munoz','593052120','2788 W. Huron Dr.','Deltona','Fl','32738','3868482670'];
+let  info =['Teresa Moore','337547463','37 Myer','Bob White','Wv','25028','3042458068'];
 
 document.querySelector('[value="Individual/Sole Proprietor or Single-Member LLC"]').click();
 

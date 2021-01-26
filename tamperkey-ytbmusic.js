@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8
-// @version      0.8
+// @name         YouTube AutoPlay - version 0.8.1
+// @version      0.8.1
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -24,7 +24,8 @@
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
 
-    let urlarr = ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"];
+    let urlarr = ["PL_2SVRWG1wuMy0t89RN7jijHIZIDxmlkb"];
+    //list cu  ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"];
 
 	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
     $.ajax ( {

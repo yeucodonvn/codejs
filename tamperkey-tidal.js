@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.3
-// @version      1.3
+// @name         Tidal - version 1.3.1
+// @version      1.3.1
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -15,7 +15,9 @@
     'use strict';
 
 	var REPEAT_NUMB = 200;
-	let urlarr = ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
+	let urlarr = ["8f632cdf-74ce-4a09-99b1-956fe453582a"];
+	//list cu ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
+
 	//auto next
 	/*@re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
    	function setRandomInterval(f, min, max) {

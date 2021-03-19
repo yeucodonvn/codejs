@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.3.1
-// @version      1.3.1
+// @name         Tidal - version 1.3.2
+// @version      1.3.2
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -18,8 +18,22 @@
 	let urlarr = ["8f632cdf-74ce-4a09-99b1-956fe453582a"];
 	//list cu ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
 
-	//auto next
-	/*@re quire  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
+	/*//@require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
+	// var URLsc;
+	// $.ajax ( {
+	// 	type:       'GET',
+	// 	url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/URL.json',
+	// 	dataType:   'JSON',
+	// 	success:    function (apiJSON) {
+	// 		let PARAMS = apiJSON;
+	// 		URLsc=PARAMS.tidal;
+	// 	},
+	// 	error:      function(err){
+	// 		alert("Cannot load JSON file");
+	// 		alert(err);
+	// 	}
+	// });
+
    	function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {
@@ -131,17 +145,20 @@
 							}
 						}
 					},5000);
-			} else {if(urlarr.length>1){
-				let currenturl=window.location.href;
-				urlarr.forEach(element => {
-					if(currenturl.search(element)>-1){
-						let indexurl = urlarr.indexOf(element);
-						let tempurl ;
-						(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-						window.location.href = 'https://listen.tidal.com/playlist/'+tempurl;
-					}
-				});
-			}else{window.location.href = 'https://listen.tidal.com/playlist/'+urlarr[0];};;}
+			} else {
+			// 	if(urlarr.length>1){
+			// 	let currenturl=window.location.href;
+			// 	urlarr.forEach(element => {
+			// 		if(currenturl.search(element)>-1){
+			// 			let indexurl = urlarr.indexOf(element);
+			// 			let tempurl ;
+			// 			(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+			// 			window.location.href = 'https://listen.tidal.com/playlist/'+tempurl;
+			// 		}
+			// 	});
+			// }else{window.location.href = 'https://listen.tidal.com/playlist/'+urlarr[0];};;
+			location.reload(true);
+		}
 	};
 
 	function ruuun(){

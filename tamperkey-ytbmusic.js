@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.1
-// @version      0.8.1
+// @name         YouTube AutoPlay - version 0.8.2
+// @version      0.8.2
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -27,25 +27,22 @@
     let urlarr = ["PL_2SVRWG1wuMy0t89RN7jijHIZIDxmlkb"];
     //list cu  ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"];
 
-	/*// @re quire  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+	/*// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+    var URLsc;
     $.ajax ( {
-        type:       'GET',
-        url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
-        dataType:   'JSON',
-        success:    function (apiJSON) {
-            PARAMS = apiJSON;
-			REPEAT_NUMB = (Math.floor(Math.random() * PARAMS.REPEAT_TIMES_RANGE) + PARAMS.REPEAT_TIMES);
-			SEEK_EVENT = PARAMS.SEEK_EVENT;
-			LISTEN_DURATION_RANGE = PARAMS.LISTEN_DURATION_RANGE;
-			LISTEN_DURATION = PARAMS.LISTEN_DURATION;
-			GOTO_PERCENT = PARAMS.GOTO_PERCENT;
-			ARTIST_ID = PARAMS.ARTIST_ID;
-        },
-        error:      function(err){
-            alert("Cannot load JSON file");
-            alert(err);
-        }
-    } );*/
+		type:       'GET',
+		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/URL.json',
+		dataType:   'JSON',
+		success:    function (apiJSON) {
+			let PARAMS = apiJSON;
+			URLsc=PARAMS.ytb;
+		},
+		error:      function(err){
+			alert("Cannot load JSON file");
+			alert(err);
+		}
+	});
+    */
 
     /*
     search URL tồn tại key list
@@ -154,17 +151,18 @@
     function stopvideo(ytplayer) {
         ytplayer.stopVideo();
         setTimeout(function () {
-        if(urlarr.length>1){
-            let currenturl=window.location.href;
-            urlarr.forEach(element => {
-                if(currenturl.search(element)>-1){
-                    let indexurl = urlarr.indexOf(element);
-                    let tempurl ;
-                    (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-                    window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
-                }
-            });
-        }else{window.location.href = 'https://music.youtube.com/playlist?list='+urlarr[0];};
+        // if(urlarr.length>1){
+        //     let currenturl=window.location.href;
+        //     urlarr.forEach(element => {
+        //         if(currenturl.search(element)>-1){
+        //             let indexurl = urlarr.indexOf(element);
+        //             let tempurl ;
+        //             (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+        //             window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
+        //         }
+        //     });
+        // }else{window.location.href = 'https://music.youtube.com/playlist?list='+urlarr[0];};
+        location.reload(true);
         },5000);
     }
 

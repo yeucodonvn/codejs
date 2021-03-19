@@ -104,9 +104,72 @@ document.querySelector('[name="signature"]').value=info[0];
 document.querySelector('.taxAffirmation').click();
 
 
+//======== download soundraw
 
+let stop = 0;// doi lenh de stop
+let num = 1
+let listdown = document.querySelectorAll('[data-icon="arrow-down"]');
+listdown.forEach(element => {
+    let paten=  element.parentNode;
+    setTimeout(() => {
+        let loop = setInterval(() => {
+            let spinni= document.querySelector('.spinner-border.text-light.downloading.btn-pool.delete-disabled');
+            let disablebtn= document.querySelector('.btn-pool.clickable.delete-disabled');
+            let load = document.querySelector("#download-btn-background > button").textContent
+                if (!disablebtn&&!spinni&& !load.includes("%")){
+                    paten.click();
+                    console.log(num++ + " down tiep")
 
-//==== nháp 
+                    clearInterval(loop);
+                }else if (stop!==0) {
+                    clearInterval(loop);
+                    console.log("end")
+                }else{
+                    console.log("doi")
+                }
+        }, 30000);
+    }, 10000);
+});
+
+//======== download ecret
+let stop = 0;// doi lenh de stop
+function down() {
+    document.querySelector('.create-music-btn').click();
+    let num=0;
+    let loop = setInterval(() => {
+        let spinni= document.querySelector('.fas.pre-download-btn.enabled.fa-spinner');
+        let downloadbtn= document.querySelector('.fas.fa-arrow-down.pre-download-btn.enabled');
+        let load = document.querySelector(".progress-wrapper");
+        if (!spinni&&num>0) {
+            clearInterval(loop);
+            console.log(" create");
+            setTimeout(down, 5000);
+        }else if (stop!==0) {
+            clearInterval(loop);
+            console.log("end")
+        }else   if (downloadbtn&&load&&!spinni&&num==0){
+            downloadbtn.click();
+            console.log(" down tiep");
+            num++;
+        }
+            else{
+                console.log("doi")
+            }
+    }, 10000);
+    pop();
+}
+function pop() {
+setInterval(() => {
+    let pop =  document.querySelector("#reload-btn");
+   if (pop) {
+    pop.click();
+   }
+}, 10000);
+}
+
+down();
+
+//==== nháp
 /*
 
 https://www.youtube.com/watch?v=vmWmCw_8WsE

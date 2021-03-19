@@ -7,28 +7,38 @@
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloud.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-soundcloud.js
 // @match        https://soundcloud.com/*
+// @require 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @run-at       document-start
 // @grant        none
 // ==/UserScript==
 (function () {
 	'use strict';
-	//var PARAMS;
-	//var temp_number = 200;
-	/*
-	 * // @re quire 	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-		  $.ajax ( {
+	var URLsc;
+	var temp_number = 200;
+
+	$.ajax ( {
 		type:       'GET',
-		url:        'https://gitlab.com/copcoi/codejs/-/raw/master/yt-parameters.json',
+		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/URL.json',
 		dataType:   'JSON',
 		success:    function (apiJSON) {
-			PARAMS = apiJSON;
-			temp_number=PARAMS.REPEAT_NUMB_IHEART;
+			let PARAMS = apiJSON;
+			URLsc=PARAMS.soundcloud;
 		},
 		error:      function(err){
 			alert("Cannot load JSON file");
 			alert(err);
 		}
-	} );*/
+	});
+
+
+	// var obseles  =document.querySelector("#app > div.playControls.g-z-index-control-bar.m-visible > section > div > div.playControls__elements > div.playControls__soundBadge > div > div.playbackSoundBadge__titleContextContainer > div > a > span:nth-child(2)")
+	
+	
+	// obseles.addEventListener('onStateChange',(state)=>{
+	// console.log('state');
+	// }
+	// );
+
 
 
 
@@ -86,7 +96,7 @@
             }
         },100 * 1000);
 	}
-	
+
 	function clickFollow(){
         let loopClickLikeRepeat = setInterval(function(){
             let btnRender = document.querySelector('[aria-label="Follow"]');
@@ -112,6 +122,9 @@
 	}
 
 	/*
+	nghien cuu check onchange cua thang totaltime de check next bai
+
+
 	function hmsToSecondsOnly(str) {
 		var p = str.split(':'),
 			s = 0, m = 1;
@@ -159,6 +172,7 @@
 
 	function run() {
 		console.log("SOUNDCLOUD AutoPlay - MANAGER - Repeat Number " + temp_number);
+		//URLsc.forEach(element => console.log(element));
 				setTimeout(play_btn, 20000);
 	};
 

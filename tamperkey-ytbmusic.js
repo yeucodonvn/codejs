@@ -218,7 +218,6 @@
             setShuffle()//setTimeout(setShuffle(),2000,2000);
             checkVideoPaused();
 		    checkspinloader()
-
 		clickLike();
         let loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");

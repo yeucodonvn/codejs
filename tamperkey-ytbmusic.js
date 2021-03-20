@@ -214,11 +214,6 @@
 	function running() {
 		console.log("PLAY");
         setShufflealbum();
-            setRepeatAll();
-            setShuffle()//setTimeout(setShuffle(),2000,2000);
-            checkVideoPaused();
-		    checkspinloader()
-		clickLike();
         let loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
             let totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
@@ -233,6 +228,13 @@
             }
         },2000);
 		setTimeout(checkplayerpage,60*1000);
+        setTimeout(() => {
+            setRepeatAll();
+            setShuffle()//setTimeout(setShuffle(),2000,2000);
+            checkVideoPaused();
+		    checkspinloader()
+		    clickLike();
+        }, 10000);
     };
     function run() {
         console.log("YouTube AutoPlay - MANAGER");

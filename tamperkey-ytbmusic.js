@@ -71,7 +71,7 @@
 
     */
     function setShufflealbum(){
-        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"]');
+        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"]');
 		let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 		if(Shufflealbum!==null&& autdioo==false){
 			console.log(Shufflealbum);

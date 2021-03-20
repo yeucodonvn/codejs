@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.2
-// @version      0.8.2
+// @name         YouTube AutoPlay - version 0.8.3
+// @version      0.8.3
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -214,12 +214,10 @@
 	function running() {
 		console.log("PLAY");
         setShufflealbum();
-        if (document.documentElement.lang=="en") {
             setRepeatAll();
             setShuffle()//setTimeout(setShuffle(),2000,2000);
             checkVideoPaused();
 		    checkspinloader()
-        }
 
 		clickLike();
         let loopGetDuration_First = setInterval(function(){

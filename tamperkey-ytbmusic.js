@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.3
-// @version      0.8.3
+// @name         YouTube AutoPlay - version 0.8.4
+// @version      0.8.4
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -150,6 +150,12 @@
     };
     function stopvideo(ytplayer) {
         ytplayer.stopVideo();
+        let loop = setInterval(() => {
+            let play = document.querySelector('.play-pause-button.style-scope.ytmusic-player-bar[title="Pause"]')
+            if (play) {
+                ytplayer.stopVideo();
+            }else{clearInterval(loop);}
+        }, 10000);
         setTimeout(function () {
         // if(urlarr.length>1){
         //     let currenturl=window.location.href;

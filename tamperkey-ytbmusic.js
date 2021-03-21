@@ -157,18 +157,19 @@
             }else{clearInterval(loop);}
         }, 10000);
         setTimeout(function () {
-        // if(urlarr.length>1){
-        //     let currenturl=window.location.href;
-        //     urlarr.forEach(element => {
-        //         if(currenturl.search(element)>-1){
-        //             let indexurl = urlarr.indexOf(element);
-        //             let tempurl ;
-        //             (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-        //             window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
-        //         }
-        //     });
-        // }else{window.location.href = 'https://music.youtube.com/playlist?list='+urlarr[0];};
-        location.reload(true);
+            if(urlarr.length>1){
+                let currenturl=window.location.href;
+                urlarr.forEach(element => {
+                    if(currenturl.search(element)>-1){
+                        let indexurl = urlarr.indexOf(element);
+                        let tempurl ;
+                        (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+                        window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
+                    }
+                });
+            }else{
+                location.reload(true)
+            }
         },5000);
     }
 

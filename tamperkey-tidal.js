@@ -65,12 +65,14 @@
 	function repeat() {
 		//class^="repeatButton--3iDaJ all--3BIEW"	data-type="button__repeatAll"
 		console.log("click repeat")
+		let intload=0;
 		let loop = setInterval(function() {
 			let repeatt = document.querySelector('[class^="repeatButton"]')
 			let attribute = repeatt.getAttribute('data-type')
 			if (attribute=='button__repeatAll') {
 				clearInterval(loop);
 			}else{repeatt.click()};;
+			if(intload>7){clearInterval(loop)}
 		})
 
 	}

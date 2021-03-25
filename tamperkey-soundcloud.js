@@ -62,6 +62,7 @@
 	};
 	
 	function repeatpp() {
+		let intload = 0;
 		let loop = setInterval(function() {
 			let element = document.querySelector(".repeatControl.sc-ir");
 			let repeatLabel = element.getAttribute("class");
@@ -69,6 +70,7 @@
 			console.log("click shuffle");
 			element.click();
 			}else{clearInterval(loop);}
+			if(intload>7){clearInterval(loop)}
 		},1000)
 
 	};

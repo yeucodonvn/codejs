@@ -86,6 +86,7 @@
 
     function setRepeatAll(){
 		console.log("set RepeatAll");
+        let intload =0;
         let repeatElm = document.querySelector(".repeat.style-scope.ytmusic-player-bar");
         let loopClickRepeat = setInterval(function(){
             let repeatLabel = repeatElm.getAttribute("aria-label");
@@ -94,6 +95,7 @@
             }else{
                 repeatElm.click();
             }
+            if(intload>7){clearInterval(loopClickRepeat)}
 
         }, 2000);
     };

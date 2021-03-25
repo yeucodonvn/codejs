@@ -169,6 +169,16 @@ setInterval(() => {
 
 down();
 
+let a = document.querySelector('#contents.style-scope.ytmusic-shelf-renderer');
+a.querySelectorAll('#play-button.style-scope.ytmusic-item-thumbnail-overlay-renderer[size=""MUSIC_PLAY_BUTTON_SIZE_SMALL""]');
+
+document.querySelector('.secondary-flex-columns.style-scope.ytmusic-responsive-list-item-renderer').textContent;
+document.querySelector('.title-column.style-scope.ytmusic-responsive-list-item-renderer')
+document.querySelector('.flex-columns.style-scope.ytmusic-responsive-list-item-renderer').click();
+
+let istate=true;ytplayer.addEventListener("onStateChange", function(state){ if (state===0) {true= false; }}); return istate;
+
+
 //==== nháp
 /*
 

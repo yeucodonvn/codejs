@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.3.2
-// @version      1.3.2
+// @name         Tidal - version 1.4
+// @version      1.4
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -171,13 +171,20 @@
         console.log("Tidal AutoPlay - MANAGER");
         //$(window).off('beforeunload.windowReload');
 		var intload =0;
-       	var load = setInterval(function(){
-			var shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
-			if(shuflle!==null){
+       	let load = setInterval(function(){
+			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+			let login = document.querySelector('[datatest="no-user--login"]');
+			let signup = document.querySelector('[datatest="no-user--signup"]');
+
+			if(login!==null&&signup!==null) {
+				console.log("page doi login");
+				clearInterval(load);
+			}else{if(shuflle!==null){
 				ruuun();
 				clearInterval(load);
 			}else{intload++;console.log("tim nut shuffle");}
-			if(intload>7){window.location.reload(true);}
+			if(intload>7){window.location.reload(true);}}
+			
 		},5000)
     };
 

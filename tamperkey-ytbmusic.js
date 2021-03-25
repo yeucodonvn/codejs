@@ -109,7 +109,7 @@
 
         return s;
     };
-//"sr-Cyrl-RS"
+
 
     function seekSliderBar(gotoPercent, listenDuration){
         let ytplayer = document.getElementById("movie_player");

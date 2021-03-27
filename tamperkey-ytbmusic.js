@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.4
-// @version      0.8.4
+// @name         YouTube AutoPlay - version 0.8.5
+// @version      0.8.5
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -251,7 +251,7 @@
         let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
 		if(Shufflealbum==null){
 			console.log("wait 40s");
-			setTimeout(running,40*1000);
+			setTimeout(running,5*60*1000);
 		}
 		else {	setTimeout(running,20*1000);	};
     };

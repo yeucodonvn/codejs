@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         amazon
+// @name         amazon 0.2.8
 // @namespace    http://tampermonkey.net/
-// @version      0.2.7
+// @version      0.2.8
 
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
@@ -50,11 +50,9 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 					setTimeout(next,rand*1000);
 					// het
 			} else {location.reload(true);}
-			
 	};
 	*/
-	
-	
+
 	function next(){
 		location.reload(true);
 	}

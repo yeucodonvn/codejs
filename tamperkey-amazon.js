@@ -84,11 +84,11 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 		console.log("Click Shuffle");
 
         var loopClickRepeat = setInterval(function(){
-			var repeatElm = document.querySelector('[aria-label="Shuffle All"]');
+			var repeatElm = document.querySelector('music-button[icon-name="shuffle"]');
             if(repeatElm !== null){
-                var repeatLabel = repeatElm.getAttribute("aria-checked");
+                var repeatLabel = repeatElm.getAttribute("aria-label");
 				//console.log(repeatLabel);
-                if(repeatLabel == "true"){
+                if(repeatLabel == "Turn Off Shuffle"){
                     clearInterval(loopClickRepeat);
                 }else{
                     repeatElm.click();

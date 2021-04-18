@@ -27,31 +27,7 @@
 	p.resume()
 	*/
 	
-	/*
-function setRandomInterval(f, min, max) {
-  setTimeout(function() {
-    f();
-    setRandomInterval(f, min, max)
-  }, min + Math.random() * (max - min));
-};
-setRandomInterval(function(){document.querySelector('[aria-label="Play next song"]').click();}, 88000, 148000);
-*/
-	/*function next(){
-	        console.log("click next");
-	      var repeatElm = document.querySelector('[aria-label="Play next song"]');
-			if(REPEAT_NUMB>0){
-                    repeatElm.click();
-                    REPEAT_NUMB--;
-					// thay the cho code cjs
-					var min = 128,
-						max = 168;
-					var rand = min + Math.floor(Math.random() * (max - min));  // min +  Math.random() từ 0 đến  max - min và + thêm min, Math.floor lấy số tự nhiên
-					console.log(rand);
-					setTimeout(next,rand*1000);
-					// het
-			} else {location.reload(true);}
-	};
-	*/
+
 
 	function next(){
 		location.reload(true);

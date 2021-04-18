@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.1
-// @version      1.4.1
+// @name         Tidal - version 1.4.2
+// @version      1.4.2
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -33,7 +33,7 @@
 	// 		alert(err);
 	// 	}
 	// });
-
+	const next = document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
    	function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {
@@ -55,7 +55,7 @@
 		let stop = setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
-				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+				next;
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
@@ -84,11 +84,10 @@
 			clickshuffle();
 			}
 	};
-
 	var search_click=0;
 	function search_play_spin_load(){
-		let playbtn=document.querySelector('.isLoading--1GDqH');
-		let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+		let playbtn=$('linearGradient#paint0_linear');
+		let current_time = 	hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		let demloi=0;
 		let demok=0;
 		// so sánh giây có bị dừng
@@ -98,11 +97,11 @@
 			let loopchecktime = setInterval(function(){
 				let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 				if(current_time==temp_time){	//lần đầu check curent=tem dem loi = 1,
-					demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1 
+					demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1
 					}
 				if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
 				{
-					document.querySelector('.playback-controls__button--white-icon[data-test="next"]').click();
+					next;
 					get_time();	//gọi lại get_time để đếm người reload
 					demloi=0;
 					clearInterval(loopchecktime);
@@ -142,7 +141,7 @@
 								temp_number--;
 								setTimeout(get_time,(endtime+5)*1000);
 							}else{
-								document.querySelector('.playback-controls__button--white-icon[data-test="next"]').click();
+								next;
 								REPEAT_NUMB--;
 							}
 						}

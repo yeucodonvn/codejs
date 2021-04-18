@@ -60,7 +60,7 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 	}
 	function clickplay(){
 	        console.log("click play");
-	      document.querySelector(".playAll.iconOnlyButton.button").click();
+	      document.querySelector("#detailHeaderButton2").click();
 		  setRepeatAll();
 		  setShuffle();
 	};
@@ -109,8 +109,9 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 
 	function loadidng(){
 			console.log("check load");
+			let temp_load=0;
 			var loopClickRepeat = setInterval(function(){
-				var load = document.querySelector(".playAll.iconOnlyButton.button");
+				var load = document.querySelector("#detailHeaderButton2");
 				if(load){
 					clearInterval(loopClickRepeat);
 					setTimeout(clickplay,10*1000);

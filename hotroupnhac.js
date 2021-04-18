@@ -172,9 +172,11 @@ down();
 let a = document.querySelector('#contents.style-scope.ytmusic-shelf-renderer');
 a.querySelectorAll('#play-button.style-scope.ytmusic-item-thumbnail-overlay-renderer[size=""MUSIC_PLAY_BUTTON_SIZE_SMALL""]');
 
-document.querySelector('.secondary-flex-columns.style-scope.ytmusic-responsive-list-item-renderer').textContent;
-document.querySelector('.title-column.style-scope.ytmusic-responsive-list-item-renderer')
-document.querySelector('.flex-columns.style-scope.ytmusic-responsive-list-item-renderer').click();
+document.querySelectorAll('#avatar-btn')
+document.querySelectorAll('.yt-simple-endpoint.style-scope.ytd-compact-link-renderer#endpoint')[51].click();
+
+document.querySelectorAll('.style-scope.yt-multi-page-menu-section-renderer')[14].click();
+document.querySelectorAll('.yt-simple-endpoint.style-scope.ytd-compact-link-renderer')[25].textContent;
 
 let istate=true;ytplayer.addEventListener("onStateChange", function(state){ if (state===0) {true= false; }}); return istate;
 

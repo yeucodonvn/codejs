@@ -98,8 +98,8 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
     };
 	function check_notify(){
 		var dilog= document.querySelector("#dialogBoxView > section > div.dialogContainer");
-		var title = document.querySelector("#dialogBoxView > section > div.dialogContainer > div.dialogBody.dialogBoxFocus").textContent;
 	    if(dilog!=null){
+			var title = document.querySelector("#dialogBoxView > section > div.dialogContainer > div.dialogBody.dialogBoxFocus").textContent;
 			if(title=="We are unable to complete your action.  Please try again later. " ){
 			console.log("check_notify");
 			window.location.reload(true);

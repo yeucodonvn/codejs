@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         amazon 0.2.9
+// @name         amazon 0.3
 // @namespace    http://tampermonkey.net/
-// @version      0.2.9
+// @version      0.3
 
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
@@ -82,7 +82,7 @@ setRandomInterval(function(){document.querySelector('[aria-label="Play next song
 		console.log("Click Shuffle");
 
         var loopClickRepeat = setInterval(function(){
-			var repeatElm = document.querySelector('music-button[icon-name="shuffle"]');
+			var repeatElm = document.querySelector('music-button[icon-name="shuffle"][aria-label="Turn Off Shuffle"]');
             if(repeatElm !== null){
                 var repeatLabel = repeatElm.getAttribute("aria-label");
 				//console.log(repeatLabel);

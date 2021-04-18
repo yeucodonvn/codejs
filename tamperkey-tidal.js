@@ -33,7 +33,6 @@
 	// 		alert(err);
 	// 	}
 	// });
-	const next = document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
    	function setRandomInterval(f, min, max) {
 			if(REPEAT_NUMB>0){
 				setTimeout(function() {
@@ -55,7 +54,7 @@
 		let stop = setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
 			if(playbtn){
-				next;
+				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
@@ -86,7 +85,7 @@
 	};
 	var search_click=0;
 	function search_play_spin_load(){
-		let playbtn=$('linearGradient#paint0_linear');
+		let playbtn=document.querySelector('linearGradient#paint0_linear');
 		let current_time = 	hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		let demloi=0;
 		let demok=0;
@@ -101,7 +100,7 @@
 					}
 				if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
 				{
-					next;
+					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 					get_time();	//gọi lại get_time để đếm người reload
 					demloi=0;
 					clearInterval(loopchecktime);
@@ -141,7 +140,7 @@
 								temp_number--;
 								setTimeout(get_time,(endtime+5)*1000);
 							}else{
-								next;
+								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 								REPEAT_NUMB--;
 							}
 						}
@@ -185,7 +184,6 @@
 				clearInterval(load);
 			}else{intload++;console.log("tim nut shuffle");}
 			if(intload>7){window.location.reload(true);}}
-			
 		},5000)
     };
 

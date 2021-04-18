@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         amazon 0.2.8
+// @name         amazon 0.2.9
 // @namespace    http://tampermonkey.net/
-// @version      0.2.8
+// @version      0.2.9
 
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-amazon.js

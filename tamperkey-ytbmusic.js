@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.6
-// @version      0.8.6
+// @name         YouTube AutoPlay - version 0.8.7
+// @version      0.8.7
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj
@@ -71,7 +71,7 @@
 
     */
     function setShufflealbum(){
-        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"]');
+        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"]');
 		let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
 		if(Shufflealbum!==null&& autdioo==false){
 			console.log(Shufflealbum);

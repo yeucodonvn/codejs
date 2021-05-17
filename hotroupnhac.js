@@ -180,7 +180,70 @@ document.querySelectorAll('.yt-simple-endpoint.style-scope.ytd-compact-link-rend
 
 let istate=true;ytplayer.addEventListener("onStateChange", function(state){ if (state===0) {true= false; }}); return istate;
 
+//========= doc kindle unlimited ============
+let i =1;
+let istop=1;
+let loop = setInterval(() => {
+    let next =document.querySelector("#kindleReader_pageTurnAreaRight");
+    if (next) {console.log(istop);
+        istop++;
+        next.click();}
+        else{
+            console.log("k thay nut next");
+            clearInterval(loop);
+        }
+    if (i==0) {
+        console.log("stop");
+        clearInterval(loop);
+    }
+}, (Math.floor(Math.random() * (2000))+1000)*60);
 
+
+// =========== add list soundcloud =================================
+
+function timer(ms) {return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, ms);
+  });}
+function run(){
+    let listmore = document.querySelectorAll('.sc-button-more[aria-label="More"]');
+     listmore.forEach(async element => {
+        await element.click();
+        timer(10*1000);
+         console.log(`click`);
+         while (true) {
+            let addpll=document.querySelector('.sc-button-addtoset.sc-button.moreActions__button.sc-button-medium');
+            if (addpll) {
+                addpll.click();
+                console.log(`addpll`);
+                break;
+            }
+             timer(10*1000);
+        }
+         timer(10*1000);
+         let dialog = document.querySelector('.modal__content');
+         if (dialog){
+             while (true) {
+                let addpll=document.querySelector('.addToPlaylistButton.sc-button.sc-button-medium.sc-button-responsive');
+                if (addpll) {
+                    addpll.click();
+                    console.log(`addpll`);
+                    break;
+                }
+                 timer(10*1000);
+            }
+             timer(10*1000);
+            let clos=document.querySelector('.modal__closeButton');
+            if (clos) {
+                clos.click();
+                console.log(`close`);
+            }
+        }
+         timer(10*1000);
+    });
+}
+ run();
 //==== nháp
 /*
 

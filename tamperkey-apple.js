@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9.2
-// @version      2.9.2
+// @name         Apple Music AutoPlay - version 2.9.3
+// @version      2.9.3
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -289,7 +289,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
         console.log("Apple Music AutoPlay - version 2.7");
 		let innt=0;
 		let loop = setInterval(function() {
-			let shufflebtn = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
+			let shufflebtn = document.querySelector(".shuffle-button.typography-body-semibold-tall[aria-label='Shuffle']");
 			if(shufflebtn!==null){
 				console.log("wait 1 phut");
 				setTimeout(plfunc,60*1000);

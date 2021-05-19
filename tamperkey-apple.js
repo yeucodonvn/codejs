@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9.3
-// @version      2.9.3
+// @name         Apple Music AutoPlay - version 2.9.4
+// @version      2.9.4
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -92,7 +92,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
     };
     function clickPlay(){
 		console.log("Click Play");
-        let repeatElm = document.querySelector(".shuffle-button.action-button.typ-label-medium.typography-label-emphasized.button-reset[aria-label='Shuffle']");
+        let repeatElm = document.querySelector(".shuffle-button.typography-body-semibold-tall[aria-label='Shuffle']");
         let loopClickRepeat = setInterval(function(){
             if(repeatElm !== null){
                 let repeatLabel = repeatElm.getAttribute("aria-label");
@@ -163,8 +163,8 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 
 	var check_disable=0;
 	function searchplaydisable(){
-		let playbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-play][disabled]');
-		let nextbtn = document.querySelector('.button-reset.web-chrome-playback-controls__playback-btn[data-test-playback-control-next][disabled]');
+		let playbtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Play'][disabled]");
+		let nextbtn = document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next'][disabled]");
 		if(playbtn!==null || nextbtn!==null){
 				console.log("Check Disabled Button Found");
 				clickPlay();

@@ -72,7 +72,7 @@
 				if (attribute=='button__repeatAll') {
 					clearInterval(loop);
 				}else{repeatt.click()};;
-			if(intload>7){clearInterval(loop)}
+			if(intload>10){clearInterval(loop)}
 			}
 			intload++;
 		},2000)
@@ -88,8 +88,10 @@
 	};
 	var search_click=0;
 	function search_play_spin_load(){
-		let playbtn=document.querySelector('linearGradient#paint0_linear');
-		let current_time = 	hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+		//let playbtn=document.querySelector('linearGradient#paint0_linear');
+		let playbtn = document.querySelector('.css-b0d7sz');
+		//let current_time 	hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+		let current_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
 		let demloi=0;
 		let demok=0;
 		// so sánh giây có bị dừng
@@ -97,8 +99,11 @@
 		if(playbtn!==null){
 			console.log("search dung giua chung");
 			let loopchecktime = setInterval(function(){
-				let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-				if(current_time==temp_time){	//lần đầu check curent=tem dem loi = 1,
+				//let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+				let temp_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
+				//let temp_time = document.querySelector('.knob--eG-Gb[style]');
+				//if(current_time==temp_time){	//lần đầu check curent=tem dem loi = 1,
+				if(current_time.localeCompare(temp_time)==0){
 					demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1
 					}
 				if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp

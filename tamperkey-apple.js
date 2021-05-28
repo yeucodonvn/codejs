@@ -38,7 +38,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	*/
 
 	let urlarr = ["new-list/pl.u-55D6ZJ1H6MDX680","new-list-2/pl.u-pMylg4aFWoZ5W4l"];
-	
+
 
 	function seekt(){
 		let searchaudio = setInterval(function(){

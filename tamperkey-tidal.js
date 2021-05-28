@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.2
-// @version      1.4.2
+// @name         Tidal - version 1.4.3
+// @version      1.4.3
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -66,12 +66,15 @@
 		console.log("click repeat")
 		let intload=0;
 		let loop = setInterval(function() {
-			let repeatt = document.querySelector('[class^="repeatButton"],.withBackground[title="Repeat"]')
-			let attribute = repeatt.getAttribute('data-type')
-			if (attribute=='button__repeatAll') {
-				clearInterval(loop);
-			}else{repeatt.click()};;
+			let repeatt = document.querySelector('[class^="repeatButton"],.withBackground[title="Repeat"]');
+			if (repeatt) {
+				let attribute = repeatt.getAttribute('data-type')
+				if (attribute=='button__repeatAll') {
+					clearInterval(loop);
+				}else{repeatt.click()};;
 			if(intload>7){clearInterval(loop)}
+			}
+			intload++;
 		},2000)
 
 	}

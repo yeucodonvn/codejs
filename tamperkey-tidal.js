@@ -88,35 +88,28 @@
 	};
 	var search_click=0;
 	function search_play_spin_load(){
-		//let playbtn=document.querySelector('linearGradient#paint0_linear');
 		let playbtn = document.querySelector('.css-b0d7sz');
-		//let current_time 	hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 		let current_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
 		let demloi=0;
 		let demok=0;
-		// so sánh giây có bị dừng
-		//if(spinload==null && current_time !== 0){
-		if(playbtn!==null){
-			console.log("search dung giua chung");
-			let loopchecktime = setInterval(function(){
-				//let temp_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-				let temp_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
-				//let temp_time = document.querySelector('.knob--eG-Gb[style]');
-				//if(current_time==temp_time){	//lần đầu check curent=tem dem loi = 1,
-				if(current_time.localeCompare(temp_time)==0){
-					demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1
-					}
-				if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
-				{
-					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-					get_time();	//gọi lại get_time để đếm người reload
-					demloi=0;
-					clearInterval(loopchecktime);
-				}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
-				if(demok>3){demok=0;clearInterval(loopchecktime)}	// check demok 3 lần nếu đúng thì đừng lặp
-			}, 5000);
+		let loopchecktime = setInterval(function(){
+			let temp_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
+			if(current_time.localeCompare(temp_time)==0){
+				demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1
+				console.log("search dung giua chung");
+				}
+			if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
+			{
+				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+				get_time();	//gọi lại get_time để đếm người reload
+				demloi=0;
+				clearInterval(loopchecktime);
+			}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
+			if(demok>3){demok=0;clearInterval(loopchecktime)}	// check demok 3 lần nếu đúng thì đừng lặp
+		}, 5000);
+			if(playbtn!==null){
 			search_click++;
-		};
+			};
 		if(search_click>=10) {window.location.reload(true)};
 	};
 

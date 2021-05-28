@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.4
-// @version      1.4.4
+// @name         Tidal - version 1.4.5
+// @version      1.4.5
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -62,7 +62,6 @@
 		},50000)
 	};
 	function repeat() {
-		//class^="repeatButton--3iDaJ all--3BIEW"	data-type="button__repeatAll"
 		console.log("click repeat")
 		let intload=0;
 		let loop = setInterval(function() {
@@ -95,17 +94,17 @@
 		let loopchecktime = setInterval(function(){
 			let temp_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
 			if(current_time.localeCompare(temp_time)==0){
-				demloi++;					// sau 2 giây check lại nếu cureent vẫn bằng temp thì demloi + 1
+				demloi++;
 				console.log("search dung giua chung");
 				}
-			if(demloi>3)					// nếu demloi > 3 sẽ next và dừng lặp
+			if(demloi>3)
 			{
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-				get_time();	//gọi lại get_time để đếm người reload
+				get_time();
 				demloi=0;
 				clearInterval(loopchecktime);
-			}else{demok++;}					// nếu đếm lỗi <= 3(nếu chạy thì demloi =1) tăng demok
-			if(demok>3){demok=0;clearInterval(loopchecktime)}	// check demok 3 lần nếu đúng thì đừng lặp
+			}else{demok++;}
+			if(demok>3){demok=0;clearInterval(loopchecktime)}
 		}, 5000);
 			if(playbtn!==null){
 			search_click++;

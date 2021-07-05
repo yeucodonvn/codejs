@@ -17,13 +17,13 @@
     'use strict';
 
 	var PARAMS;
+    var PARAMSURL;
 	var ADDED_EVENT = 0;
-	var CORRECT_ARTIST = true;
-	var REPEAT_NUMB = 100;
+	var REPEAT_NUMB;
 	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
-	var LISTEN_DURATION=60;
-	var GOTO_PERCENT=0.9;
+	var LISTEN_DURATION;
+	var GOTO_PERCENT;
 
     var urlarr;
     $.ajax ( {
@@ -31,8 +31,23 @@
 		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json',
 		dataType:   'JSON',
 		success:    function (apiJSON) {
+			let PARAMSURL = apiJSON;
+			urlarr=PARAMSURL.list;
+		},
+		error:      function(err){
+			alert("Cannot load JSON file");
+			alert(err);
+		}
+	});
+    $.ajax ( {
+		type:       'GET',
+		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/yt-parameters.json',
+		dataType:   'JSON',
+		success:    function (apiJSON) {
 			let PARAMS = apiJSON;
-			urlarr=PARAMS.list;
+			REPEAT_NUMB=PARAMS.REPEAT_NUMB;
+            LISTEN_DURATION=PARAMS.LISTEN_DURATION;
+            GOTO_PERCENT=PARAMS.GOTO_PERCENT;
 		},
 		error:      function(err){
 			alert("Cannot load JSON file");
@@ -177,7 +192,7 @@
             }
         },5000);
     }
-    function explorers(params) {
+    function explorers() {
         let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
            element1.forEach(element => {if (element.textContent.indexOf('Trending')>=0) {
             //console.log(element.getAttribute('href'));
@@ -276,6 +291,12 @@
         console.log("YouTube AutoPlay - MANAGER");
 		// $(window).off('beforeunload.windowReload');
         let curUrl= window.location.href;
+        
+        console.log("curUrl "+curUrl);
+        console.log("REPEAT_NUMB "+REPEAT_NUMB);
+        console.log("gotoPercent "+GOTO_PERCENT);
+        console.log("LISTEN_DURATION "+LISTEN_DURATION);
+        
         if (detecturl=1){setTimeout(explorers,5*60*1000);}
         else{
             let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');

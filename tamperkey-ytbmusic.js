@@ -22,6 +22,7 @@
 	var REPEAT_NUMB;
 	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
+    var YTB_TRENDINGLOOP;
 	var LISTEN_DURATION;
 	var GOTO_PERCENT;
 
@@ -48,6 +49,7 @@
 			REPEAT_NUMB=PARAMS.REPEAT_NUMB;
             LISTEN_DURATION=PARAMS.LISTEN_DURATION;
             GOTO_PERCENT=PARAMS.GOTO_PERCENT;
+            YTB_TRENDINGLOOP=PARAMS.YTB_TRENDINGLOOP;
 		},
 		error:      function(err){
 			alert("Cannot load JSON file");
@@ -87,6 +89,7 @@
 		if(Shufflealbum!==null&& autdioo==false){
 			console.log(Shufflealbum);
 			Shufflealbum.click();
+            setTimeout(Shufflealbum.click(),2000);
 		}
     };
 	function setShuffle(){
@@ -94,7 +97,10 @@
         let element = document.querySelector(".shuffle.style-scope.ytmusic-player-bar");
 		element.click();
     };
-
+    function togglepage(params) {
+        let tog = document.querySelector('.toggle-player-page-button.style-scope.ytmusic-player-bar[aria-label="Close player page"]');
+        if(tog!==null){tog.click();}
+    }
     function setRepeatAll(){
 		console.log("set RepeatAll");
         let intload =0;
@@ -152,7 +158,10 @@
                             let rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
                             setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
                         }else{
-							stopvideo(ytplayer);
+                            explorers();
+							if (stopss) {
+                                stopvideo(ytplayer);
+                            }
                         }
                         REPEAT_NUMB--;
                 }
@@ -180,25 +189,38 @@
                 //         window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
                 //     }
                 // });
-                if(detecturl()=1)
-                {let tempurl = Math.floor(Math.random() * (urlarr.length));
-                window.location.href = urlarr[tempurl];}
-                else {
-                    let topbar= document.querySelector('.center-content.style-scope.ytmusic-nav-bar');
-                    topbar.querySelectorAll('.style-scope.ytmusic-pivot-bar-renderer')[1].click();
-                }
+                window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length-1))];
             }else{
                 location.reload(true)
             }
         },5000);
     }
+    let stopss=false;
     function explorers() {
-        let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
-           element1.forEach(element => {if (element.textContent.indexOf('Trending')>=0) {
-            //console.log(element.getAttribute('href'));
-            element.click();
-           }
+        let topbar= document.querySelector('.center-content.style-scope.ytmusic-nav-bar');
+        topbar.querySelectorAll('.style-scope.ytmusic-pivot-bar-renderer')[1].click();
+
+        setTimeout(() => {
+            let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
+           element1.forEach(element => {
+               if (element.textContent.indexOf('Trending')>=0) {
+                    element.click();
+                    console.log('Trending');
+                    setTimeout(() => {
+                        REPEAT_NUMB=4;
+                        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
+                        if(Shufflealbum!==null){
+                            console.log("wait 40s");
+                            stopss=true;
+                            setTimeout(document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"]').click(),10*1000);
+                            //GetDuration_First();
+                            setTimeout(togglepage,3000);
+
+                        }
+                    }, 10*1000);
+                }
            });
+        }, 5*1000);
     }
 
     function detecturl() {
@@ -207,10 +229,10 @@
            element1.forEach(element => {
             console.log(element.getAttribute('href'));
            }); */
-        switch (key) {
-            case window.location.location.indexOf("https://music.youtube.com/explore")>-1:
+        switch (true) {
+            case window.location.href.indexOf("/explore")>=0:
                 return 1;
-            case window.location.location.indexOf("https://music.youtube.com/browse")>-1:
+            case window.location.href.indexOf("/browse")>-1:
                 return 2;
             default:
                 return 0;
@@ -261,10 +283,7 @@
 			if(intcheck>30)(location.reload(true));
         },60 * 1000);
     };
-
-	function running() {
-		console.log("PLAY");
-        setShufflealbum();
+    function GetDuration_First(params) {
         let loopGetDuration_First = setInterval(function(){
             //console.log("Get duration");
             let totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
@@ -278,6 +297,11 @@
                 clearInterval(loopGetDuration_First);
             }
         },2000);
+    }
+	function running() {
+		console.log("PLAY");
+        setShufflealbum();
+        GetDuration_First();
 		setTimeout(checkplayerpage,60*1000);
         setTimeout(() => {
             setRepeatAll();
@@ -286,23 +310,25 @@
 		    checkspinloader()
 		    clickLike();
         }, 10000);
+        setInterval(togglepage(), 50*1000);
     };
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		// $(window).off('beforeunload.windowReload');
         let curUrl= window.location.href;
-        
         console.log("curUrl "+curUrl);
         console.log("REPEAT_NUMB "+REPEAT_NUMB);
         console.log("gotoPercent "+GOTO_PERCENT);
         console.log("LISTEN_DURATION "+LISTEN_DURATION);
-        
-        if (detecturl=1){setTimeout(explorers,5*60*1000);}
+
+        if (detecturl()==1){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
         else{
+            REPEAT_NUMB=1;
+            console.log("REPEAT_NUMB "+REPEAT_NUMB);
             let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
             if(Shufflealbum==null){
                 console.log("wait 40s");
-                setTimeout(running,5*60*1000);
+                setTimeout(running,60*1000);
             }
             else {	setTimeout(running,20*1000);	};
         }

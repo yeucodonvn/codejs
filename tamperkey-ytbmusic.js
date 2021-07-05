@@ -302,7 +302,7 @@
 		console.log("PLAY");
         setShufflealbum();
         GetDuration_First();
-		setTimeout(checkplayerpage,60*1000);
+		//setTimeout(checkplayerpage,60*1000);
         setTimeout(() => {
             setRepeatAll();
             setShuffle()//setTimeout(setShuffle(),2000,2000);
@@ -323,8 +323,6 @@
 
         if (detecturl()==1){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
         else{
-            REPEAT_NUMB=1;
-            console.log("REPEAT_NUMB "+REPEAT_NUMB);
             let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
             if(Shufflealbum==null){
                 console.log("wait 40s");

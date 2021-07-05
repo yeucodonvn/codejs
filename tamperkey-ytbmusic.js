@@ -10,6 +10,7 @@
 // @run-at       document-start
 // @grant        none
 // @namespace	 https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
+// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // ==/UserScript==
 
 (function() {
@@ -24,25 +25,20 @@
 	var LISTEN_DURATION=60;
 	var GOTO_PERCENT=0.9;
 
-    let urlarr = ["PL_2SVRWG1wuMy0t89RN7jijHIZIDxmlkb"];
-    //list cu  ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"];
-
-	/*// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-    var URLsc;
+    var urlarr;
     $.ajax ( {
 		type:       'GET',
-		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/URL.json',
+		url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json',
 		dataType:   'JSON',
 		success:    function (apiJSON) {
 			let PARAMS = apiJSON;
-			URLsc=PARAMS.ytb;
+			urlarr=PARAMS.list;
 		},
 		error:      function(err){
 			alert("Cannot load JSON file");
 			alert(err);
 		}
 	});
-    */
 
     /*
     search URL tồn tại key list
@@ -160,19 +156,50 @@
         }, 10000);
         setTimeout(function () {
             if(urlarr.length>1){
-                let currenturl=window.location.href;
-                urlarr.forEach(element => {
-                    if(currenturl.search(element)>-1){
-                        let indexurl = urlarr.indexOf(element);
-                        let tempurl ;
-                        (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-                        window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
-                    }
-                });
+                // let currenturl=window.location.href;
+                // urlarr.forEach(element => {
+                //     if(currenturl.search(element)>-1){
+                //         let indexurl = urlarr.indexOf(element);
+                //         let tempurl ;
+                //         (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
+                //         window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
+                //     }
+                // });
+                if(detecturl()=1)
+                {let tempurl = Math.floor(Math.random() * (urlarr.length));
+                window.location.href = urlarr[tempurl];}
+                else {
+                    let topbar= document.querySelector('.center-content.style-scope.ytmusic-nav-bar');
+                    topbar.querySelectorAll('.style-scope.ytmusic-pivot-bar-renderer')[1].click();
+                }
             }else{
                 location.reload(true)
             }
         },5000);
+    }
+    function explorers(params) {
+        let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
+           element1.forEach(element => {if (element.textContent.indexOf('Trending')>=0) {
+            //console.log(element.getAttribute('href'));
+            element.click();
+           }
+           });
+    }
+
+    function detecturl() {
+        /* code laays link tw
+        let element1= document.querySelectorAll('a[dir="ltr"][href]')
+           element1.forEach(element => {
+            console.log(element.getAttribute('href'));
+           }); */
+        switch (key) {
+            case window.location.location.indexOf("https://music.youtube.com/explore")>-1:
+                return 1;
+            case window.location.location.indexOf("https://music.youtube.com/browse")>-1:
+                return 2;
+            default:
+                return 0;
+        }
     }
 
     function clickLike(){
@@ -248,12 +275,16 @@
     function run() {
         console.log("YouTube AutoPlay - MANAGER");
 		// $(window).off('beforeunload.windowReload');
-        let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
-		if(Shufflealbum==null){
-			console.log("wait 40s");
-			setTimeout(running,5*60*1000);
-		}
-		else {	setTimeout(running,20*1000);	};
+        let curUrl= window.location.href;
+        if (detecturl=1){setTimeout(explorers,5*60*1000);}
+        else{
+            let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
+            if(Shufflealbum==null){
+                console.log("wait 40s");
+                setTimeout(running,5*60*1000);
+            }
+            else {	setTimeout(running,20*1000);	};
+        }
     };
 
     setTimeout(run, 5000);

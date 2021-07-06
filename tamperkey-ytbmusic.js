@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.8.7
-// @version      0.8.7
+// @name         YouTube AutoPlay - version 0.9
+// @version      0.9
 
 // @description  This script Autoplay Youtube
 // @author       bjemtj

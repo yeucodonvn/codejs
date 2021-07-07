@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         YouTube AutoPlay - version 0.9
-// @version      0.9
-
+// @version      0.9.1
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js

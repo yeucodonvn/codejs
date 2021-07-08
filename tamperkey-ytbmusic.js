@@ -1,27 +1,25 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9
-// @version      0.9.1
+// @name         YouTube AutoPlay - version 0.9.2
+// @version      0.9.2
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
 // @match        *music.youtube.com/*
-// @run-at       document-start
+// @run-at       document-end
 // @grant        none
 // @namespace	 https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
-// @require  	 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-	var PARAMS;
-    var PARAMSURL;
 	var ADDED_EVENT = 0;
 	var REPEAT_NUMB;
 	var SEEK_EVENT=true;
 	var LISTEN_DURATION_RANGE=10;
-    var YTB_TRENDINGLOOP;
+    var YTB_TRENDING;
 	var LISTEN_DURATION;
 	var GOTO_PERCENT;
 
@@ -35,7 +33,7 @@
 			urlarr=PARAMSURL.list;
 		},
 		error:      function(err){
-			alert("Cannot load JSON file");
+			alert("Cannot load JSON ytbartist");
 			alert(err);
 		}
 	});
@@ -48,40 +46,14 @@
 			REPEAT_NUMB=PARAMS.REPEAT_NUMB;
             LISTEN_DURATION=PARAMS.LISTEN_DURATION;
             GOTO_PERCENT=PARAMS.GOTO_PERCENT;
-            YTB_TRENDINGLOOP=PARAMS.YTB_TRENDINGLOOP;
+            YTB_TRENDING=PARAMS.YTB_TRENDINGLOOP;
 		},
 		error:      function(err){
-			alert("Cannot load JSON file");
+			alert("Cannot load JSON parameters");
 			alert(err);
 		}
 	});
 
-    /*
-    search URL tồn tại key list
-    get array list từ json
-    so sánh để lấy ID list, nextx list tiếp lần f5 tiếp theo
-    var ojb = {
-    "ytb" : ["PL_2SVRWG1wuOjG3LBABwWsKo9Kw66UcwY","PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E"],
-    "apple" : ["pl.u-55D6ZJ1H6MDX680","url2","url3"]
-            }
-    ;alert(ojb.ytb.indexOf('PL_2SVRWG1wuPaI5iK90pwo5u3fiqlA_3E'));
-
-    var obj= ytbartist.json;
-    for (i in obj.song) {
-        let name = obj.artist[i].name;
-        for (j in obj.artist[i].song) {
-          let songname=  obj.artist[i].song[j];
-        }
-    }
-    let song ="Sleep In Her Rodeo"
-        let cli= document.querySelector('[title="'+song+'"]');
-        if (cli!==null) {
-            document.querySelector("#play-button").click();
-        }else{//next search
-            "https://music.youtube.com/search?q=%22"+songname+"%22%2B%22"+name+"%22"
-        }
-
-    */
     function setShufflealbum(){
         let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"]');
 		let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
@@ -169,25 +141,19 @@
             ADDED_EVENT = 1;
         }
     };
-    function stopvideo(ytplayer) {
-        ytplayer.stopVideo();
+    function stopvideo() {
         let loop = setInterval(() => {
-            let play = document.querySelector('.play-pause-button.style-scope.ytmusic-player-bar[title="Pause"]')
-            if (play) {
-                ytplayer.stopVideo();
-            }else{clearInterval(loop);}
+            let pause = document.querySelector('tp-yt-paper-icon-button.play-pause-button.style-scope.ytmusic-player-bar[title="Pause"]')
+            if (pause) {
+                stop.click();
+            }else{
+                if (document.querySelector('tp-yt-paper-icon-button.play-pause-button.style-scope.ytmusic-player-bar[title="Play"]')) {
+                    clearInterval(loop);
+                }
+            }
         }, 10000);
         setTimeout(function () {
             if(urlarr.length>1){
-                // let currenturl=window.location.href;
-                // urlarr.forEach(element => {
-                //     if(currenturl.search(element)>-1){
-                //         let indexurl = urlarr.indexOf(element);
-                //         let tempurl ;
-                //         (indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-                //         window.location.href = 'https://music.youtube.com/playlist?list='+tempurl;
-                //     }
-                // });
                 window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length-1))];
             }else{
                 location.reload(true)

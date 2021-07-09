@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.5
-// @version      1.4.5
+// @name         Tidal - version 1.4.6
+// @version      1.4.6
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -89,29 +89,31 @@
 	};
 	var search_click=0;
 	function search_play_spin_load(){
-		let playbtn = document.querySelector('.css-b0d7sz');
-		let current_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
-		let demloi=0;
-		let demok=0;
-		let loopchecktime = setInterval(function(){
-			let temp_time = document.querySelector('.knob--eG-Gb[style]').getAttribute('style');
-			if(current_time.localeCompare(temp_time)==0){
-				demloi++;
-				console.log("search dung giua chung");
-				}
-			if(demloi>3)
-			{
-				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-				get_time();
-				demloi=0;
-				clearInterval(loopchecktime);
-			}else{demok++;}
-			if(demok>3){demok=0;clearInterval(loopchecktime)}
-		}, 5000);
-			if(playbtn!==null){
-			search_click++;
-			};
-		if(search_click>=10) {window.location.reload(true)};
+		let playbtn = document.querySelector('.css-awgilu');
+		if (document.querySelector('.css-1cyhemm')) {
+			let current_time = document.querySelector('time.current-time').textContent;
+			let demloi=0;
+			let demok=0;
+			let loopchecktime = setInterval(function(){
+				let temp_time = document.querySelector('time.current-time').textContent;
+				if(current_time.localeCompare(temp_time)==0){
+					demloi++;
+					console.log("search dung giua chung");
+					}
+				if(demloi>3)
+				{
+					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+					get_time();
+					demloi=0;
+					clearInterval(loopchecktime);
+				}else{demok++;}
+				if(demok>3){demok=0;clearInterval(loopchecktime)}
+			}, 5000);
+				if(playbtn!==null){
+				search_click++;
+				};
+			if(search_click>=10) {window.location.reload(true)};
+		}
 	};
 
 	function hmsToSecondsOnly(str) {

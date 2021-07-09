@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9.4
-// @version      2.9.4
+// @name         Apple Music AutoPlay - version 2.9.5
+// @version      2.9.5
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -148,6 +148,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			};
 
 			if(titleok=="MEDIA_SESSION: TypeError: Cannot read property 'setServerCertificate' of null"){
+				document.querySelector("#mk-dialog-actions > button").click();
+			};
+			if(titleok=="play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"){
 				document.querySelector("#mk-dialog-actions > button").click();
 			};
 		}

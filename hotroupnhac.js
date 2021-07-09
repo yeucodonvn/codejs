@@ -244,6 +244,80 @@ function run(){
     });
 }
  run();
+//========================
+//get link yoube bo qua tich
+let filldate=1;
+let fillview=1;
+let datefillter="6 months ago";//days weeks months years
+let viewfillter="1M views";
+function loctich(params) {
+    //home
+        let elementgrid= document.querySelectorAll('ytd-rich-item-renderer.style-scope.ytd-rich-grid-renderer,ytd-video-renderer.style-scope.ytd-expanded-shelf-contents-renderer,ytd-compact-video-renderer.style-scope.ytd-watch-next-secondary-results-renderer');
+        elementgrid.forEach(element => {
+            element.querySelector('#video-title-link,#video-title.yt-simple-endpoint.style-scope.ytd-video-renderer,#video-title.style-scope.ytd-compact-video-renderer').style.backgroundColor='';
+            if (element.querySelector('.badge.badge-style-type-verified.style-scope.ytd-badge-supported-renderer,.badge.badge-style-type-verified-artist.style-scope.ytd-badge-supported-renderer')==null) {
+                let title = element.querySelector('#video-title-link,#video-title.yt-simple-endpoint.style-scope.ytd-video-renderer,#video-title.style-scope.ytd-compact-video-renderer').getAttribute('aria-label');
+                let linkytb = element.querySelector('#thumbnail.yt-simple-endpoint.inline-block.style-scope.ytd-thumbnail,a.yt-simple-endpoint.style-scope.ytd-compact-video-renderer').getAttribute('href');
+                let chanel='';
+                if (document.querySelector('ytd-compact-video-renderer.style-scope.ytd-watch-next-secondary-results-renderer')!=null) {
+                    chanel= element.querySelector('#text.style-scope.ytd-channel-name').textContent;
+                } else {
+                    chanel= element.querySelector('a.yt-simple-endpoint.style-scope.yt-formatted-string').getAttribute('href');
+                }
+                let viewdate = element.querySelector('#metadata-line.style-scope.ytd-video-meta-block.has-vidiq-like-ratio,#metadata-line.style-scope.ytd-video-meta-block');
+                let view = viewdate.querySelectorAll('.style-scope.ytd-video-meta-block')[0].textContent;
+                let time = viewdate.querySelectorAll('.style-scope.ytd-video-meta-block')[1].textContent;
+                if ((filldate?date(datefillter)>=date(time):true)&&(fillview?views(view)>=views(viewfillter):true)) {
+                    console.log(title+ ' | ' + linkytb+ ' | ' +chanel+ ' | ' +view + ' | ' +time );
+                    element.querySelector('#video-title-link,#video-title.yt-simple-endpoint.style-scope.ytd-video-renderer,#video-title.style-scope.ytd-compact-video-renderer').style.backgroundColor='green';
+                }
+            }
+        })
+}
+function date(element) {
+    element = element.replace(' ago','');
+    let p =element.split(' '),day=0;
+    switch (p[1]) {
+        case 'day': day= parseInt(p[0],10);
+            break;
+        case 'days': day= parseInt(p[0],10);
+            break;
+        case 'weeks':day= parseInt(p[0],10)*7;
+            break;
+        case 'month':day= parseInt(p[0],10)*30;
+            break;
+        case 'months':day= parseInt(p[0],10)*30;
+            break;
+        case 'year':day= parseInt(p[0],10)*365;
+            break;
+        case 'years':day= parseInt(p[0],10)*365;
+            break;
+        default:
+            break;
+    }
+    return day;
+}
+function views(element) {
+    element = element.replace(' views','');
+    let view=0;
+    if (element.indexOf('M')!=-1) {
+        view= parseFloat(element.replace('M',''))*1000000;
+    } else if (element.indexOf('K')!=-1) {
+        view= parseFloat(element.replace('K',''))*1000;
+    } else {
+        view= parseFloat(element);
+    }
+    return view;
+}
+loctich();
+
+//================================================================
+let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
+           element1.forEach(element => {if (element.textContent.indexOf('Trending')>=0) {
+            //console.log(element.getAttribute('href'));
+            element.click();
+           }
+           });
 //==== nháp
 /*
 

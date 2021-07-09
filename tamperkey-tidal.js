@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.6
-// @version      1.4.6
+// @name         Tidal - version 1.4.7
+// @version      1.4.7
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -91,11 +91,11 @@
 	function search_play_spin_load(){
 		let playbtn = document.querySelector('.css-awgilu');
 		if (document.querySelector('.css-1cyhemm')) {
-			let current_time = document.querySelector('time.current-time').textContent;
+			let current_time = document.querySelector('knob--129sB[style]').getAttribute('style');
 			let demloi=0;
 			let demok=0;
 			let loopchecktime = setInterval(function(){
-				let temp_time = document.querySelector('time.current-time').textContent;
+				let temp_time = document.querySelector('knob--129sB[style]').getAttribute('style');
 				if(current_time.localeCompare(temp_time)==0){
 					demloi++;
 					console.log("search dung giua chung");

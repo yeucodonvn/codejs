@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.7
-// @version      1.4.7
+// @name         Tidal - version 1.4.8
+// @version      1.4.8
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -134,33 +134,44 @@
 				let loopGetDuration = setInterval(
 				function(){
 						var Duration = document.querySelector('[data-test="duration-time"]');
-						if(Duration!==null){
-							clearInterval(loopGetDuration);
+						if(hmsToSecondsOnly(Duration.textContent.trim())>0){
+							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
+								clearInterval(loopGetDuration);
 							let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
 							let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-							if(totalDuration>0){
-								var endtime=totalDuration-current_time;
-								console.log("Get duration Total "+endtime);
-								temp_number--;
-								setTimeout(get_time,(endtime+5)*1000);
-							}else{
-								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-								REPEAT_NUMB--;
+								if(totalDuration>0){
+									var endtime=totalDuration-current_time;
+									console.log("Get duration Total "+endtime);
+									temp_number--;
+									setTimeout(get_time,(endtime+5)*1000);
+								}else{
+									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+									REPEAT_NUMB--;
+								}
+							}else
+							// get theo% processbar
+							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())==0) {
+								current_prcess = document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim();
+								current_prcess= current_prcess.replace("transform: translateX(-","");
+								current_prcess= current_prcess.replace("%);","");
+								if (current_prcess>0) {
+									let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
+									let endtime = totalDuration*(current_prcess/100);
+									console.log("Get duration Total "+endtime);
+									temp_number--;
+									setTimeout(get_time,(endtime+5)*1000);
+								}else{
+									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+									REPEAT_NUMB--;
+								}
 							}
+						}
+						if (document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim()=='transform: translateX(0%);') {
+							document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+									REPEAT_NUMB--;
 						}
 					},5000);
 			} else {
-			// 	if(urlarr.length>1){
-			// 	let currenturl=window.location.href;
-			// 	urlarr.forEach(element => {
-			// 		if(currenturl.search(element)>-1){
-			// 			let indexurl = urlarr.indexOf(element);
-			// 			let tempurl ;
-			// 			(indexurl<urlarr.length-1) ?tempurl=urlarr[indexurl+1]:tempurl=urlarr[0];
-			// 			window.location.href = 'https://listen.tidal.com/playlist/'+tempurl;
-			// 		}
-			// 	});
-			// }else{window.location.href = 'https://listen.tidal.com/playlist/'+urlarr[0];};;
 			location.reload(true);
 		}
 	};

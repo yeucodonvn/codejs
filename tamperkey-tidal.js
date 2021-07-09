@@ -151,7 +151,7 @@
 							}else
 							// get theo% processbar
 							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())==0) {
-								current_prcess = document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim();
+								let current_prcess = document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim();
 								current_prcess= current_prcess.replace("transform: translateX(-","");
 								current_prcess= current_prcess.replace("%);","");
 								if (current_prcess>0) {

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9.2
-// @version      0.9.2
+// @name         YouTube AutoPlay - version 0.9.3
+// @version      0.9.3
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -195,10 +195,12 @@
             console.log(element.getAttribute('href'));
            }); */
         switch (true) {
-            case window.location.href.indexOf("/explore")>=0:
+            case window.location.href.indexOf("/explore")>-1:
                 return 1;
             case window.location.href.indexOf("/browse")>-1:
                 return 2;
+            case window.location.href.indexOf("/playlist")>-1:
+                return 3;
             default:
                 return 0;
         }
@@ -286,14 +288,30 @@
         console.log("gotoPercent "+GOTO_PERCENT);
         console.log("LISTEN_DURATION "+LISTEN_DURATION);
 
-        if (detecturl()==1){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
+        if (detecturl()==1||detecturl()==3){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
         else{
-            let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
-            if(Shufflealbum==null){
-                console.log("wait 40s");
-                setTimeout(running,60*1000);
-            }
-            else {	setTimeout(running,20*1000);	};
+            let templop=0;
+            let loop = setInterval(() => {
+                let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
+                if(Shufflealbum==null){
+                    console.log("wait 20s");
+                    clearInterval(loop);
+                    setTimeout(running,20*1000);
+                }else if (templop<3) {
+                    templop++;
+                }else {
+                    clearInterval(loop);
+                    setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);
+                }
+            }, 20000);
+
+
+            // let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
+            // if(Shufflealbum==null){
+            //     console.log("wait 40s");
+            //     setTimeout(running,60*1000);
+            // }
+            // else {	setTimeout(running,20*1000);	};
         }
     };
 

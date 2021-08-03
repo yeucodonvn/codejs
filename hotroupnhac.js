@@ -312,11 +312,9 @@ function views(element) {
 loctich();
 
 //================================================================
-let element1= document.querySelectorAll('.yt-simple-endpoint.style-scope.yt-formatted-string')
-           element1.forEach(element => {if (element.textContent.indexOf('Trending')>=0) {
-            //console.log(element.getAttribute('href'));
-            element.click();
-           }
+let element= document.querySelectorAll('a[dir="ltr"]');
+           element.forEach(element => {
+            console.log(element.getAttribute('href'));
            });
 //==== nháp
 /*

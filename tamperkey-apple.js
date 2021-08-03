@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9.5
-// @version      2.9.5
+// @name         Apple Music AutoPlay - version 2.9.6
+// @version      2.9.6
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*
@@ -153,6 +153,9 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 			if(titleok=="play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"){
 				document.querySelector("#mk-dialog-actions > button").click();
 			};
+			if(titleok=="cancelled"){
+				document.querySelector("#mk-dialog-actions > button").click();
+			};
 		}
 		let dialogbrowser=document.querySelector(".dt-modal__contents");
 		if(dialogbrowser!==null){
@@ -285,7 +288,7 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 		setTimeout(clickPlay, 10 * 1000);
 		setInterval(searchplaybtn,50*1000);
 		setInterval(searchplaydisable,60*1000);
-    	setInterval(Failed_to_fetch_err,50*1000);
+    	setInterval(Failed_to_fetch_err,15*1000);
 	}
 
     function run() {

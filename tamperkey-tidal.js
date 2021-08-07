@@ -153,6 +153,7 @@
 							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())==0) {
 								let current_prcess = document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim();
 								current_prcess= current_prcess.replace("transform: translateX(-","");
+								// loi neu dinh k chay bai hat
 								current_prcess= current_prcess.replace("%);","");
 								if (current_prcess>0) {
 									let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());

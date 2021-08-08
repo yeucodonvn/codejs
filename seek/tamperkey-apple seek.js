@@ -37,7 +37,42 @@
 https://developer.apple.com/musickit/android/com/apple/android/music/playback/controller/MediaPlayerController.Listener.html#onPlaybackStateChanged-com.apple.android.music.playback.controller.MediaPlayerController-int-int-
 	*/
 
-	let urlarr;
+	let urlarr = ["new-list/pl.u-55D6ZJ1H6MDX680","new-list-2/pl.u-pMylg4aFWoZ5W4l"];
+
+
+	function seekt(){
+		let searchaudio = setInterval(function(){
+			if(REPEAT_NUMB>0){
+				let tabsound = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
+				if(tabsound==true){
+					clearInterval(searchaudio);
+					let music = MusicKit.getInstance();
+					let duration = parseInt(music.currentPlaybackDuration);
+					let rndplay = 90 + Math.floor(Math.random() * 30);
+					let rndstart = Math.floor(Math.random() * (duration - rndplay - 5));
+					console.log("start "+rndstart+" Play "+rndplay);
+					music.seekToTime(rndstart);
+					let rndend = Math.floor(duration*0.95);
+					setTimeout(function (rndend){
+						//console.log("end song "+rndend);
+						let duration = parseInt(music.currentPlaybackDuration);
+						music.seekToTime(rndend);
+						let endtime = (duration-rndend+3);
+						//console.log("endtime "+endtime);
+						let buffering = document.querySelector('.web-chrome-playback-lcd.is-buffering');
+						if(buffering!==null){
+							document.querySelector(".button-reset.web-chrome-playback-controls__playback-btn[aria-label='Next']").click();
+							//clickPlay();
+							setTimeout(seekt,2000);
+						}else{
+							rnd_play_type(endtime*1000);
+							REPEAT_NUMB--;
+						}
+					},rndplay*1000,rndend);// truyền rndend vào function, nếu k thì k nhận d
+				}
+			} else {clickstop();}
+		},2000);
+	};
 
 
     function setRepeatAll(){
@@ -168,12 +203,15 @@ https://developer.apple.com/musickit/android/com/apple/android/music/playback/co
 	function rnd_play_type(time) {
 		let rdn = Math.floor(Math.random() * 40);
 		console.log("randon ------------- "+rdn);
-		if (rdn%4===0) {
+		if (rdn%2===0) {
 			setTimeout(clickNext,time+3000);
 			console.log(REPEAT_NUMB+" ------------- play next btn");
-		}else {
+		}else if (rdn<20) {
 			setTimeout(get_time_full,time+3000);
 			console.log(REPEAT_NUMB+" ------------- play full");
+		} else {
+			setTimeout(seekt,time+3000);
+			console.log(REPEAT_NUMB+" ------------- play seek");
 		}
 
 	}

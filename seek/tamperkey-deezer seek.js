@@ -62,15 +62,30 @@ function seekt(){
 			if(playbtn()==2){
 				clearInterval(searchaudio);
 				let duration = dzPlayer.duration;
-				
+				let rndplay = 90 + Math.floor(Math.random() * 30);
+				let rndstart = Math.floor(Math.random() * (duration - rndplay - 5));
+				console.log("start "+rndstart+" Play "+rndplay);
+				//
+				let seektime = (rndstart/duration);
+				dzPlayer.control.seek(seektime);
+				//
+				setTimeout(function (duration){
+					let rndend = Math.floor(duration*0.95);
+					//console.log("rndend song "+rndend);
+					dzPlayer.control.seek(0.95);
+					let endtime = (duration-rndend-3);
+					//console.log("endtime "+endtime);
 					if(playbtn()!==2){
 						document.querySelector("[aria-label='Next']").click();
 						//clickPlay();
+						setTimeout(seekt,2000);
 					}else{
 						//rnd_play_type(endtime*1000);
 						//console.log("endtime song "+endtime);
+						setTimeout(seekt,(endtime+3)*1000);
 						REPEAT_NUMB--;
 					}
+				},rndplay*1000,duration);
 			}
 		} else {pause();}
 	},2000);

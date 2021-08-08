@@ -60,7 +60,9 @@
 		if(Shufflealbum!==null&& autdioo==false){
 			console.log(Shufflealbum);
 			Shufflealbum.click();
+            
             setTimeout(Shufflealbum.click(),2000);
+            seekSliderBar();
 		}
     };
 	function setShuffle(){
@@ -101,46 +103,34 @@
     };
 
 
-    // function seekSliderBar(gotoPercent, listenDuration){
-    //     let ytplayer = document.getElementById("movie_player");
+    function seekSliderBar(gotoPercent, listenDuration){
+        let ytplayer = document.getElementById("movie_player");
 
-	// 	if(SEEK_EVENT){
-	// 		let totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
-    //         ytplayer.seekTo(totalDuration * gotoPercent, true);
-    //     }
+		if(SEEK_EVENT){
+			let totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
+            ytplayer.seekTo(totalDuration * gotoPercent, true);
+        }
 
-    //     if(ADDED_EVENT!==1){
-    //         ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html		chỗ này để cập nhật mỗi khi chạy next bài mới
-    //             if(state === 0){
-    //                     console.log(REPEAT_NUMB);
-    //                     if(REPEAT_NUMB > 0){
-    //                         clickLike();
-	// 						let loopGetDuration = setInterval(function(){
-    //                             //console.log("Get duration");
-    //                             let totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
-    //                             if(totalDuration > 0 && totalDuration < 1000){
-    //                                 let rndStart = Math.floor(Math.random() * (parseInt(totalDuration) - parseInt(listenDuration) - 5));
-    //                                 console.log("Total "+totalDuration+" - Start from " + rndStart);
-    //                                 let ytplayer = document.getElementById("movie_player");
-    //                                 setTimeout(ytplayer.seekTo, 5000, rndStart, true);
-    //                                 clearInterval(loopGetDuration);
-    //                             }
-    //                         }, 1000);
-    //                         let rndDuration = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
-    //                         setTimeout(seekSliderBar, rndDuration*1000, GOTO_PERCENT, rndDuration);
-    //                     }else{
-    //                         explorers();
-	// 						if (stopss) {
-    //                             stopvideo(ytplayer);
-    //                         }
-    //                     }
-    //                     REPEAT_NUMB--;
-    //             }
-    //         });
+        if(ADDED_EVENT!==1){
+            ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html		chỗ này để cập nhật mỗi khi chạy next bài mới
+                if(state === 0){
+                        console.log(REPEAT_NUMB);
+                        if(REPEAT_NUMB > 0){
+                            clickLike();
+                            console.log(REPEAT_NUMB);
+                        }else{
+                            explorers();
+							if (stopss) {
+                                stopvideo(ytplayer);
+                            }
+                        }
+                        REPEAT_NUMB--;
+                }
+            });
 
-    //         ADDED_EVENT = 1;
-    //     }
-    // };
+            ADDED_EVENT = 1;
+        }
+    };
     function stopvideo() {
         let loop = setInterval(() => {
             let pause = document.querySelector('tp-yt-paper-icon-button.play-pause-button.style-scope.ytmusic-player-bar[title="Pause"]')
@@ -250,25 +240,10 @@
 			if(intcheck>30)(location.reload(true));
         },60 * 1000);
     };
-    function GetDuration_First(params) {
-        let loopGetDuration_First = setInterval(function(){
-            //console.log("Get duration");
-            let totalDuration_First = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
-            if(totalDuration_First > 0 && totalDuration_First < 1000){
-                let rndDuration_First = (Math.floor(Math.random() * LISTEN_DURATION_RANGE) + LISTEN_DURATION);
-                let rndStart_First = Math.floor(Math.random() * (parseInt(totalDuration_First) - parseInt(rndDuration_First) - 5));
-                console.log("Total "+totalDuration_First+" - Start from " + rndStart_First);
-                let ytplayer = document.getElementById("movie_player");
-                setTimeout(ytplayer.seekTo, 5000, rndStart_First, true);
-                setTimeout(seekSliderBar, rndDuration_First*1000, GOTO_PERCENT, rndDuration_First);
-                clearInterval(loopGetDuration_First);
-            }
-        },2000);
-    }
+  
 	function running() {
 		console.log("PLAY");
         setShufflealbum();
-        GetDuration_First();
 		//setTimeout(checkplayerpage,60*1000);
         setTimeout(() => {
             setRepeatAll();

@@ -112,7 +112,6 @@
                         console.log(REPEAT_NUMB);
                         if(REPEAT_NUMB > 0){
                             clickLike();
-                            console.log(REPEAT_NUMB);
                         }else{
                             explorers();
 							if (stopss) {

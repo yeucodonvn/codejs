@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Apple Music AutoPlay - version 2.9.6
-// @version      2.9.6
+// @name         Apple Music AutoPlay - version 2.9.7
+// @version      2.9.7
 // @description  This script Autoplay Apple Music
 // @author       bjemtj
 // @match        *https://music.apple.com/*

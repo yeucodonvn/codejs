@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         deezer version 0.4.7
+// @name         deezer version 0.4.8
 // @namespace    http://tampermonkey.net/
-// @version      0.4.7
+// @version      0.4.8
 
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-deezer.js

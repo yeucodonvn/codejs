@@ -103,13 +103,8 @@
     };
 
 
-    function seekSliderBar(gotoPercent, listenDuration){
+    function seekSliderBar(){
         let ytplayer = document.getElementById("movie_player");
-
-		if(SEEK_EVENT){
-			let totalDuration = hmsToSecondsOnly(document.querySelector('.time-info.style-scope.ytmusic-player-bar').textContent.split(" / ")[1].trim());
-            ytplayer.seekTo(totalDuration * gotoPercent, true);
-        }
 
         if(ADDED_EVENT!==1){
             ytplayer.addEventListener("onStateChange", function(state){	//https://freetuts.net/ham-addeventlistener-trong-javascript-374.html		chỗ này để cập nhật mỗi khi chạy next bài mới

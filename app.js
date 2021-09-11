@@ -8,9 +8,17 @@ const { match } = require('assert');
         try {
             setInterval(checkupdate, 6*60*60*1000);
             //updatecode();
-            const data = fs.readFileSync('data/gmail.txt', 'utf8')
+            let patchgmail='data/gmail.txt';
+            let patchip='data/ip.txt';
+            if (!fs.existsSync(patchgmail)) {
+                fs.createWriteStream(patchgmail);
+            }
+            if (!fs.existsSync(patchip)) {
+                fs.createWriteStream(patchip);
+            }
+            const data = fs.readFileSync(patchgmail, 'utf8')
             if (data.length>0) {
-                const ip = fs.readFileSync('data/ip.txt', 'utf8')
+                const ip = fs.readFileSync(patchip, 'utf8')
                 let acc = data.split(/\r?\n/g);
                 log(`nhap vao acc:  ${acc.length} `)
                 //let i=0;
@@ -32,7 +40,7 @@ const { match } = require('assert');
                     }
                 }
             } else {
-                log('khong co mgail');
+                log('khong co gmail');
             }
         } catch (error) {
             console.log("loi "+error.stack);

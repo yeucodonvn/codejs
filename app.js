@@ -1,4 +1,4 @@
-//version 1.0
+//version 1.0\\
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -195,26 +195,21 @@ const { match } = require('assert');
             console.log("loi =>  "+error.stack);
         }
     }
-    async function updatecode(params) {
-        var lineReader = require('readline').createInterface({
-            input: require('fs').createReadStream('app.js'),
-          });
-          var lineCounter = 0; var wantedLines = [];
-          let bbbb = await Promise.all(
-            lineReader.on('line', function (line) {
-                lineCounter++;
-                wantedLines.push(line);
-                if(lineCounter==1){lineReader.close();}
-            }),
-            // lineReader.on('close', function() {
-            //     console.log(wantedLines);
-            //     //process.exit(0);
-            // })
-          );
-         // return analyze(bbbb);
+    function download(url){
+        //const https = require('https'); // or 'https' for https:// URLs
+        
+        const https = require('https')
+        const fs = require('fs');
+        https.get(url, resp => resp.pipe(fs.createWriteStream('app1.js')));
+    }
+    async function checkupdate(params) {
+        url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
+        //check update
+        let content=await getlink(url);
+        let version =content.split(/(?<=version)?([0-9]*[.]*[0-9])+(.*?)(?=\\\\)/g);
+        //download de file
+        download(url);
 
-          await console.log(analyze(bbbb));
-          await process.exit(0);
     }
     function getlink(params) {
         const getScript = (url) => {

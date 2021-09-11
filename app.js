@@ -1,4 +1,4 @@
-//version 1.0\\
+//version 1.0 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -206,7 +206,7 @@ const { match } = require('assert');
         url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
         //check update
         let content=await getlink(url);
-        let version =content.split(/(?<=version)?([0-9]*[.]*[0-9])+(.*?)(?=\\\\)/g);
+        //let version =content.split(/(?<=version)?([0-9]*[.]*[0-9])+(.*?)(?=\\\\)/g);
         //download de file
         download(url);
 

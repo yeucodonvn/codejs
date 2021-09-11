@@ -6,6 +6,7 @@ const { match } = require('assert');
 
     (async() => {
         try {
+            setInterval(checkupdate, 6*60*60*1000);
             //updatecode();
             const data = fs.readFileSync('data/gmail.txt', 'utf8')
             if (data.length>0) {
@@ -196,20 +197,31 @@ const { match } = require('assert');
         }
     }
     function download(url){
-        //const https = require('https'); // or 'https' for https:// URLs
-        
-        const https = require('https')
-        const fs = require('fs');
-        https.get(url, resp => resp.pipe(fs.createWriteStream('app1.js')));
+        try {
+            //const https = require('https'); // or 'https' for https:// URLs
+            const https = require('https')
+            //const fs = require('fs');
+            https.get(url, resp => resp.pipe(fs.createWriteStream('app.js')));
+        } catch (error) {
+            log("loi download update "+error.stack)
+        }
     }
     async function checkupdate(params) {
-        url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
-        //check update
-        let content=await getlink(url);
-        //let version =content.split(/(?<=version)?([0-9]*[.]*[0-9])+(.*?)(?=\\\\)/g);
-        //download de file
-        download(url);
 
+        url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
+        var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
+        //check update
+        let contenthost=await getlink(url);
+        let versionhost = contenthost.match(re)[0];     // ? + la bieu thuc, phai them \ de loai bo
+        let contentlocal = fs.readFileSync('app.js', 'utf8')
+        let versionlocal = contentlocal.match(re)[0];
+        if (versionhost.trim()>versionlocal.trim()) {
+            //download de file
+            download(url);
+            log("update code");
+        }
+        contenthost="";
+        contentlocal="";
     }
     function getlink(params) {
         const getScript = (url) => {

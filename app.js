@@ -215,7 +215,7 @@ const { match } = require('assert');
         }
     }
     async function checkupdate(params) {
-
+        log("check update");
         url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
         var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
         //check update

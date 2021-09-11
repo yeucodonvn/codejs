@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9.5
-// @version      0.9.5
+// @name         YouTube AutoPlay - version 0.9.6
+// @version      0.9.6
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -60,7 +60,6 @@
 		if(Shufflealbum!==null&& autdioo==false){
 			console.log(Shufflealbum);
 			Shufflealbum.click();
-            
             setTimeout(Shufflealbum.click(),2000);
             seekSliderBar();
 		}
@@ -72,7 +71,19 @@
     };
     function togglepage(params) {
         let tog = document.querySelector('.toggle-player-page-button.style-scope.ytmusic-player-bar[aria-label="Close player page"]');
-        if(tog!==null){tog.click();}
+        if(tog!==null){tog.click();
+            setTimeout(function(){
+                let minivideo = document.querySelector('ytmusic-player.style-scope.ytmusic-player-page');
+                if (minivideo.hasAttribute('player-ui-state_')) {
+                    console.log('player-ui-state_');
+                    minivideo.removeAttribute('player-ui-state_');//player-ui-state_="INACTIVE"
+                }//video-mode_
+                if (minivideo.hasAttribute('video-mode_')) {
+                    console.log('video-mode_');
+                    minivideo.removeAttribute('video-mode_');//player-ui-state_="INACTIVE"
+                }
+            },5000);
+        }
     }
     function setRepeatAll(){
 		console.log("set RepeatAll");
@@ -221,6 +232,7 @@
 
     };
 	var intcheck=0;
+    
 	function checkspinloader(){
         setInterval(function(){
 			let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
@@ -234,7 +246,6 @@
 			if(intcheck>30)(location.reload(true));
         },60 * 1000);
     };
-  
 	function running() {
 		console.log("PLAY");
         setShufflealbum();

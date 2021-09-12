@@ -207,7 +207,7 @@
             if(btnRender != null){
                 if(Math.floor(Math.random() * 15) > 10){
                     console.log("Like Click");
-                    btnRender.querySelector('[aria-label="Like"]').click();
+                    btnRender.querySelector('[aria-label="Like"],.like.style-scope.ytmusic-like-button-renderer').click();
                 }
                 clearInterval(loopClickLikeRepeat);
             }
@@ -239,7 +239,7 @@
 			let spinloader = document.querySelector('.play-pause-button-spinner.style-scope.ytmusic-player-bar');
 			let gethidden=spinloader.getAttribute("aria-hidden");
             if(!gethidden || autdioo==false){
-                document.querySelector('[aria-label="Next song"]').click();
+                document.querySelector('[aria-label="Next song"],.next-button.style-scope.ytmusic-player-bar').click();
 				console.log("check spin loader");
 				intcheck++;
             }

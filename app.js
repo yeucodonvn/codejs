@@ -215,21 +215,36 @@ const { match } = require('assert');
         }
     }
     async function checkupdate(params) {
-        log("check update");
-        url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
-        var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
-        //check update
-        let contenthost=await getlink(url);
-        let versionhost = contenthost.match(re)[0];     // ? + la bieu thuc, phai them \ de loai bo
-        let contentlocal = fs.readFileSync('app.js', 'utf8')
-        let versionlocal = contentlocal.match(re)[0];
-        if (versionhost.trim()>versionlocal.trim()) {
-            //download de file
-            download(url);
-            log("update code");
+        try {
+            log("check update");
+            url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
+            var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
+            //check update
+            let versionhost="";
+            await getlink(url).then(
+                result => {
+                    let contenthost = result;
+                    var re =  new RegExp(/version ([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))? end/);
+                    versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
+                    log(versionhost);
+                    if (versionhost!="") {
+                        let contentlocal = fs.readFileSync('app.js', 'utf8')
+                        let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
+                        log(versionlocal);
+                        if (versionhost>versionlocal) {
+                            //download de file
+                            download(url);
+                            log("update code");
+                        }
+                        contenthost="";
+                        contentlocal="";
+                    }
+                    },
+                    error => log("getlink update error"+error)
+                );
+        } catch (error) {
+            log("update error => " + error.stack);
         }
-        contenthost="";
-        contentlocal="";
     }
     function getlink(params) {
         const getScript = (url) => {

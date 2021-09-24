@@ -6,6 +6,7 @@ const { match } = require('assert');
 
     (async() => {
         try {
+            checkupdate();
             setInterval(checkupdate, 6*60*60*1000);
             //updatecode();
             let patchgmail='data/gmail.txt';

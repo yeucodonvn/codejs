@@ -544,7 +544,7 @@ const { match } = require('assert');
                 //     continue;
                 // }
                 await page.tap(':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])');
-                await waitnext(page,60)
+                await waitnext(page,30)
                 await ytbtrending(page);
             }
         }
@@ -569,7 +569,7 @@ const { match } = require('assert');
 
             await page.waitForTimeout(2*1000);
             await page.tap(':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])');
-            await waitnext(page,30)
+            await waitnext(page,5)
             //await page.tap('tp-yt-paper-icon-button#play-pause-button[aria-label="Pause"]');
             await page.waitForTimeout(2*1000);
         }

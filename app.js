@@ -557,11 +557,6 @@ const { match } = require('assert');
             log('play ytb trending');
             await navigatorload(page,'https://music.youtube.com/explore');
 
-            // Click text=Explore
-            // await Promise.all([
-            //     page.waitForNavigation(/*{ url: 'https://music.youtube.com/explore' }*/),
-            //     page.tap('text=Explore')
-            // ]);
             await Promise.all([
                 page.waitForNavigation(/*{ url: 'https://music.youtube.com/explore' }*/),
                 page.tap(':is(h2[aria-label="Trending"]:has(yt-button-renderer.style-scope.ytmusic-carousel-shelf-basic-header-renderer.style-text),h2[aria-label="Thịnh hành"]:has(yt-button-renderer.style-scope.ytmusic-carousel-shelf-basic-header-renderer.style-text))'),
@@ -572,6 +567,7 @@ const { match } = require('assert');
             await waitnext(page,5)
             //await page.tap('tp-yt-paper-icon-button#play-pause-button[aria-label="Pause"]');
             await page.waitForTimeout(2*1000);
+            log('end trending');
         }
         catch(error){
             log("loi trending =>  "+error.stack)}

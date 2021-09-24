@@ -18,6 +18,7 @@ const { match } = require('assert');
                 fs.createWriteStream(patchip);
             }
             const data = fs.readFileSync(patchgmail, 'utf8')
+            data=data.trim();
             if (data.length>0) {
                 const ip = fs.readFileSync(patchip, 'utf8')
                 let acc = data.split(/\r?\n/g);

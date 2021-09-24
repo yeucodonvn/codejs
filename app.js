@@ -1,4 +1,4 @@
-//version 1.1 end
+//version 1.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -35,7 +35,6 @@ const { match } = require('assert');
                     let login = await logingmail(page, acc[i]);
                     if (login) {
                         let check_pre = await checkpre(page);
-                        await page.pause();
                         switch (check_pre) {
                             case 1:
                                 await ytb(page);

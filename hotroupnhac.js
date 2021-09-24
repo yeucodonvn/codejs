@@ -311,6 +311,7 @@ function views(element) {
 }
 loctich();
 
+
 //================================================================
 let element= document.querySelectorAll('a[dir="ltr"]');
            element.forEach(element => {

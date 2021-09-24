@@ -1,4 +1,4 @@
-//version 1.0 end
+//version 1.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -32,9 +32,33 @@ const { match } = require('assert');
                         var {browser,page} = await khoitao('fchr',false);
                     }
                     log(`${i} acc:  ${acc[i]} `)
-                    await logingmail(page, acc[i]);
+                    let login = await logingmail(page, acc[i]);
+                    if (login) {
+                        let check_pre = await checkpre(page);
+                        await page.pause();
+                        switch (check_pre) {
+                            case 1:
+                                await ytb(page);
+                                i++;
+                                break;
+                            case 2:
+                                log("ytb het han");
+                                // remove acc[i] khoi file goc
+                                savefile('acc_het_han',acc[i])
+                                acc.splice(i,1);
+                                writefile(patchgmail,acc);
+                                break;
+                            case 3:
+                                log("ytb chua reg");
+                                savefile('acc_chua_reg',acc[i])
+                                acc.splice(i,1);
+                                writefile(patchgmail,acc);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     await browser.close();
-                    i++;
                     if (i>=acc.length) {
                         i=0;
                     }
@@ -130,19 +154,17 @@ const { match } = require('assert');
         }
     }
     async function logingmail(page, acc){
+        let status = false;
         try{
             let email = acc.split('|')[0];
             let pass = acc.split('|')[1];
             let emailkp = acc.split('|')[2];
-            await page.goto('https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
+            await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
             await page.tap('#identifierId');
             // await page.fill('#identifierId',email);
             log('login mail email ' +email);
             await page.keyboard.type(email,{delay: 100});
-            await Promise.all([
-                page.waitForNavigation(/*{ url: 'https://music.youtube.com/explore' }*/),
-                page.keyboard.press('Enter'),
-            ]);
+            page.keyboard.press('Enter');
             await page.waitForTimeout(2000);
             try {
                 //if (await page.$('#captchaAudio[src]')!==null) {
@@ -185,7 +207,7 @@ const { match } = require('assert');
             } catch (error) {
                 //console.log('loi spinner => '+error.stack)
             }
-            await page.goto('https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
+            await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
             await page.waitForNavigation();
             await page.waitForTimeout(4000);
             /*
@@ -198,10 +220,54 @@ const { match } = require('assert');
                 log('sai tai khoan');
             }else{
                 log('login ok');
-                await ytb(page);
+                status = true;
             }
         } catch (error) {
             console.log("loi =>  "+error.stack);
+        }
+        return status;
+    }
+    function savefile(file,mess) {
+        try {
+            let path = 'data/'+file+'.txt';
+            if (!fs.existsSync(path)) {
+                fs.appendFile(path,"", function (err) {
+                    if (err) console.log(err.stack);
+                });
+            }
+    
+            fs.appendFile(path,mess + '\r\n',function (err) {
+                if (err) {
+                    console.log(error.stack);
+                } else {
+                  // done
+                }});
+            //console.log(mess);
+        } catch (error) {
+            console.log(error.stack);
+        }
+    }
+    function writefile(path,list) {
+        try {
+            if (!fs.existsSync(path)) {
+                fs.appendFile(path,"", function (err) {
+                    if (err) console.log(err.stack);
+                });
+            }
+            let mess="";
+            list.forEach(text => {
+                mess+=text + '\r\n';
+            });
+
+            fs.writeFile(path,mess,function (err) {
+                if (err) {
+                    console.log(error.stack);
+                } else {
+                  // done
+                }});
+            //console.log(mess);
+        } catch (error) {
+            console.log(error.stack);
         }
     }
     function download(url){
@@ -224,7 +290,7 @@ const { match } = require('assert');
             await getlink(url).then(
                 result => {
                     let contenthost = result;
-                    var re =  new RegExp(/version ([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))? end/);
+                    var re =  new RegExp(/version ([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))? end/g);
                     versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
                     log(versionhost);
                     if (versionhost!="") {
@@ -337,6 +403,16 @@ const { match } = require('assert');
             console.log(error.stack);
         }
     }
+    async function navigatorload(page,urllink) {
+        do {
+            try {
+                await page.goto(urllink);
+                return
+            } catch (error) {
+                log("loi load link => "+urllink);
+            }
+        } while (true);
+    }
 
     async function runjs(page) {
         try {
@@ -438,10 +514,24 @@ const { match } = require('assert');
             await page.waitForTimeout(2*60*1000);
         } while (true);
     }
-
+    async function waitForTime(page,element,time){
+        let status = false;
+        try {
+            for (let i = 0; i < time; i++) {
+                if (await page.$(element)) {
+                    status = true;
+                    break;
+                }
+                await page.waitForTimeout(1000);
+            }
+        } catch (error) {
+            console.log("loi =>  "+error.stack);
+        }
+        return status;
+    }
     async function ytb(page) {
         try{
-
+            //https://music.youtube.com/paid_memberships
             let url = "https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json";
             let listurl = JSON.parse(await getlink(url));
             dialogdiss(page);
@@ -449,7 +539,7 @@ const { match } = require('assert');
                 let link = listurl.list[Math.floor(Math.random()*(listurl.list.length))];
 
                 log(`play ytb => ${link}`);
-                await page.goto(link);
+                await navigatorload(page,link);
                 // if (page.waitForSelector('[aria-label="Shuffle"]')==null) {
                 //     continue;
                 // }
@@ -461,11 +551,11 @@ const { match } = require('assert');
         catch(error){
             log("loi =>  "+error.stack)}
     }
-
+    
     async function ytbtrending(page) {
         try{
             log('play ytb trending');
-            await page.goto('https://music.youtube.com/explore');
+            await navigatorload(page,'https://music.youtube.com/explore');
 
             // Click text=Explore
             // await Promise.all([
@@ -485,4 +575,20 @@ const { match } = require('assert');
         }
         catch(error){
             log("loi trending =>  "+error.stack)}
+    }
+    async function checkpre(page){
+        let status=0;
+        try{
+            let url = "https://music.youtube.com/paid_memberships";
+            await navigatorload(page,url);
+
+            if (await waitForTime(page,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',10)) {
+                if (await waitForTime(page,'#error-text-renderer.style-scope.yt-card-item-error-renderer',5)) {
+                    status=2;
+                }else{status=1;}
+            }else{status=3;}
+        }catch (error) {
+            log("loi =>  "+error.stack);
+        }
+        return status;
     }

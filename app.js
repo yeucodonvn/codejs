@@ -1,4 +1,4 @@
-//version 1.2 end
+//version 1.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -17,7 +17,7 @@ const { match } = require('assert');
             if (!fs.existsSync(patchip)) {
                 fs.createWriteStream(patchip);
             }
-            const data = fs.readFileSync(patchgmail, 'utf8')
+            let data = fs.readFileSync(patchgmail, 'utf8');
             data=data.trim();
             if (data.length>0) {
                 const ip = fs.readFileSync(patchip, 'utf8')

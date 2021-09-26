@@ -9,8 +9,8 @@ const { match } = require('assert');
             checkupdate();
             setInterval(checkupdate, 6*60*60*1000);
             //updatecode();
-            let patchgmail='data/gmail.txt';
-            let patchip='data/ip.txt';
+            const patchgmail='data/gmail.txt';
+            const patchip='data/ip.txt';
             if (!fs.existsSync(patchgmail)) {
                 fs.createWriteStream(patchgmail);
             }
@@ -67,6 +67,7 @@ const { match } = require('assert');
             } else {
                 log('khong co gmail');
             }
+            log('hoan thanh');
         } catch (error) {
             console.log("loi "+error.stack);
         }
@@ -464,7 +465,7 @@ const { match } = require('assert');
                                 }
                             },5000);
                         }
-                    }, 30*1000);
+                    }, 10*1000);
                 }
 
                 function checkspinloader(){

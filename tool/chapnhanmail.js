@@ -280,7 +280,7 @@ function download(url,file){
 async function checkupdate(file) {
     try {
         log("check update");
-        url='https://raw.githubusercontent.com/yeucodonvn/codejs/tool/master/'+file;
+        url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/tool/'+file;
         var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
         //check update
         let versionhost="";

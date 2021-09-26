@@ -6,8 +6,8 @@ const { match } = require('assert');
 
     (async() => {
         try {
-            checkupdate();
-            setInterval(checkupdate, 6*60*60*1000);
+            checkupdate('ytbplay.js');
+            setInterval(checkupdate('ytbplay.js'), 6*60*60*1000);
             //updatecode();
             const patchgmail='data/gmail.txt';
             const patchip='data/ip.txt';
@@ -272,20 +272,20 @@ const { match } = require('assert');
             console.log(error.stack);
         }
     }
-    function download(url){
+    function download(url,file){
         try {
             //const https = require('https'); // or 'https' for https:// URLs
             const https = require('https')
             //const fs = require('fs');
-            https.get(url, resp => resp.pipe(fs.createWriteStream('app.js')));
+            https.get(url, resp => resp.pipe(fs.createWriteStream(file)));
         } catch (error) {
             log("loi download update "+error.stack)
         }
     }
-    async function checkupdate(params) {
+    async function checkupdate(file) {
         try {
             log("check update");
-            url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/app.js';
+            url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/'+file;
             var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
             //check update
             let versionhost="";
@@ -296,12 +296,12 @@ const { match } = require('assert');
                     versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
                     log(versionhost);
                     if (versionhost!="") {
-                        let contentlocal = fs.readFileSync('app.js', 'utf8')
+                        let contentlocal = fs.readFileSync(file, 'utf8')
                         let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
                         log(versionlocal);
                         if (versionhost>versionlocal) {
                             //download de file
-                            download(url);
+                            download(url,file);
                             log("update code");
                         }
                         contenthost="";

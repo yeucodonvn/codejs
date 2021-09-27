@@ -7,45 +7,49 @@ const { match } = require('assert');
 let acc = new Array();
 (async() => {
     try {
-        checkupdate('chapnhanmail.js');
         let patchgmail='data/gmailmoi.txt';
-
+        
         if (!fs.existsSync(patchgmail)) {
             fs.createWriteStream(patchgmail);
-        }
-
-        let listgmail = fs.readFileSync(patchgmail, 'utf8')
-        listgmail=listgmail.trim();
-        if (listgmail.length>0) {
-            acc = listgmail.split(/\r?\n/g);
-
-            log(`nhap vao acc:  ${acc.length} `)
-            //let i=0;
-            // chinh useragnet, screen size
-            //let i=0;
-            for (let i = 0; i < acc.length; i) {
-                var {browser,context,page} = await khoitao('fchr',false);
-                log(`${i} acc:  ${acc[i]} `)
-                let accmail = await logingmail(page, acc[i]);
-                if (accmail!=="") {
-                    let cc = await chapnhan(context,page);
-                    if (cc!=="") {
-                        savefile('chapnhanok',acc[i])
-                        acc.splice(i,1);
-                        writefile(patchgmail,acc);
+            log(`tao file gmail.txt `)
+        }else{
+            checkupdate('chapnhanmail.js');
+            let listgmail = fs.readFileSync(patchgmail, 'utf8')
+            listgmail=listgmail.trim();
+            if (listgmail.length>0) {
+                acc = listgmail.split(/\r?\n/g);
+    
+                log(`nhap vao acc:  ${acc.length} `)
+                //let i=0;
+                // chinh useragnet, screen size
+                //let i=0;
+                for (let i = 0; i < acc.length; i) {
+                    var {browser,context,page} = await khoitao('fchr',false);
+                    log(`${i} acc:  ${acc[i]} `)
+                    let accmail = await logingmail(page, acc[i]);
+                    if (accmail!=="") {
+                        let cc = await chapnhan(context,page);
+                        if (cc!=="") {
+                            savefile('chapnhanok',acc[i])
+                            acc.splice(i,1);
+                            writefile(patchgmail,acc);
+                        }else{
+                            savefile('chapnhanloi',acc[i])
+                            acc.splice(i,1);
+                            writefile(patchgmail,acc);
+                        }
                     }else{
-                        savefile('chapnhanloi',acc[i])
-                        acc.splice(i,1);
-                        writefile(patchgmail,acc);
+                        savefile("saipass",accmail);
                     }
-                }else{
-                    savefile("saipass",accmail);
+                    await browser.close();
                 }
-                await browser.close();
+            } else {
+                log('khong co gmail');
             }
-        } else {
-            log('khong co gmail');
+            log('hoan thanh');
         }
+
+        
     } catch (error) {
         console.log("loi "+error.stack);
     }

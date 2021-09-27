@@ -6,68 +6,71 @@ const { match } = require('assert');
 
     (async() => {
         try {
-            pathfile ='ytbplay.js';
-            checkupdate(pathfile);
-            setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
-            //updatecode();
-            const patchgmail='data/gmail.txt';
-            const patchip='data/ip.txt';
             if (!fs.existsSync(patchgmail)) {
                 fs.createWriteStream(patchgmail);
-            }
-            if (!fs.existsSync(patchip)) {
-                fs.createWriteStream(patchip);
-            }
-            let data = fs.readFileSync(patchgmail, 'utf8');
-            data=data.trim();
-            if (data.length>0) {
-                const ip = fs.readFileSync(patchip, 'utf8')
-                let acc = data.split(/\r?\n/g);
-                log(`nhap vao acc:  ${acc.length} `)
-                //let i=0;
-                // chinh useragnet, screen size
-                let i=0;
-                while(true) {
-                    if (ip.length>0) {
-                        var sock = ip.split(/\r?\n/g);
-                        var {browser,page} = await khoitao('fchr',sock[i]);
-                    }else {
-                        var {browser,page} = await khoitao('fchr',false);
-                    }
-                    log(`${i} acc:  ${acc[i]} `)
-                    let login = await logingmail(page, acc[i]);
-                    if (login) {
-                        let check_pre = await checkpre(page);
-                        switch (check_pre) {
-                            case 1:
-                                await ytb(page);
-                                i++;
-                                break;
-                            case 2:
-                                log("ytb het han");
-                                // remove acc[i] khoi file goc
-                                savefile('acc_het_han',acc[i])
-                                acc.splice(i,1);
-                                writefile(patchgmail,acc);
-                                break;
-                            case 3:
-                                log("ytb chua reg");
-                                savefile('acc_chua_reg',acc[i])
-                                acc.splice(i,1);
-                                writefile(patchgmail,acc);
-                                break;
-                            default:
-                                break;
+                log(`tao file gmail.txt `)
+            }else{
+                pathfile ='ytbplay.js';
+                checkupdate(pathfile);
+                setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
+                //updatecode();
+                const patchgmail='data/gmail.txt';
+                const patchip='data/ip.txt';
+                if (!fs.existsSync(patchip)) {
+                    fs.createWriteStream(patchip);
+                }
+                let data = fs.readFileSync(patchgmail, 'utf8');
+                data=data.trim();
+                if (data.length>0) {
+                    const ip = fs.readFileSync(patchip, 'utf8')
+                    let acc = data.split(/\r?\n/g);
+                    log(`nhap vao acc:  ${acc.length} `)
+                    //let i=0;
+                    // chinh useragnet, screen size
+                    let i=0;
+                    while(true) {
+                        if (ip.length>0) {
+                            var sock = ip.split(/\r?\n/g);
+                            var {browser,page} = await khoitao('fchr',sock[i]);
+                        }else {
+                            var {browser,page} = await khoitao('fchr',false);
+                        }
+                        log(`${i} acc:  ${acc[i]} `)
+                        let login = await logingmail(page, acc[i]);
+                        if (login) {
+                            let check_pre = await checkpre(page);
+                            switch (check_pre) {
+                                case 1:
+                                    await ytb(page);
+                                    i++;
+                                    break;
+                                case 2:
+                                    log("ytb het han");
+                                    // remove acc[i] khoi file goc
+                                    savefile('acc_het_han',acc[i])
+                                    acc.splice(i,1);
+                                    writefile(patchgmail,acc);
+                                    break;
+                                case 3:
+                                    log("ytb chua reg");
+                                    savefile('acc_chua_reg',acc[i])
+                                    acc.splice(i,1);
+                                    writefile(patchgmail,acc);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        await browser.close();
+                        if (i>=acc.length) {
+                            i=0;
                         }
                     }
-                    await browser.close();
-                    if (i>=acc.length) {
-                        i=0;
-                    }
+                } else {
+                    log('khong co gmail');
                 }
-            } else {
-                log('khong co gmail');
             }
+            
             log('hoan thanh');
         } catch (error) {
             console.log("loi "+error.stack);

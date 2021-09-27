@@ -6,8 +6,8 @@ const { match } = require('assert');
 
     (async() => {
         try {
-            checkupdate('ytbplay.js');
-            setInterval(checkupdate('ytbplay.js'), 6*60*60*1000);
+            checkupdate();
+            setInterval(checkupdate, 6*60*60*1000);
             //updatecode();
             const patchgmail='data/gmail.txt';
             const patchip='data/ip.txt';
@@ -282,10 +282,10 @@ const { match } = require('assert');
             log("loi download update "+error.stack)
         }
     }
-    async function checkupdate(file) {
+    async function checkupdate() {
         try {
             log("check update");
-            url='https://raw.githubusercontent.com/yeucodonvn/codejs/tool/master/tool/'+file;
+            url='https://raw.githubusercontent.com/yeucodonvn/codejs/tool/master/tool/ytbplay.js';
             var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
             //check update
             let versionhost="";
@@ -296,7 +296,7 @@ const { match } = require('assert');
                     versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
                     log(versionhost);
                     if (versionhost!="") {
-                        let contentlocal = fs.readFileSync(file, 'utf8')
+                        let contentlocal = fs.readFileSync('ytbplay.js', 'utf8')
                         let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
                         log(versionlocal);
                         if (versionhost>versionlocal) {

@@ -1,3 +1,4 @@
+//version 1.0 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -281,35 +282,36 @@ async function checkupdate(file) {
     try {
         log("check update");
         url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/tool/'+file;
-        var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
         //check update
         let versionhost="";
-        await getlink(url).then(
+        await getlink(url,file).then(
             result => {
+                console.log(file);
+                console.log(url);
                 let contenthost = result;
                 var re =  new RegExp(/version ([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))? end/g);
-                versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
-                log(versionhost);
-                if (versionhost!="") {
-                    let contentlocal = fs.readFileSync(file, 'utf8')
-                    let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
-                    log(versionlocal);
-                    if (versionhost>versionlocal) {
-                        //download de file
-                        download(url,file);
-                        log("update code");
-                    }
-                    contenthost="";
-                    contentlocal="";
-                }
-                },
-                error => log("getlink update error"+error)
+                    versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
+                    log(versionhost);
+                    if (versionhost!="") {
+                        let contentlocal = fs.readFileSync(file, 'utf8')
+                        let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
+                        log(versionlocal);
+                        if (versionhost>versionlocal) {
+                            //download de file
+                            download(url,file);
+                            log("update code");
+                        }
+                        contenthost="";
+                        contentlocal="";
+                        }
+                    },
+                    error => log("getlink update error"+error)
             );
     } catch (error) {
         log("update error => " + error.stack);
     }
 }
-function getlink(params) {
+function getlink(params,file) {
     const getScript = (url) => {
         return new Promise((resolve, reject) => {
             const http      = require('http'),

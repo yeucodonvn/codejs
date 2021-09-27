@@ -6,8 +6,9 @@ const { match } = require('assert');
 
     (async() => {
         try {
-            checkupdate();
-            setInterval(checkupdate, 6*60*60*1000);
+            pathfile ='ytbplay.js';
+            checkupdate(pathfile);
+            setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
             //updatecode();
             const patchgmail='data/gmail.txt';
             const patchip='data/ip.txt';
@@ -282,21 +283,21 @@ const { match } = require('assert');
             log("loi download update "+error.stack)
         }
     }
-    async function checkupdate() {
+    async function checkupdate(file) {
         try {
             log("check update");
-            url='https://raw.githubusercontent.com/yeucodonvn/codejs/tool/master/tool/ytbplay.js';
-            var re =  new RegExp(/(?<=version)\?([0-9]*[.]*[0-9])\+(.*?)(?<=end)/g);;
+            url='https://raw.githubusercontent.com/yeucodonvn/codejs/master/tool/'+file;
+
             //check update
             let versionhost="";
-            await getlink(url).then(
+            await getlink(url,file).then(
                 result => {
                     let contenthost = result;
                     var re =  new RegExp(/version ([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))? end/g);
                     versionhost = contenthost.match(re)[0].replace("version ","").replace(" end","");
                     log(versionhost);
                     if (versionhost!="") {
-                        let contentlocal = fs.readFileSync('ytbplay.js', 'utf8')
+                        let contentlocal = fs.readFileSync(file, 'utf8')
                         let versionlocal = contentlocal.match(re)[0].replace("version ","").replace(" end","");
                         log(versionlocal);
                         if (versionhost>versionlocal) {
@@ -306,7 +307,7 @@ const { match } = require('assert');
                         }
                         contenthost="";
                         contentlocal="";
-                    }
+                        }
                     },
                     error => log("getlink update error"+error)
                 );
@@ -314,7 +315,7 @@ const { match } = require('assert');
             log("update error => " + error.stack);
         }
     }
-    function getlink(params) {
+    function getlink(params,file) {
         const getScript = (url) => {
             return new Promise((resolve, reject) => {
                 const http      = require('http'),

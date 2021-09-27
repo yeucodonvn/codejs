@@ -6,6 +6,7 @@ const { match } = require('assert');
 
     (async() => {
         try {
+            const patchgmail='data/gmail.txt';
             if (!fs.existsSync(patchgmail)) {
                 fs.createWriteStream(patchgmail);
                 log(`tao file gmail.txt `)
@@ -14,7 +15,6 @@ const { match } = require('assert');
                 checkupdate(pathfile);
                 setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
                 //updatecode();
-                const patchgmail='data/gmail.txt';
                 const patchip='data/ip.txt';
                 if (!fs.existsSync(patchip)) {
                     fs.createWriteStream(patchip);

@@ -11,7 +11,7 @@ let acc = new Array();
         
         if (!fs.existsSync(patchgmail)) {
             fs.createWriteStream(patchgmail);
-            log(`tao file gmail.txt `)
+            log(`tao file gmailmoi.txt `)
         }else{
             checkupdate('chapnhanmail.js');
             let listgmail = fs.readFileSync(patchgmail, 'utf8')

@@ -1,4 +1,4 @@
-//version 1.3 end
+//version 1.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -115,6 +115,7 @@ const { match } = require('assert');
             ],
 
             ignoreDefaultArgs: [ "--enable-automation"],
+            ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
 
         }
         if (sock!==false) {
@@ -431,7 +432,7 @@ const { match } = require('assert');
                     element.innerHTML = '0';
                     element.id = 'playnum_plw';
                     document.body.appendChild(element);
-                    console.log("create btn");
+                    console.log("create button");
                 }
                 function clickLike(){
                     let ytplayer = document.getElementById("movie_player");
@@ -473,6 +474,7 @@ const { match } = require('assert');
                 }
 
                 function checkspinloader(){
+                    let intcheck = 0;
                     setInterval(function(){
                         let autdioo = !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused});
                         let spinloader = document.querySelector('.play-pause-button-spinner.style-scope.ytmusic-player-bar');
@@ -480,9 +482,12 @@ const { match } = require('assert');
                         if(!gethidden || autdioo==false){
                             document.querySelector('[aria-label="Next song"],.next-button.style-scope.ytmusic-player-bar').click();
                             console.log("check spin loader");
-                            //intcheck++;
+                            intcheck++;
                         }
-                        //if(intcheck>30)(location.reload(true));
+                        if(intcheck>10){
+                            document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"]').click();
+                            intcheck=0;
+                        }
                     },60 * 1000);
                 };
                 function checkVideoPaused(){
@@ -509,7 +514,6 @@ const { match } = require('assert');
         }
     }
     async function waitnext(page,numnext){
-        await runjs(page);
         await page.waitForTimeout(2000);
         do {
             let num = await page.evaluate(() => document.querySelector('button#playnum_plw').textContent);
@@ -546,10 +550,10 @@ const { match } = require('assert');
 
                 log(`play ytb => ${link}`);
                 await navigatorload(page,link);
-                // if (page.waitForSelector('[aria-label="Shuffle"]')==null) {
-                //     continue;
-                // }
-                await page.tap(':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])');
+                await runjs(page);
+                let element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])';
+                await waitForTime(page,element,5)
+                await page.tap(element);
                 await waitnext(page,30)
                 await ytbtrending(page);
             }
@@ -560,16 +564,19 @@ const { match } = require('assert');
     
     async function ytbtrending(page) {
         try{
+            let element="";
             log('play ytb trending');
             await navigatorload(page,'https://music.youtube.com/explore');
-
+            await runjs(page);
             await Promise.all([
                 page.waitForNavigation(/*{ url: 'https://music.youtube.com/explore' }*/),
                 page.tap(':is(h2[aria-label="Trending"]:has(yt-button-renderer.style-scope.ytmusic-carousel-shelf-basic-header-renderer.style-text),h2[aria-label="Thịnh hành"]:has(yt-button-renderer.style-scope.ytmusic-carousel-shelf-basic-header-renderer.style-text))'),
+                element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])',
+                await waitForTime(page,element,5),
             ]);
-
-            await page.waitForTimeout(2*1000);
-            await page.tap(':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])');
+            element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])';
+            await waitForTime(page,element,5);
+            await page.tap(element);
             await waitnext(page,5)
             //await page.tap('tp-yt-paper-icon-button#play-pause-button[aria-label="Pause"]');
             await page.waitForTimeout(2*1000);

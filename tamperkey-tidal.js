@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.8
-// @version      1.4.8
+// @name         Tidal - version 1.4.9
+// @version      1.4.9
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -52,6 +52,7 @@
 		setTimeout(get_time, 10000);
 		repeat();
 	};
+	let search_stop_count=0;
 	function checkstop(){
 		let stop = setInterval(function(){
 			var playbtn = document.querySelector('[data-test="play"]');
@@ -60,7 +61,10 @@
 				//playbtn.click();
 				console.log("search stop");
 				clearInterval(stop);
+			}else{
+				search_stop_count++;
 			}
+			if(search_stop_count>=15) {window.location.reload(true)};
 		},50000)
 	};
 	function repeat() {
@@ -87,15 +91,15 @@
 			clickshuffle();
 			}
 	};
-	var search_click=0;
+	var search_spincount=0;
 	function search_play_spin_load(){
 		let playbtn = document.querySelector('.css-awgilu');
-		if (document.querySelector('.css-1cyhemm')) {
-			let current_time = document.querySelector('knob--129sB[style]').getAttribute('style');
+		if (document.querySelector('#progressBar')) {
+			let current_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
 			let demloi=0;
 			let demok=0;
 			let loopchecktime = setInterval(function(){
-				let temp_time = document.querySelector('knob--129sB[style]').getAttribute('style');
+				let temp_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
 				if(current_time.localeCompare(temp_time)==0){
 					demloi++;
 					console.log("search dung giua chung");
@@ -110,9 +114,9 @@
 				if(demok>3){demok=0;clearInterval(loopchecktime)}
 			}, 5000);
 				if(playbtn!==null){
-				search_click++;
+				search_spincount++;
 				};
-			if(search_click>=10) {window.location.reload(true)};
+			if(search_spincount>=10) {window.location.reload(true)};
 		}
 	};
 

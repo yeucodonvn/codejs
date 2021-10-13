@@ -1,4 +1,4 @@
-//version 1.5 end
+//version 1.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');

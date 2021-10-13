@@ -1,4 +1,4 @@
-//version 1.4 end
+//version 1.5 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -6,6 +6,13 @@ const { match } = require('assert');
 
     (async() => {
         try {
+            let typecapcha=false;
+            var arg = process.argv;
+            if (arg[2]) {
+                if(arg[2].search('capcha')){
+                    typecapcha=true;
+                }
+            }
             const patchgmail='data/gmail.txt';
             if (!fs.existsSync(patchgmail)) {
                 fs.createWriteStream(patchgmail);
@@ -21,7 +28,7 @@ const { match } = require('assert');
                 }
                 let data = fs.readFileSync(patchgmail, 'utf8');
                 data=data.trim();
-                if (data.length>0) {
+                if (data.length!==0) {
                     const ip = fs.readFileSync(patchip, 'utf8')
                     let acc = data.split(/\r?\n/g);
                     log(`nhap vao acc:  ${acc.length} `)
@@ -36,8 +43,8 @@ const { match } = require('assert');
                             var {browser,page} = await khoitao('fchr',false);
                         }
                         log(`${i} acc:  ${acc[i]} `)
-                        let login = await logingmail(page, acc[i]);
-                        if (login) {
+                        let login = await logingmail(page, acc[i],typecapcha);
+                        if (login=='login ok') {
                             let check_pre = await checkpre(page);
                             switch (check_pre) {
                                 case 1:
@@ -60,6 +67,10 @@ const { match } = require('assert');
                                 default:
                                     break;
                             }
+                        }else{
+                            savefile('gmail_loi',acc[i]+' | '+login);
+                            acc.splice(i,1);
+                            writefile(patchgmail,acc);
                         }
                         await browser.close();
                         if (i>=acc.length) {
@@ -112,6 +123,7 @@ const { match } = require('assert');
             "--no-sandbox",
             "--reset-variation-state",
             '--disable-features=site-per-process',
+            //"--app=https://music.youtube.com",
             ],
 
             ignoreDefaultArgs: [ "--enable-automation"],
@@ -160,8 +172,8 @@ const { match } = require('assert');
             log(error.stack);
         }
     }
-    async function logingmail(page, acc){
-        let status = false;
+    async function logingmail(page, acc,typecapcha){
+        let status = "";
         try{
             let email = acc.split('|')[0];
             let pass = acc.split('|')[1];
@@ -178,8 +190,13 @@ const { match } = require('assert');
                 let capcha = await page.$('#captchaAudio[src]');
                 if(capcha!==null) {
                     log('dinh capcha');
-                    read('hay giai capcha => ');
-                    await page.waitForLoadState('networkidle');
+                    if (typecapcha) {
+                        return status ="hoi capcha";
+                    }else {
+                        read('hay giai capcha => ');
+                        await page.waitForLoadState('networkidle');
+
+                    }
                 }
             } catch (error) {
                 log('loi capcha => '+error.stack);
@@ -187,8 +204,18 @@ const { match } = require('assert');
             await page.tap('[name="password"]');
             await page.keyboard.type(pass,{delay: 100});
             await page.keyboard.press('Enter');
+            await page.waitForTimeout(4000);
             try {
-                await page.waitForTimeout(4000);
+                // let verphone = await page.$('text=Verify it’s you');
+                let verphone = await page.evaluate(()=>(document.querySelector('H1#headingText').textContent=="Verify it’s you"));
+                if(verphone) {
+                    log('verrphone');
+                    return status= 'ver phone';
+                }
+            } catch (error) {
+            }
+            try {
+                // await page.waitForTimeout(4000);
                 //let emailrecovery = await page.$(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
                 let emailrecovery = await page.evaluate(()=>(document.querySelector('[data-challengeindex="0"],[aria-label="Confirm your recovery email"]')!==null));
                 if(emailrecovery) {
@@ -227,7 +254,7 @@ const { match } = require('assert');
                 log('sai tai khoan');
             }else{
                 log('login ok');
-                status = true;
+                status = 'login ok';
             }
         } catch (error) {
             console.log("loi =>  "+error.stack);
@@ -242,7 +269,6 @@ const { match } = require('assert');
                     if (err) console.log(err.stack);
                 });
             }
-    
             fs.appendFile(path,mess + '\r\n',function (err) {
                 if (err) {
                     console.log(error.stack);
@@ -506,8 +532,8 @@ const { match } = require('assert');
                     togglepage();
                     checkspinloader();
                 }
-                run();
                 console.log("run script");
+                run();
             });
         } catch (error) {
             log("loi run js => "+ error.stack);
@@ -516,12 +542,15 @@ const { match } = require('assert');
     async function waitnext(page,numnext){
         await page.waitForTimeout(2000);
         do {
-            let num = await page.evaluate(() => document.querySelector('button#playnum_plw').textContent);
-            //console.log(`test receive num = ${num}`);
-            if (num>numnext) {
-                break;
+            if (await waitForTime(page,'button#playnum_plw',5)) {
+                let num = await page.evaluate(() => document.querySelector('button#playnum_plw').textContent);
+                //console.log(`test receive num = ${num}`);
+                if (num>numnext) {
+                    break;
+                }
+                await page.waitForTimeout(2*60*1000);
             }
-            await page.waitForTimeout(2*60*1000);
+            else {return;}
         } while (true);
     }
     async function waitForTime(page,element,time){

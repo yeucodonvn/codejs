@@ -59,7 +59,7 @@
 			if(playbtn){
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				//playbtn.click();
-				console.log("search stop");
+				console.log("search stop: "+search_stop_count);
 				clearInterval(stop);
 			}else{
 				search_stop_count++;
@@ -102,7 +102,7 @@
 				let temp_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
 				if(current_time.localeCompare(temp_time)==0){
 					demloi++;
-					console.log("search dung giua chung");
+					console.log("search dung giua chung"+search_spincount);
 					}
 				if(demloi>3)
 				{
@@ -112,7 +112,7 @@
 					clearInterval(loopchecktime);
 				}else{demok++;}
 				if(demok>3){demok=0;clearInterval(loopchecktime)}
-			}, 5000);
+			}, 10*1000);
 				if(playbtn!==null){
 				search_spincount++;
 				};
@@ -166,7 +166,8 @@
 									temp_number--;
 									setTimeout(get_time,(endtime+5)*1000);
 								}else{
-									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+									const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
+									document.querySelector(next).click();
 									REPEAT_NUMB--;
 								}
 							}

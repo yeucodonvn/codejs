@@ -1,12 +1,12 @@
-//version 1.4 end
+//version 1.5 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
 const { match } = require('assert');
 
+let typecapcha=false;
     (async() => {
         try {
-            let typecapcha=false;
             var arg = process.argv;
             if (arg[2]) {
                 if(arg[2].search('capcha')){
@@ -29,21 +29,21 @@ const { match } = require('assert');
                 let data = fs.readFileSync(patchgmail, 'utf8');
                 data=data.trim();
                 if (data.length!==0) {
-                    const ip = fs.readFileSync(patchip, 'utf8')
                     let acc = data.split(/\r?\n/g);
                     log(`nhap vao acc:  ${acc.length} `)
                     //let i=0;
                     // chinh useragnet, screen size
                     let i=0;
                     while(true) {
-                        if (ip.length>0) {
-                            var sock = ip.split(/\r?\n/g);
-                            var {browser,page} = await khoitao('fchr',sock[i]);
-                        }else {
+                        // const ip = fs.readFileSync(patchip, 'utf8')
+                        // if (ip.length>0) {
+                        //     var sock = ip.split(/\r?\n/g);
+                        //     var {browser,page} = await khoitao('fchr',sock[i]);
+                        // }else {
                             var {browser,page} = await khoitao('fchr',false);
-                        }
+                        // }
                         log(`${i} acc:  ${acc[i]} `)
-                        let login = await logingmail(page, acc[i],typecapcha);
+                        let login = await logingmail(page, acc[i]);
                         if (login=='login ok') {
                             let check_pre = await checkpre(page);
                             switch (check_pre) {
@@ -172,7 +172,7 @@ const { match } = require('assert');
             log(error.stack);
         }
     }
-    async function logingmail(page, acc,typecapcha){
+    async function logingmail(page, acc){
         let status = "";
         try{
             let email = acc.split('|')[0];

@@ -1,4 +1,4 @@
-//version 1.5 end
+//version 1.6 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -191,11 +191,10 @@ let typecapcha=false;
                 if(capcha!==null) {
                     log('dinh capcha');
                     if (typecapcha) {
-                        return status ="hoi capcha";
-                    }else {
                         read('hay giai capcha => ');
                         await page.waitForLoadState('networkidle');
-
+                    }else {
+                        return status="doi capcha";
                     }
                 }
             } catch (error) {
@@ -207,7 +206,7 @@ let typecapcha=false;
             await page.waitForTimeout(4000);
             try {
                 // let verphone = await page.$('text=Verify it’s you');
-                let verphone = await page.evaluate(()=>(document.querySelector('H1#headingText').textContent=="Verify it’s you"));
+                let verphone = await page.evaluate(()=>(document.querySelector('[type="tel"]').textContent=="Verify it’s you"));
                 if(verphone) {
                     log('verrphone');
                     return status= 'ver phone';
@@ -257,7 +256,7 @@ let typecapcha=false;
                 status = 'login ok';
             }
         } catch (error) {
-            console.log("loi =>  "+error.stack);
+            log("loi =>  "+error.stack);
         }
         return status;
     }

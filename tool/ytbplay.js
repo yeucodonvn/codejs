@@ -214,11 +214,10 @@ let typecapcha=false;
             } catch (error) {
             }
             try {
-                // await page.waitForTimeout(4000);
+                // check ('[data-challengeindex]') if (element.count > 2) { index = element.count-1}
                 //let emailrecovery = await page.$(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
                 let emailrecovery = await page.evaluate(()=>(document.querySelector('[data-challengeindex="0"],[aria-label="Confirm your recovery email"]')!==null));
                 if(emailrecovery) {
-                //if(emailrecovery!==null) {
                     log('emailkp');
                     await page.tap(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
                     await page.tap('#knowledge-preregistered-email-response');

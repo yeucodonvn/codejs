@@ -1,4 +1,4 @@
-//version 1.6 end
+//version 1.7 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -31,17 +31,16 @@ let typecapcha=false;
                 if (data.length!==0) {
                     let acc = data.split(/\r?\n/g);
                     log(`nhap vao acc:  ${acc.length} `)
-                    //let i=0;
                     // chinh useragnet, screen size
                     let i=0;
                     while(true) {
-                        // const ip = fs.readFileSync(patchip, 'utf8')
-                        // if (ip.length>0) {
-                        //     var sock = ip.split(/\r?\n/g);
-                        //     var {browser,page} = await khoitao('fchr',sock[i]);
-                        // }else {
+                        const ip = fs.readFileSync(patchip, 'utf8')
+                        if (ip.length>0) {
+                            var sock = ip.split(/\r?\n/g);
+                            var {browser,page} = await khoitao('fchr',sock[i]);
+                        }else {
                             var {browser,page} = await khoitao('fchr',false);
-                        // }
+                        }
                         log(`${i} acc:  ${acc[i]} `)
                         let login = await logingmail(page, acc[i]);
                         if (login=='login ok') {

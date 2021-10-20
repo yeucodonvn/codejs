@@ -213,7 +213,6 @@ let typecapcha=false;
             } catch (error) {
             }
             try {
-                await page.pause();
                 //document.querySelectorAll('[data-accountrecovery="false"]')[1].textContent;
                 // check ('[data-accountrecovery="false"]') if (element.count > 2) { index = element.count-1}
                 // let veroption = await page.$$('[data-accountrecovery="false"]');

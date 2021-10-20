@@ -240,7 +240,7 @@ async function logingmail(page, acc){
             // if (veroption.length>1) {
                 
             // }
-            let emailrecovery = await waitForTime(page,'div[role="link"]:has-text("Confirm your recovery email")');
+            let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
             if(emailrecovery) {
                 log('emailkp');
                 await page.tap('div[role="link"]:has-text("Confirm your recovery email")')

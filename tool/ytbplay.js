@@ -1,4 +1,4 @@
-//version 1.8 end
+//version 1.9 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -219,7 +219,7 @@ let typecapcha=false;
                 // if (veroption.length>1) {
                     
                 // }
-                let emailrecovery = await waitForTime(page,'div[role="link"]:has-text("Confirm your recovery email")');
+                let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
                 if(emailrecovery) {
                     log('emailkp');
                     await page.tap('div[role="link"]:has-text("Confirm your recovery email")')

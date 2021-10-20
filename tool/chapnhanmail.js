@@ -1,4 +1,4 @@
-//version 1.0 end
+//version 1.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -49,7 +49,6 @@ let acc = new Array();
             log('hoan thanh');
         }
 
-        
     } catch (error) {
         console.log("loi "+error.stack);
     }
@@ -224,15 +223,30 @@ async function logingmail(page, acc){
         }
         await typeinput(page,'[name="password"]',pass)
         await page.keyboard.press('Enter');
+        await page.waitForTimeout(4000);
         try {
-            await page.waitForTimeout(4000);
-            //let emailrecovery = await page.$(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
-            let emailrecovery = await page.evaluate(()=>(document.querySelector('[data-challengeindex="0"],[aria-label="Confirm your recovery email"]')!==null));
+            // let verphone = await page.$('text=Verify it’s you');
+            let verphone = await page.evaluate(()=>(document.querySelector('[type="tel"]').textContent=="Verify it’s you"));
+            if(verphone) {
+                log('verrphone');
+                return status= 'ver phone';
+            }
+        } catch (error) {
+        }
+        try {
+            await page.pause();
+            //document.querySelectorAll('[data-accountrecovery="false"]')[1].textContent;
+            // check ('[data-accountrecovery="false"]') if (element.count > 2) { index = element.count-1}
+            // let veroption = await page.$$('[data-accountrecovery="false"]');
+            // if (veroption.length>1) {
+                
+            // }
+            let emailrecovery = await waitForTime(page,'div[role="link"]:has-text("Confirm your recovery email")');
             if(emailrecovery) {
-            //if(emailrecovery!==null) {
                 log('emailkp');
-                await page.tap(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
-                await typeinput(page,'#knowledge-preregistered-email-response',emailkp)
+                await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
+                await page.tap('#knowledge-preregistered-email-response');
+                await page.keyboard.type(emailkp,{delay: 100});
                 await page.keyboard.press('Enter')
                 await page.waitForNavigation();
             }

@@ -1,4 +1,4 @@
-//version 1.7 end
+//version 1.8 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -213,12 +213,17 @@ let typecapcha=false;
             } catch (error) {
             }
             try {
-                // check ('[data-challengeindex]') if (element.count > 2) { index = element.count-1}
-                //let emailrecovery = await page.$(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
-                let emailrecovery = await page.evaluate(()=>(document.querySelector('[data-challengeindex="0"],[aria-label="Confirm your recovery email"]')!==null));
+                await page.pause();
+                //document.querySelectorAll('[data-accountrecovery="false"]')[1].textContent;
+                // check ('[data-accountrecovery="false"]') if (element.count > 2) { index = element.count-1}
+                // let veroption = await page.$$('[data-accountrecovery="false"]');
+                // if (veroption.length>1) {
+                    
+                // }
+                let emailrecovery = await waitForTime(page,'div[role="link"]:has-text("Confirm your recovery email")');
                 if(emailrecovery) {
                     log('emailkp');
-                    await page.tap(':is([data-challengeindex="0"],[aria-label="Confirm your recovery email"])');
+                    await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
                     await page.tap('#knowledge-preregistered-email-response');
                     await page.keyboard.type(emailkp,{delay: 100});
                     await page.keyboard.press('Enter')

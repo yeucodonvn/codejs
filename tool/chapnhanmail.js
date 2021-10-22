@@ -1,4 +1,4 @@
-//version 1.1 end
+//version 1.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -406,8 +406,8 @@ async function chapnhan(context,page) {
         await navigatorload(page,"http://mail.google.com/mail/h/");
         await page.waitForTimeout(4000);
         await tapbutton(page,'[type="submit"][value="I\'d like to use HTML Gmail"]');
-        if (await waitForTime(page,'span:has-text("Google family group"):has-text("invited")',5)) {
-            await tapbutton(page,'span:has-text("Google family group"):has-text("invited")');
+        if (await waitForTime(page,':is(span:has-text("Google family group"):has-text("invited"),span:has-text(" Premium family membership"):has-text("invited"))',5)) {
+            await tapbutton(page,':is(span:has-text("Google family group"):has-text("invited"),span:has-text(" Premium family membership"):has-text("invited"))');
             //await tapbutton(page,'a[href *= "families.google.com/join/promo"]');
             //next tab
             const [page1] = await Promise.all([

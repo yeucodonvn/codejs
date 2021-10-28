@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.4.9
-// @version      1.4.9
+// @name         Tidal - version 1.5
+// @version      1.5
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -35,17 +35,7 @@
 	// 		alert(err);
 	// 	}
 	// });
-   	function setRandomInterval(f, min, max) {
-			if(REPEAT_NUMB>0){
-				setTimeout(function() {
-					f();
-					setRandomInterval(f, min, max)
-				}, min + Math.random() * (max - min));
-			} else {location.reload(true);}
-				REPEAT_NUMB--;
-	};
-
-	function clickshuffle(){
+ 	function clickshuffle(){
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
 		shufflebtn.click();
@@ -60,11 +50,13 @@
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				//playbtn.click();
 				console.log("search stop: "+search_stop_count);
-				clearInterval(stop);
-			}else{
 				search_stop_count++;
+				clearInterval(stop);
 			}
-			if(search_stop_count>=15) {window.location.reload(true)};
+			if(search_stop_count>=15) {
+				console.log("reload search stop");
+				window.location.reload(true)
+			};
 		},50000)
 	};
 	function repeat() {
@@ -93,7 +85,6 @@
 	};
 	var search_spincount=0;
 	function search_play_spin_load(){
-		let playbtn = document.querySelector('.css-awgilu');
 		if (document.querySelector('#progressBar')) {
 			let current_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
 			let demloi=0;
@@ -106,6 +97,7 @@
 					}
 				if(demloi>3)
 				{
+					search_spincount++;
 					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 					get_time();
 					demloi=0;
@@ -113,10 +105,10 @@
 				}else{demok++;}
 				if(demok>3){demok=0;clearInterval(loopchecktime)}
 			}, 10*1000);
-				if(playbtn!==null){
-				search_spincount++;
+				if(search_spincount>=10) {
+					console.log("reload spinloader");
+					window.location.reload(true)
 				};
-			if(search_spincount>=10) {window.location.reload(true)};
 		}
 	};
 
@@ -204,7 +196,9 @@
 				ruuun();
 				clearInterval(load);
 			}else{intload++;console.log("tim nut shuffle");}
-			if(intload>7){window.location.reload(true);}}
+			if(intload>7){
+				console.log("reload search btn");
+				window.location.reload(true);}}
 		},5000)
     };
 

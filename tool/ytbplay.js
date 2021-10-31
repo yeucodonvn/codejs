@@ -1,4 +1,4 @@
-//version 1.9 end
+//version 2.0 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -438,12 +438,19 @@ let typecapcha=false;
         }
     }
     async function navigatorload(page,urllink) {
+        let i = 0 ;
         do {
             try {
-                await page.goto(urllink);
+                await Promise.all([
+                    page.goto(urllink),
+                    page.waitForNavigation(),
+                ]);
                 return
             } catch (error) {
                 log("loi load link => "+urllink);
+                i++;
+                await page.waitForTimeout(3000);
+                if (i >=10) break;
             }
         } while (true);
     }

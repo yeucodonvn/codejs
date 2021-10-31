@@ -1,4 +1,4 @@
-//version 1.2 end
+//version 1.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -355,15 +355,21 @@ function getlink(params,file) {
     return getScript(params);
 }
 async function navigatorload(page,urllink) {
-    for (let i = 0; i < 50; i++){
+    let i = 0 ;
+    do {
         try {
-            await page.goto(urllink);
+            await Promise.all([
+                page.goto(urllink),
+                page.waitForNavigation(),
+            ]);
             return
         } catch (error) {
-            log("loi load link");
+            log("loi load link => "+urllink);
+            i++;
+            await page.waitForTimeout(3000);
+            if (i >=10) break;
         }
-    };
-
+    } while (true);
 }
 
 async function waitForTime(page,element,time){

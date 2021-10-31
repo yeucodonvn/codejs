@@ -1,10 +1,12 @@
-//version 1.0 end
+//version 1.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
 const { match } = require('assert');
 
 let acc = new Array();
+let needsock =false;
+let socks = new Array();
 (async() => {
     try {
         var arg = process.argv;
@@ -17,6 +19,10 @@ let acc = new Array();
             log('khong change pass');
             notpass=true;
            }
+        if (arg[2].search('--sock')>-1){ 
+            log('dung sock');
+            needsock=true;
+        }
         const patchgmail='data/gmail.txt';
         if (!fs.existsSync(patchgmail)) {
             fs.createWriteStream(patchgmail);
@@ -32,7 +38,7 @@ let acc = new Array();
                 //let i=0;
                 // chinh useragnet, screen size
                 for (let i = 0; i < acc.length; i) {
-                    var {browser,page} = await khoitao('fchr',false);
+                    var {browser,page} = await khoitao('ff');
                     log(`${i} acc:  ${acc[i]} `);
                     let gmail = acc[i].split('|');
 
@@ -69,18 +75,41 @@ let acc = new Array();
                 log('khong co gmail');
             }
         }
-        
         log('hoan thanh');
     } catch (error) {
         console.log("loi "+error.stack);
     }
 
 })();
-async function loadsock()
+async function getsock()
 {
+    if(socks.length > 0) {
+        return socks[(Math.floor(Math.random() * socks.length))];
+    }else {
+        await loadsock();
+        return socks[(Math.floor(Math.random() * socks.length))];
+    }
 
 }
-async function khoitao(os,sock)
+async function loadsock()
+{
+    const pathip='data/ip.txt';
+    if (!fs.existsSync(pathip)) {
+        fs.createWriteStream(pathip);
+        log(`tao file gmail.txt `)
+    }
+    let data = fs.readFileSync(patchgmail, 'utf8');
+    data=data.trim();
+    if (data.length>0)
+    {
+        socks = data.split(/\r?\n/g);
+    }else {
+        log("khong co sock");
+        process.exit();
+    }
+
+}
+async function khoitao(os)
     {
         try {
             let launchoptionchrome={
@@ -121,7 +150,8 @@ async function khoitao(os,sock)
             ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
 
         }
-        if (sock!==false) {
+        if (needsock!==false) {
+            let sock = await getsock();
             launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
                             username:sock.split(':')[2],
                             password:sock.split(':')[3]
@@ -307,6 +337,7 @@ async function navigatorload(page,urllink) {
         } catch (error) {
             log("loi load link => "+urllink);
             i++;
+            await page.waitForTimeout(3000);
             if (i >=10) break;
         }
     } while (true);

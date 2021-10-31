@@ -338,7 +338,7 @@ async function navigatorload(page,urllink) {
             log("loi load link => "+urllink);
             i++;
             await page.waitForTimeout(3000);
-            if (i >=10) break;
+            if (i >=10) return;
         }
     } while (true);
 }

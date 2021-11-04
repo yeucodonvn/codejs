@@ -432,16 +432,6 @@ async function chapnhan(context,page) {
                         page1.waitForNavigation(),
                         page1.tap('div[role="button"]:has-text("Join Family")'),
                     ]);
-                    try{
-                        await navigatorload(page1,"https://music.youtube.com/paid_memberships");
-
-                        if (await waitForTime(page1,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',10)) {
-                                log("chap nhan thanh cong");
-                                status = "ok";
-                        }else{log("chap nhan k thanh cong");}
-                    }catch (error) {
-                        log("loi =>  "+error.stack);
-                    }
                 } else {
                     await Promise.all([
                         page1.waitForNavigation(),
@@ -455,11 +445,9 @@ async function chapnhan(context,page) {
                         page1.tap('div[role="button"]:has-text("Join Family")'),
                     ]);
                     //await page1.tap('div[role="button"]:has-text("Join Family")');
-                    await page.waitForTimeout(4000);
-                    if (await waitForTime(page1,'text=Welcome to the Family!',5))
-                    {log("chap nhan thanh cong");
-                    status = "ok";}
                 }
+                await page1.waitForTimeout(2000);
+                status = await checkpre(page1);
             }else if (await waitForTime(page1,'div:has-text("Already in a family")',5)){
                 log("email da chap nhan link moi");
                 status = "ok";
@@ -468,6 +456,21 @@ async function chapnhan(context,page) {
 
     } catch (error) {
         log('loi ytb => ' + error.stack);
+    }
+    return status;
+}
+
+async function checkpre(page){
+    let status="";
+    try{
+        await navigatorload(page,"https://music.youtube.com/paid_memberships");
+
+        if (await waitForTime(page,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',10)) {
+                log("chap nhan thanh cong");
+                status = "ok";
+        }else{log("chap nhan k thanh cong");}
+    }catch (error) {
+        log("loi =>  "+error.stack);
     }
     return status;
 }

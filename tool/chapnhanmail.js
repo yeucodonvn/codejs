@@ -1,4 +1,4 @@
-//version 1.3 end
+//version 1.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -420,24 +420,46 @@ async function chapnhan(context,page) {
                 context.waitForEvent('page'),
                 tapbutton(page,'a[href *= "families.google.com/join/promo"]')
             ])
+
             await page1.waitForLoadState();
             if (await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5)) {
-                await Promise.all([
-                    page1.waitForNavigation(),
-                    page1.tap('div[role="button"]:has-text("Get Started")'),
-                ]);
-                //await page1.tap('div[role="button"]:has-text("Get Started")');
-                await page.waitForTimeout(4000);
-                //await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5);
-                await Promise.all([
-                    page1.waitForNavigation(),
-                    page1.tap('div[role="button"]:has-text("Join Family")'),
-                ]);
-                //await page1.tap('div[role="button"]:has-text("Join Family")');
-                await page.waitForTimeout(4000);
-                if (await waitForTime(page1,'text=Welcome to the Family!',5))
-                {log("chap nhan thanh cong");
-                status = "ok";}
+                if (await waitForTime(page1,'text=YouTube Premium for your family',5)) {
+                    await Promise.all([
+                        page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Get Started")'),
+                    ]);
+                    await Promise.all([
+                        page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Join Family")'),
+                    ]);
+                    try{
+                        await navigatorload(page1,"https://music.youtube.com/paid_memberships");
+
+                        if (await waitForTime(page1,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',10)) {
+                                log("chap nhan thanh cong");
+                                status = "ok";
+                        }else{log("chap nhan k thanh cong");}
+                    }catch (error) {
+                        log("loi =>  "+error.stack);
+                    }
+                } else {
+                    await Promise.all([
+                        page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Get Started")'),
+                    ]);
+                    //await page1.tap('div[role="button"]:has-text("Get Started")');
+                    await page.waitForTimeout(4000);
+                    //await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5);
+                    await Promise.all([
+                        page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Join Family")'),
+                    ]);
+                    //await page1.tap('div[role="button"]:has-text("Join Family")');
+                    await page.waitForTimeout(4000);
+                    if (await waitForTime(page1,'text=Welcome to the Family!',5))
+                    {log("chap nhan thanh cong");
+                    status = "ok";}
+                }
             }else if (await waitForTime(page1,'div:has-text("Already in a family")',5)){
                 log("email da chap nhan link moi");
                 status = "ok";

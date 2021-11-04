@@ -317,8 +317,12 @@ let element= document.querySelectorAll('a[dir="ltr"]');
            element.forEach(element => {
             console.log(element.getAttribute('href'));
            });
+
 //==== nháp
+
 /*
+
+
 
 https://www.youtube.com/watch?v=vmWmCw_8WsE
 https://vananhtooo.wordpress.com/2017/10/16/cac-cach-giup-ban-thuc-hien-upload-file-voi-selenium/

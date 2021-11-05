@@ -1,4 +1,4 @@
-//version 1.1 end
+//version 1.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -11,17 +11,23 @@ let socks = new Array();
     try {
         var arg = process.argv;
         let nuoimail=true;
-        if (arg[2].search('--pass')>-1){ 
+        if (arg[2].search('--pass')>-1){
             log('chi change pass');
              nuoimail =false;}
         let notpass= false;
-        if (arg[2].search('--notpass')>-1){ 
+        if (arg[2].search('--notpass')>-1){
             log('khong change pass');
             notpass=true;
            }
-        if (arg[2].search('--sock')>-1){ 
-            log('dung sock');
+        
+        if (arg[2].search('--view')>-1){
+            log('view ytb video');
             needsock=true;
+        }
+        let firefox="ff";
+        if (arg[2].search('--ff')>-1){
+            log('dung sock');
+            firefox='ff';
         }
         const patchgmail='data/gmail.txt';
         if (!fs.existsSync(patchgmail)) {
@@ -35,10 +41,8 @@ let socks = new Array();
             if (data.length!==0) {
                 acc = data.split(/\r?\n/g);
                 log(`nhap vao acc:  ${acc.length} `)
-                //let i=0;
-                // chinh useragnet, screen size
                 for (let i = 0; i < acc.length; i) {
-                    var {browser,page} = await khoitao('ff');
+                    var {browser,page} = await khoitao(firefox);
                     log(`${i} acc:  ${acc[i]} `);
                     let gmail = acc[i].split('|');
 
@@ -54,7 +58,7 @@ let socks = new Array();
                             var [B_changepass,acc_newpass] = await change_mk(page,gmail);
                             if(B_changepass){
                                 gmail=acc_newpass;
-                                savefile('gmail_da_change',`${acc_newpass[0]}|${acc_newpass[1]}${acc_newpass[2]}`+' | change pass ok');
+                                savefile('gmail_da_change',`${acc_newpass[0]}|${acc_newpass[1]}|${acc_newpass[2]}`+' | change pass ok');
                                 acc.splice(i,1);
                                 writefile(patchgmail,acc);
                             };
@@ -107,7 +111,6 @@ async function loadsock()
         log("khong co sock");
         process.exit();
     }
-
 }
 async function khoitao(os)
     {
@@ -150,7 +153,7 @@ async function khoitao(os)
             ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
 
         }
-        if (needsock!==false) {
+        if (needsock) {
             let sock = await getsock();
             launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
                             username:sock.split(':')[2],

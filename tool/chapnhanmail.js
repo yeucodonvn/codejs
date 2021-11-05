@@ -425,12 +425,12 @@ async function chapnhan(context,page) {
             if (await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5)) {
                 if (await waitForTime(page1,'text=YouTube Premium for your family',5)) {
                     await Promise.all([
-                        page1.waitForNavigation(),
                         page1.tap('div[role="button"]:has-text("Get Started")'),
+                        page1.waitForNavigation(),
                     ]);
                     await Promise.all([
-                        page1.waitForNavigation(),
                         page1.tap('div[role="button"]:has-text("Join Family")'),
+                        page1.waitForNavigation(),
                     ]);
                 } else {
                     await Promise.all([
@@ -438,11 +438,11 @@ async function chapnhan(context,page) {
                         page1.tap('div[role="button"]:has-text("Get Started")'),
                     ]);
                     //await page1.tap('div[role="button"]:has-text("Get Started")');
-                    await page.waitForTimeout(4000);
+                    await page1.waitForTimeout(4000);
                     //await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5);
                     await Promise.all([
-                        page1.waitForNavigation(),
                         page1.tap('div[role="button"]:has-text("Join Family")'),
+                        page1.waitForNavigation(),
                     ]);
                     //await page1.tap('div[role="button"]:has-text("Join Family")');
                 }

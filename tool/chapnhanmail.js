@@ -1,4 +1,4 @@
-//version 1.4 end
+//version 1.5 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -234,12 +234,6 @@ async function logingmail(page, acc){
         } catch (error) {
         }
         try {
-            //document.querySelectorAll('[data-accountrecovery="false"]')[1].textContent;
-            // check ('[data-accountrecovery="false"]') if (element.count > 2) { index = element.count-1}
-            // let veroption = await page.$$('[data-accountrecovery="false"]');
-            // if (veroption.length>1) {
-                
-            // }
             let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
             if(emailrecovery) {
                 log('emailkp');
@@ -263,15 +257,8 @@ async function logingmail(page, acc){
         } catch (error) {
             //console.log('loi spinner => '+error.stack)
         }
-        await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube');
-        //await page.goto('https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
-        //await page.waitForNavigation();
+        await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
         await page.waitForTimeout(4000);
-        /*
-        * getAtribute element handel to list
-         * let viewauthorlist = await page.$('.view-content');
-            let authorlist = await viewauthorlist.$$eval('a[href]', nodes => nodes.map(n => n.getAttribute('href')));
-         */
         let url = await page.evaluate(() => document.location.href);
         if (url.search('signin/v2')>-1) {
             log('sai tai khoan');

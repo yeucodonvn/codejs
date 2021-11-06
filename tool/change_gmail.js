@@ -1,4 +1,4 @@
-//version 1.2 end
+//version 1.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -450,7 +450,7 @@ async function logingmail(page, acc){
         } catch (error) {
             //console.log('loi spinner => '+error.stack)
         }
-        await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
+        await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
         await page.waitForNavigation();
         await page.waitForTimeout(4000);
         /*

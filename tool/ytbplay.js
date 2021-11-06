@@ -1,4 +1,4 @@
-//version 2.0 end
+//version 2.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -34,6 +34,7 @@ let typecapcha=false;
                     // chinh useragnet, screen size
                     let i=0;
                     while(true) {
+                        let gmail = acc[i].split('|');
                         const ip = fs.readFileSync(patchip, 'utf8')
                         if (ip.length>0) {
                             var sock = ip.split(/\r?\n/g);
@@ -41,8 +42,8 @@ let typecapcha=false;
                         }else {
                             var {browser,page} = await khoitao('fchr',false);
                         }
-                        log(`${i} acc:  ${acc[i]} `)
-                        let login = await logingmail(page, acc[i]);
+                        log(`${i} acc:  ${gmail} `)
+                        let login = await logingmail(page, gmail);
                         if (login=='login ok') {
                             let check_pre = await checkpre(page);
                             switch (check_pre) {
@@ -174,13 +175,13 @@ let typecapcha=false;
     async function logingmail(page, acc){
         let status = "";
         try{
-            let email = acc.split('|')[0];
-            let pass = acc.split('|')[1];
-            let emailkp = acc.split('|')[2];
+            let email = acc[0];
+            let pass = acc[1];
+            let emailkp = acc[2];
             await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
             await page.tap('#identifierId');
             // await page.fill('#identifierId',email);
-            log('login mail email ' +email);
+            log('login mail ' +email);
             await page.keyboard.type(email,{delay: 100});
             page.keyboard.press('Enter');
             await page.waitForTimeout(2000);
@@ -242,7 +243,7 @@ let typecapcha=false;
             } catch (error) {
                 //console.log('loi spinner => '+error.stack)
             }
-            await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
+            await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap', {waitUntil: 'load', timeout: 0});
             await page.waitForNavigation();
             await page.waitForTimeout(4000);
             /*

@@ -1,4 +1,4 @@
-//version 1.5 end
+//version 1.6 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -415,6 +415,7 @@ async function chapnhan(context,page) {
                         page1.tap('div[role="button"]:has-text("Get Started")'),
                         page1.waitForNavigation(),
                     ]);
+                    await page.waitForTimeout(4000);
                     await Promise.all([
                         page1.tap('div[role="button"]:has-text("Join Family")'),
                         page1.waitForNavigation(),

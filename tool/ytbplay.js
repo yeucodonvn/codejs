@@ -1,4 +1,4 @@
-//version 2.1 end
+//version 2.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -214,20 +214,16 @@ let typecapcha=false;
             } catch (error) {
             }
             try {
-                //document.querySelectorAll('[data-accountrecovery="false"]')[1].textContent;
-                // check ('[data-accountrecovery="false"]') if (element.count > 2) { index = element.count-1}
-                // let veroption = await page.$$('[data-accountrecovery="false"]');
-                // if (veroption.length>1) {
-                    
-                // }
                 let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
                 if(emailrecovery) {
                     log('emailkp');
                     await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
                     await page.tap('#knowledge-preregistered-email-response');
                     await page.keyboard.type(emailkp,{delay: 100});
-                    await page.keyboard.press('Enter')
-                    await page.waitForNavigation();
+                    await Promise.all([
+                        page.waitForNavigation(),
+                        await page.keyboard.press('Enter')
+                    ]);
                 }
             } catch (error) {
                 //console.log('loi email kp => '+error.stack);
@@ -237,7 +233,7 @@ let typecapcha=false;
                 let url = await page.evaluate(() => document.location.href);
                 if (url.search('accounts.google.com/CheckCookie')>-1) {
                     await Promise.all([
-                        page.waitForNavigation(/*{ url: 'https://accounts.google.com/CheckCookie?hl=en&checkedDomains=youtube&pstMsg=1&ifkv=AU9NCcwBu_sKrRQT6pxuoY7OJIKnCGsvsj9oh1ItvPVngRj98_4Wr53bAMEgAXHwt3DLxcAAnZtY&chtml=LoginDoneHtml&service=youtube&continue=https%3A%2F%2Faccounts.google.com%2FManageAccount%3Fnc%3D1&gidl=EgIIAA' }*/),
+                        page.waitForNavigation(),
                     ]);
                 }
             } catch (error) {
@@ -277,7 +273,6 @@ let typecapcha=false;
                 } else {
                   // done
                 }});
-            //console.log(mess);
         } catch (error) {
             console.log(error.stack);
         }
@@ -300,16 +295,13 @@ let typecapcha=false;
                 } else {
                   // done
                 }});
-            //console.log(mess);
         } catch (error) {
             console.log(error.stack);
         }
     }
     function download(url,file){
         try {
-            //const https = require('https'); // or 'https' for https:// URLs
             const https = require('https')
-            //const fs = require('fs');
             https.get(url, resp => resp.pipe(fs.createWriteStream(file)));
         } catch (error) {
             log("loi download update "+error.stack)
@@ -375,49 +367,16 @@ let typecapcha=false;
     }
     async function dialogdiss(page)
     {
-        // xu ly dialog, dat truoc khi dialog hien
-        // dung nhieu lan
         try {
             await page.on('dialog', async (dialog) => {
                 log(dialog.message());
                 await dialog.accept();
             })
-            // dung 1 lan, can chinh xac khi xuat
-            // page.once('dialog', async function(dialog) {
-            //     await dialog.accept();
-            // });
-        // await page.evaluate(() => {
-        //         confirm('are you sure');
-        //     });
         } catch (error) {
             log('error dialog ');
         }
     }
-    // log dung stdout phai co .end() neu k se bi full
-    // function log(arguments) {
-    //     try {
-    //         let path = 'data/log.txt';
-    //     if (!fs.existsSync(path)) {
-    //         fs.appendFile(path,"log!", function (err) {
-    //             if (err) throw err;
-    //           });
-    //     }
 
-    //     var util = require('util');
-    //     var logFile = fs.createWriteStream(path, { flags: 'a' });
-    //     // Or 'w' to truncate the file every time the process starts.
-    //     var logStdout = process.stdout;
-
-    //     console.log = function () {
-    //     logFile.write(util.format.apply(null, arguments) + '\r\n');
-    //     logStdout.write(util.format.apply(null, arguments) + '\r\n');
-    //     }
-    //     console.error = console.log;
-    //     console.log(arguments);
-    //     } catch (error) {
-    //         log(error.stack);
-    //     }
-    // }
     function log(mess) {
         try {
             let path = 'data/log.txt';
@@ -443,12 +402,12 @@ let typecapcha=false;
         do {
             try {
                 await Promise.all([
-                    page.goto(urllink),
                     page.waitForNavigation(),
+                    page.goto(urllink),
                 ]);
                 return
             } catch (error) {
-                log("loi load link => "+urllink);
+                log("loi load link => "+urllink + '\n'+error.stack);
                 i++;
                 await page.waitForTimeout(3000);
                 if (i >=10) return;

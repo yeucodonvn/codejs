@@ -1,4 +1,4 @@
-//version 1.3 end
+//version 1.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -333,8 +333,8 @@ async function navigatorload(page,urllink) {
     do {
         try {
             await Promise.all([
-                page.goto(urllink),
                 page.waitForNavigation(),
+                page.goto(urllink),
             ]);
             return
         } catch (error) {
@@ -433,8 +433,10 @@ async function logingmail(page, acc){
                 await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
                 await page.tap('#knowledge-preregistered-email-response');
                 await page.keyboard.type(emailkp,{delay: 100});
-                await page.keyboard.press('Enter')
-                await page.waitForNavigation();
+                await Promise.all([
+                    page.waitForNavigation(),
+                    await page.keyboard.press('Enter')
+                ]);
             }
         } catch (error) {
             //console.log('loi email kp => '+error.stack);
@@ -645,8 +647,8 @@ async function change_mk(page,gmail) {
         await page.keyboard.type(newpassword,{delay: 100});
         //await page.keyboard.press('Enter');
         await Promise.all([
-            tapbutton(page,'[type="submit"]'),
             page.waitForNavigation(),
+            tapbutton(page,'[type="submit"]'),
         ]);
         await page.waitForTimeout(4000);
         if(await waitForTime(page,'text=Password changed successfully',10))

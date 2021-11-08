@@ -346,8 +346,8 @@ async function navigatorload(page,urllink) {
     do {
         try {
             await Promise.all([
-                page.goto(urllink),
                 page.waitForNavigation(),
+                page.goto(urllink),
             ]);
             return
         } catch (error) {
@@ -412,13 +412,13 @@ async function chapnhan(context,page) {
             if (await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5)) {
                 if (await waitForTime(page1,'text=YouTube Premium for your family',5)) {
                     await Promise.all([
-                        page1.tap('div[role="button"]:has-text("Get Started")'),
                         page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Get Started")'),
                     ]);
                     await page.waitForTimeout(4000);
                     await Promise.all([
-                        page1.tap('div[role="button"]:has-text("Join Family")'),
                         page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Join Family")'),
                     ]);
                 } else {
                     await Promise.all([
@@ -429,8 +429,8 @@ async function chapnhan(context,page) {
                     await page1.waitForTimeout(4000);
                     //await waitForTime(page1,'div[role="button"]:has-text("Get Started")',5);
                     await Promise.all([
-                        page1.tap('div[role="button"]:has-text("Join Family")'),
                         page1.waitForNavigation(),
+                        page1.tap('div[role="button"]:has-text("Join Family")'),
                     ]);
                     //await page1.tap('div[role="button"]:has-text("Join Family")');
                 }

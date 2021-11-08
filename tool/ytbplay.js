@@ -1,4 +1,4 @@
-//version 2.2 end
+//version 2.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -7,81 +7,84 @@ const { match } = require('assert');
 let typecapcha=false;
     (async() => {
         try {
+            pathfile ='ytbplay.js';
+            //updatecode();
+            checkupdate(pathfile);
+            setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
+
             var arg = process.argv;
-            if (arg[2]) {
-                if(arg[2].search('capcha')){
+            if (typeof arg[3] !== 'undefined') {
+                if(arg[3].search('capcha')>-1){
                     typecapcha=true;
                 }
             }
-            const patchgmail='data/gmail.txt';
-            if (!fs.existsSync(patchgmail)) {
-                fs.createWriteStream(patchgmail);
-                log(`tao file gmail.txt `)
-            }else{
-                pathfile ='ytbplay.js';
-                checkupdate(pathfile);
-                setInterval(()=>{checkupdate(pathfile)}, 6*60*60*1000);
-                //updatecode();
-                const patchip='data/ip.txt';
-                if (!fs.existsSync(patchip)) {
-                    fs.createWriteStream(patchip);
-                }
-                let data = fs.readFileSync(patchgmail, 'utf8');
-                data=data.trim();
-                if (data.length!==0) {
-                    let acc = data.split(/\r?\n/g);
-                    log(`nhap vao acc:  ${acc.length} `)
-                    // chinh useragnet, screen size
-                    let i=0;
-                    while(true) {
-                        let gmail = acc[i].split('|');
-                        const ip = fs.readFileSync(patchip, 'utf8')
-                        if (ip.length>0) {
-                            var sock = ip.split(/\r?\n/g);
-                            var {browser,page} = await khoitao('fchr',sock[i]);
-                        }else {
-                            var {browser,page} = await khoitao('fchr',false);
-                        }
-                        log(`${i} acc:  ${gmail} `)
-                        let login = await logingmail(page, gmail);
-                        if (login=='login ok') {
-                            let check_pre = await checkpre(page);
-                            switch (check_pre) {
-                                case 1:
-                                    await ytb(page);
-                                    i++;
-                                    break;
-                                case 2:
-                                    log("ytb het han");
-                                    // remove acc[i] khoi file goc
-                                    savefile('acc_het_han',acc[i])
-                                    acc.splice(i,1);
-                                    writefile(patchgmail,acc);
-                                    break;
-                                case 3:
-                                    log("ytb chua reg");
-                                    savefile('acc_chua_reg',acc[i])
-                                    acc.splice(i,1);
-                                    writefile(patchgmail,acc);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }else{
-                            savefile('gmail_loi',acc[i]+' | '+login);
-                            acc.splice(i,1);
-                            writefile(patchgmail,acc);
-                        }
-                        await browser.close();
-                        if (i>=acc.length) {
-                            i=0;
-                        }
+            let patchgmail='data/gmail.txt';
+            if (typeof arg[2] !== 'undefined') {
+                if (arg[2].search('--gmail')>-1) {
+                    let gm = arg[2].replace('--gmail=','');
+                    patchgmail = 'data/'+gm;
+                        log(patchgmail);
                     }
-                } else {
-                    log('khong co gmail');
                 }
+            const patchip='data/ip.txt';
+            if (!fs.existsSync(patchip)) {
+                fs.createWriteStream(patchip);
             }
-            
+            let data = fs.readFileSync(patchgmail, 'utf8');
+            data=data.trim();
+            if (data.length!==0) {
+                let acc = data.split(/\r?\n/g);
+                log(`nhap vao acc:  ${acc.length} `)
+                // chinh useragnet, screen size
+                let i=0;
+                while(true) {
+                    let gmail = acc[i].split('|');
+                    const ip = fs.readFileSync(patchip, 'utf8')
+                    if (ip.length>0) {
+                        var sock = ip.split(/\r?\n/g);
+                        var {browser,page} = await khoitao('fchr',sock[Math.floor(Math.random()*(sock.length))]);
+                    }else {
+                        var {browser,page} = await khoitao('fchr',false);
+                    }
+                    log(`${i} acc:  ${gmail} `)
+                    let login = await logingmail(page, gmail);
+                    if (login=='login ok') {
+                        let check_pre = await checkpre(page);
+                        switch (check_pre) {
+                            case 1:
+                                await ytb(page);
+                                i++;
+                                break;
+                            case 2:
+                                log("ytb het han");
+                                // remove acc[i] khoi file goc
+                                savefile('acc_het_han',acc[i])
+                                acc.splice(i,1);
+                                writefile(patchgmail,acc);
+                                break;
+                            case 3:
+                                log("ytb chua reg");
+                                savefile('acc_chua_reg',acc[i])
+                                acc.splice(i,1);
+                                writefile(patchgmail,acc);
+                                break;
+                            default:
+                                break;
+                        }
+                    }else{
+                        savefile('acc_loi',acc[i]+' | '+login);
+                        acc.splice(i,1);
+                        writefile(patchgmail,acc);
+                    }
+                    await browser.close();
+                    if (i>=acc.length) {
+                        i=0;
+                    }
+                }
+            } else {
+                log('khong co gmail');
+            }
+
             log('hoan thanh');
         } catch (error) {
             console.log("loi "+error.stack);
@@ -540,9 +543,9 @@ let typecapcha=false;
         try{
             //https://music.youtube.com/paid_memberships
             let url = "https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json";
-            let listurl = JSON.parse(await getlink(url));
             dialogdiss(page);
             for (let index = 0; index < 10; index++) {
+                let listurl = JSON.parse(await getlink(url));
                 let link = listurl.list[Math.floor(Math.random()*(listurl.list.length))];
 
                 log(`play ytb => ${link}`);

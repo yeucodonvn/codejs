@@ -1,4 +1,4 @@
-//version 2.3 end
+//version 2.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -38,13 +38,18 @@ let typecapcha=false;
                 // chinh useragnet, screen size
                 let i=0;
                 while(true) {
+                    if (typeof acc[i] == 'undefined') {
+                        log('het gmail');
+                        return;
+                    }
                     let gmail = acc[i].split('|');
                     const ip = fs.readFileSync(patchip, 'utf8')
                     if (ip.length>0) {
                         var sock = ip.split(/\r?\n/g);
-                        var {browser,page} = await khoitao('fchr',sock[Math.floor(Math.random()*(sock.length))]);
+                        log(sock);
+                        var {browser,page} = await khoitao('cff',sock[Math.floor(Math.random()*(sock.length))]);
                     }else {
-                        var {browser,page} = await khoitao('fchr',false);
+                        var {browser,page} = await khoitao('cff',false);
                     }
                     log(`${i} acc:  ${gmail} `)
                     let login = await logingmail(page, gmail);
@@ -92,57 +97,123 @@ let typecapcha=false;
 
     })();
 
+    let UA =[
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 11.0; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Windows NT 10.0; rv:83.0) Gecko/20100101 Firefox/83.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Windows NT 10.0; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 11.1; rv:84.0) Gecko/20100101 Firefox/84.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
+        'Mozilla/5.0 (Windows NT 6.1; rv:85.0) Gecko/20100101 Firefox/85.0',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:82.0) Gecko/20100101 Firefox/82.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (Windows NT 10.0; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
+        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:80.0) Gecko/20100101 Firefox/80.0',
+    ]
     async function khoitao(os,sock)
     {
         try {
             let launchoptionchrome={
+                headless :false,
+                chromiumSandbox:false,
+                args:['--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-web-security',
+                '--disable-rtc-smoothness-algorithm',
+                '--disable-webrtc-encryption',
+                '--disable-client-side-phishing-detection',
+                '--disable-webrtc-hw-decoding',
+                '--disable-webrtc-hw-encoding',
+                '--disable-webrtc-multiple-routes',
+                '--disable-webrtc-hw-vp8-encoding',
+                '--enforce-webrtc-ip-permission-check',
+                '--force-webrtc-ip-handling-policy',
+                '--ignore-certificate-errors',
+                '--disable-infobars',
+                '--disable-popup-blocking',
+                '--disable-blink-features=AutomationControlled',
+                '--disable-features=site-per-process',
+                '--disable-user-media-security',
+                '--use-fake-ui-for-media-stream',
+                '--use-fake-mjpeg-decode-accelerator',
+                '--use-fake-device-for-media-stream',
+                '--disable-setuid-sandbox',
+                '--use-fake-codec-for-peer-connection',
+                '--disable-features=IsolateOrigins,site-per-process',
+                '--no-sandbox',
+                '--reset-variation-state',
+                '--disable-features=UserAgentClientHint',
+                '--force-device-scale-factor=1',
+                '--disable-accelerated-2d-canvas',
+                '--lang=en-EN',
+                '--allow-insecure-localhost',
+                '--disable-remote-fonts',
+                '--no-first-run',
+                '--disable-default-apps',
+                '--no-default-browser-check',
+                '--prerender-from-omnibox=disabled',
+                '--silent-debugger-extension-api',
+                '--allow-running-insecure-content',
+                '--disable-strict-mixed-content-checking',
+                '--allow-file-access-from-files',
+                //"--app=https://music.youtube.com",
+                ],
+                ignoreDefaultArgs: [ "--enable-automation"],
+                ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
+
+            }
+
+        let launchoptionfirefox={
             headless :false,
-            chromiumSandbox:false,
-            args:["--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-web-security",
-            "--disable-rtc-smoothness-algorithm",
-            "--disable-webrtc-encryption",
-            "--disable-client-side-phishing-detection",
-            "--disable-webrtc-hw-decoding",
-            "--disable-webrtc-hw-encoding",
-            "--disable-webrtc-multiple-routes",
-            "--disable-webrtc-hw-vp8-encoding",
-            "--enforce-webrtc-ip-permission-check",
-            "--force-webrtc-ip-handling-policy",
-            "--ignore-certificate-errors",
-            "--disable-infobars",
-            "--disable-popup-blocking",
-            "--disable-blink-features=AutomationControlled",
-            "--disable-features=site-per-process",
-            "--disable-user-media-security",
-            "--use-fake-ui-for-media-stream",
-            "--use-fake-mjpeg-decode-accelerator",
-            "--use-fake-device-for-media-stream",
-            "--use-fake-device-for-media-stream",
-            "--disable-setuid-sandbox",
-            "--use-fake-codec-for-peer-connection",
-            "--disable-features=IsolateOrigins,site-per-process",
-            "--no-sandbox",
-            "--reset-variation-state",
-            '--disable-features=site-per-process',
-            //"--app=https://music.youtube.com",
-            ],
-
-            ignoreDefaultArgs: [ "--enable-automation"],
-            ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
-
         }
+
         if (sock!==false) {
             launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
                             username:sock.split(':')[2],
                             password:sock.split(':')[3]
                         }
+            launchoptionfirefox.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
+                        username:sock.split(':')[2],
+                        password:sock.split(':')[3]
+                    }
         }
-        let launchoptionfirefox={
-            headless :false,
 
+        let chromiumpatch='chrome-win/chrome.exe';
+        if (fs.existsSync(chromiumpatch)) {
+            launchoptionchrome.executablePath=chromiumpatch;
         }
+
         let browser=null;
         if (os=='ff') {
              browser = await firefox.launch(launchoptionfirefox);
@@ -158,12 +229,13 @@ let typecapcha=false;
             language : 'en',
             geolocation: { longitude: 48.858455, latitude: 2.294474 },
             permissions: ['geolocation'],
-            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
             hasTouch:true,
             viewport: { width: widths, height: heights },
             screen : { width: widths, height: heights },
             colorScheme: 'dark' ,
-        }
+        };
+        
+        browsercontextoptions.userAgent=UA[Math.floor(Math.random()*UA.length)]
 
         const context = await browser.newContext(browsercontextoptions);
 
@@ -242,8 +314,7 @@ let typecapcha=false;
             } catch (error) {
                 //console.log('loi spinner => '+error.stack)
             }
-            await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap', {waitUntil: 'load', timeout: 0});
-            await page.waitForNavigation();
+            await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
             await page.waitForTimeout(4000);
             /*
             * getAtribute element handel to list

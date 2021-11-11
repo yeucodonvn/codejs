@@ -476,8 +476,8 @@ let typecapcha=false;
         do {
             try {
                 await Promise.all([
-                    page.waitForNavigation(),
                     page.goto(urllink),
+                    page.waitForNavigation(),
                 ]);
                 return
             } catch (error) {

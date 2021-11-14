@@ -1,11 +1,14 @@
-//version 2.4 end
+//version 2.5 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
 const { match } = require('assert');
 
 let typecapcha=false;
-    (async() => {
+let b_headFull = true;
+let isStop=false;
+let runos ="chrome"; // chrome , ff
+(async() => {
         try {
             pathfile ='ytbplay.js';
             //updatecode();
@@ -17,6 +20,9 @@ let typecapcha=false;
                 if(arg[3].search('capcha')>-1){
                     typecapcha=true;
                 }
+                if (arg[3].search('--headless')>-1) {
+                    b_headFull=false;
+                }
             }
             let patchgmail='data/gmail.txt';
             if (typeof arg[2] !== 'undefined') {
@@ -26,6 +32,7 @@ let typecapcha=false;
                         log(patchgmail);
                     }
                 }
+
             const patchip='data/ip.txt';
             if (!fs.existsSync(patchip)) {
                 fs.createWriteStream(patchip);
@@ -47,13 +54,13 @@ let typecapcha=false;
                     if (ip.length>0) {
                         var sock = ip.split(/\r?\n/g);
                         log(sock);
-                        var {browser,page} = await khoitao('cff',sock[Math.floor(Math.random()*(sock.length))]);
+                        var {browser,context,page} = await khoitao(runos,sock[Math.floor(Math.random()*(sock.length))]);
                     }else {
-                        var {browser,page} = await khoitao('cff',false);
+                        var {browser,context,page} = await khoitao(runos,false);
                     }
                     log(`${i} acc:  ${gmail} `)
                     let login = await logingmail(page, gmail);
-                    if (login=='login ok') {
+                    if (login=='login ok' ) {
                         let check_pre = await checkpre(page);
                         switch (check_pre) {
                             case 1:
@@ -141,11 +148,12 @@ let typecapcha=false;
         'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:80.0) Gecko/20100101 Firefox/80.0',
     ]
-    async function khoitao(os,sock)
+    async function khoitao(browsertype,sock)
     {
         try {
             let launchoptionchrome={
-                headless :false,
+                //headless :false,
+                
                 chromiumSandbox:false,
                 args:['--disable-gpu',
                 '--disable-dev-shm-usage',
@@ -189,13 +197,17 @@ let typecapcha=false;
                 '--allow-file-access-from-files',
                 //"--app=https://music.youtube.com",
                 ],
-                ignoreDefaultArgs: [ "--enable-automation"],
+                ignoreDefaultArgs: [ "--enable-automation"],//--no-audio ? --mute-audio
                 ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
 
             }
-
+            launchoptionchrome.tracesDir='';
         let launchoptionfirefox={
-            headless :false,
+           
+        }
+        if (b_headFull) {
+            launchoptionfirefox.headless =false;
+            launchoptionchrome.headless =false;
         }
 
         if (sock!==false) {
@@ -215,7 +227,7 @@ let typecapcha=false;
         }
 
         let browser=null;
-        if (os=='ff') {
+        if (browsertype=='ff') {
              browser = await firefox.launch(launchoptionfirefox);
         } else {
              browser = await chromium.launch(launchoptionchrome);
@@ -242,7 +254,7 @@ let typecapcha=false;
         log('run');
         const page = await  context.newPage();
         page.setDefaultTimeout(0);
-        return {browser,page};
+        return {browser,context,page};
         } catch (error) {
             log(error.stack);
         }
@@ -304,24 +316,15 @@ let typecapcha=false;
                 //console.log('loi email kp => '+error.stack);
             }
             try {
-                // Click button:has-text("Next")
-                let url = await page.evaluate(() => document.location.href);
+                let url = await page.evaluate(async () => document.location.href);
                 if (url.search('accounts.google.com/CheckCookie')>-1) {
-                    await Promise.all([
-                        page.waitForNavigation(),
-                    ]);
+                        page.waitForNavigation()
                 }
             } catch (error) {
-                //console.log('loi spinner => '+error.stack)
             }
             await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
             await page.waitForTimeout(4000);
-            /*
-            * getAtribute element handel to list
-             * let viewauthorlist = await page.$('.view-content');
-                let authorlist = await viewauthorlist.$$eval('a[href]', nodes => nodes.map(n => n.getAttribute('href')));
-             */
-            let url = await page.evaluate(() => document.location.href);
+            let url = await page.evaluate(async () => document.location.href);
             if (url.search('signin/v2')>-1) {
                 log('sai tai khoan');
             }else{
@@ -459,8 +462,9 @@ let typecapcha=false;
                     if (err) throw err;
                 });
             }
+            //mess = new Date()+ ':\t'+mess 
 
-            fs.appendFile(path,mess + '\r\n',function (err) {
+            fs.appendFile(path,new Date()+ ':\t'+mess+ '\r\n',function (err) {
                 if (err) {
                     console.log(error.stack);
                 } else {
@@ -586,11 +590,13 @@ let typecapcha=false;
         do {
             if (await waitForTime(page,'button#playnum_plw',5)) {
                 let num = await page.evaluate(() => document.querySelector('button#playnum_plw').textContent);
+                let sound = await page.evaluate(() => !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused}));
+                log("check play sound "+sound);
                 //console.log(`test receive num = ${num}`);
                 if (num>numnext) {
                     break;
                 }
-                await page.waitForTimeout(2*60*1000);
+                await page.waitForTimeout(60*1000);
             }
             else {return;}
         } while (true);
@@ -614,7 +620,7 @@ let typecapcha=false;
         try{
             //https://music.youtube.com/paid_memberships
             let url = "https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json";
-            dialogdiss(page);
+            await dialogdiss(page);
             for (let index = 0; index < 10; index++) {
                 let listurl = JSON.parse(await getlink(url));
                 let link = listurl.list[Math.floor(Math.random()*(listurl.list.length))];
@@ -622,17 +628,21 @@ let typecapcha=false;
                 log(`play ytb => ${link}`);
                 await navigatorload(page,link);
                 await runjs(page);
+                //await context.tracing.start({ screenshots: true, snapshots: true });
                 let element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])';
                 await waitForTime(page,element,5)
                 await page.tap(element);
-                await waitnext(page,30)
+                await waitnext(page,30),
+                //await context.tracing.stop({ path: 'trace.zip' });
                 await ytbtrending(page);
             }
         }
         catch(error){
-            log("loi =>  "+error.stack)}
+            log("loi =>  "+error.stack);
+        }
+            process.exit();
     }
-    
+
     async function ytbtrending(page) {
         try{
             let element="";
@@ -648,7 +658,7 @@ let typecapcha=false;
             element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])';
             await waitForTime(page,element,5);
             await page.tap(element);
-            await waitnext(page,5)
+            await waitnext(page,30)
             //await page.tap('tp-yt-paper-icon-button#play-pause-button[aria-label="Pause"]');
             await page.waitForTimeout(2*1000);
             log('end trending');

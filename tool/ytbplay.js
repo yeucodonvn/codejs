@@ -1,4 +1,4 @@
-//version 2.5 end
+//version 2.6 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -20,9 +20,9 @@ let runos ="chrome"; // chrome , ff
                 if(arg[3].search('capcha')>-1){
                     typecapcha=true;
                 }
-                if (arg[3].search('--headless')>-1) {
-                    b_headFull=false;
-                }
+                // if (arg[3].search('--headless')>-1) {
+                //     b_headFull=false;
+                // }
             }
             let patchgmail='data/gmail.txt';
             if (typeof arg[2] !== 'undefined') {
@@ -590,13 +590,12 @@ let runos ="chrome"; // chrome , ff
         do {
             if (await waitForTime(page,'button#playnum_plw',5)) {
                 let num = await page.evaluate(() => document.querySelector('button#playnum_plw').textContent);
-                let sound = await page.evaluate(() => !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused}));
-                log("check play sound "+sound);
-                //console.log(`test receive num = ${num}`);
+                // let sound = await page.evaluate(() => !!Array.prototype.find.call(document.querySelectorAll('audio,video'),function(elem){return elem.duration > 0 && !elem.paused}));
+                // log("check play sound "+sound);
                 if (num>numnext) {
                     break;
                 }
-                await page.waitForTimeout(60*1000);
+                await page.waitForTimeout(2*60*1000);
             }
             else {return;}
         } while (true);

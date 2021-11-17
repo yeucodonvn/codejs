@@ -620,7 +620,7 @@ let runos ="chrome"; // chrome , ff
             //https://music.youtube.com/paid_memberships
             let url = "https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json";
             await dialogdiss(page);
-            for (let index = 0; index < 3; index++) {
+            for (let index = 0; index < 7; index++) {
                 let listurl = JSON.parse(await getlink(url));
                 let link = listurl.list[Math.floor(Math.random()*(listurl.list.length))];
 

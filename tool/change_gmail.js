@@ -1,4 +1,4 @@
-//version 1.4 end
+//version 1.5 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -118,34 +118,46 @@ async function khoitao(os)
             let launchoptionchrome={
             headless :false,
             chromiumSandbox:false,
-            args:["--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-web-security",
-            "--disable-rtc-smoothness-algorithm",
-            "--disable-webrtc-encryption",
-            "--disable-client-side-phishing-detection",
-            "--disable-webrtc-hw-decoding",
-            "--disable-webrtc-hw-encoding",
-            "--disable-webrtc-multiple-routes",
-            "--disable-webrtc-hw-vp8-encoding",
-            "--enforce-webrtc-ip-permission-check",
-            "--force-webrtc-ip-handling-policy",
-            "--ignore-certificate-errors",
-            "--disable-infobars",
-            "--disable-popup-blocking",
-            "--disable-blink-features=AutomationControlled",
-            "--disable-features=site-per-process",
-            "--disable-user-media-security",
-            "--use-fake-ui-for-media-stream",
-            "--use-fake-mjpeg-decode-accelerator",
-            "--use-fake-device-for-media-stream",
-            "--use-fake-device-for-media-stream",
-            "--disable-setuid-sandbox",
-            "--use-fake-codec-for-peer-connection",
-            "--disable-features=IsolateOrigins,site-per-process",
-            "--no-sandbox",
-            "--reset-variation-state",
+            args:['--disable-gpu',
+            '--disable-dev-shm-usage',
+            '--disable-web-security',
+            '--disable-rtc-smoothness-algorithm',
+            '--disable-webrtc-encryption',
+            '--disable-client-side-phishing-detection',
+            '--disable-webrtc-hw-decoding',
+            '--disable-webrtc-hw-encoding',
+            '--disable-webrtc-multiple-routes',
+            '--disable-webrtc-hw-vp8-encoding',
+            '--enforce-webrtc-ip-permission-check',
+            '--force-webrtc-ip-handling-policy',
+            '--ignore-certificate-errors',
+            '--disable-infobars',
+            '--disable-popup-blocking',
+            '--disable-blink-features=AutomationControlled',
             '--disable-features=site-per-process',
+            '--disable-user-media-security',
+            '--use-fake-ui-for-media-stream',
+            '--use-fake-mjpeg-decode-accelerator',
+            '--use-fake-device-for-media-stream',
+            '--disable-setuid-sandbox',
+            '--use-fake-codec-for-peer-connection',
+            '--disable-features=IsolateOrigins,site-per-process',
+            '--no-sandbox',
+            '--reset-variation-state',
+            '--disable-features=UserAgentClientHint',
+            '--force-device-scale-factor=1',
+            '--disable-accelerated-2d-canvas',
+            '--lang=en-EN',
+            '--allow-insecure-localhost',
+            '--disable-remote-fonts',
+            '--no-first-run',
+            '--disable-default-apps',
+            '--no-default-browser-check',
+            '--prerender-from-omnibox=disabled',
+            '--silent-debugger-extension-api',
+            '--allow-running-insecure-content',
+            '--disable-strict-mixed-content-checking',
+            '--allow-file-access-from-files',
             //"--app=https://music.youtube.com",
             ],
 
@@ -159,6 +171,10 @@ async function khoitao(os)
                             username:sock.split(':')[2],
                             password:sock.split(':')[3]
                         }
+        }
+        let chromiumpatch='chrome-win/chrome.exe';
+        if (fs.existsSync(chromiumpatch)) {
+            launchoptionchrome.executablePath=chromiumpatch;
         }
         let launchoptionfirefox={
             headless :false,
@@ -179,13 +195,16 @@ async function khoitao(os)
             language : 'en',
             geolocation: { longitude: 48.858455, latitude: 2.294474 },
             permissions: ['geolocation'],
-            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
             hasTouch:true,
             viewport: { width: widths, height: heights },
             screen : { width: widths, height: heights },
             colorScheme: 'dark' ,
         }
-
+        let UA =[
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
+        ]
+        browsercontextoptions.userAgent=UA[Math.floor(Math.random()*UA.length)]
         const context = await browser.newContext(browsercontextoptions);
 
         log('run');
@@ -453,7 +472,6 @@ async function logingmail(page, acc){
             //console.log('loi spinner => '+error.stack)
         }
         await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
-        await page.waitForNavigation();
         await page.waitForTimeout(4000);
         /*
         * getAtribute element handel to list

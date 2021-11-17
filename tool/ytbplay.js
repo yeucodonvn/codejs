@@ -1,4 +1,4 @@
-//version 2.6 end
+//version 2.7 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -620,7 +620,7 @@ let runos ="chrome"; // chrome , ff
             //https://music.youtube.com/paid_memberships
             let url = "https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbartist.json";
             await dialogdiss(page);
-            for (let index = 0; index < 10; index++) {
+            for (let index = 0; index < 3; index++) {
                 let listurl = JSON.parse(await getlink(url));
                 let link = listurl.list[Math.floor(Math.random()*(listurl.list.length))];
 
@@ -639,7 +639,7 @@ let runos ="chrome"; // chrome , ff
         catch(error){
             log("loi =>  "+error.stack);
         }
-            process.exit();
+
     }
 
     async function ytbtrending(page) {
@@ -655,7 +655,7 @@ let runos ="chrome"; // chrome , ff
                 await waitForTime(page,element,5),
             ]);
             element =':is(.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"])';
-            await waitForTime(page,element,5);
+            await waitForTime(page,element,1);
             await page.tap(element);
             await waitnext(page,5)
             //await page.tap('tp-yt-paper-icon-button#play-pause-button[aria-label="Pause"]');

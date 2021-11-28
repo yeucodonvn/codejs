@@ -29,12 +29,12 @@ let acc = new Array();
                     let accmail = await logingmail(page, acc[i]);
                     if (accmail!=="login ok") {
                         let cc = await chapnhan(context,page);
-                        if (cc!=="") {
+                        if (cc!=="ok") {
                             savefile('chapnhanok',acc[i])
                             acc.splice(i,1);
                             writefile(patchgmail,acc);
                         }else{
-                            savefile('chapnhanloi',acc[i])
+                            savefile('chapnhanloi',acc[i]+ ' | '+cc)
                             acc.splice(i,1);
                             writefile(patchgmail,acc);
                         }
@@ -509,7 +509,9 @@ async function chapnhan(context,page) {
                 log("email da chap nhan link moi");
                 status = "ok";
             }else {log("email loi link moi");}
-        }else{ log("khong tim thay mail moi")}
+        }else{ log("khong tim thay mail moi");
+                status="khong tim thay mail moi";
+            }
 
     } catch (error) {
         log('loi ytb => ' + error.stack);

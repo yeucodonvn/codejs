@@ -27,7 +27,7 @@ let acc = new Array();
                     var {browser,context,page} = await khoitao('fchr',false);
                     log(`${i} acc:  ${acc[i]} `)
                     let accmail = await logingmail(page, acc[i]);
-                    if (accmail!=="") {
+                    if (accmail!=="login ok") {
                         let cc = await chapnhan(context,page);
                         if (cc!=="") {
                             savefile('chapnhanok',acc[i])
@@ -225,9 +225,10 @@ async function khoitao(os,sock)
         headless :false,
 
     }
-    let chromiumpatch='chrome-win/chrome.exe';
+    const chromiumpatch='chrome-win/chrome.exe';
         if (fs.existsSync(chromiumpatch)) {
             launchoptionchrome.executablePath=chromiumpatch;
+            console.log(chromiumpatch);
         }
     let browser=null;
     if (os=='ff') {
@@ -273,6 +274,12 @@ async function logingmail(page, acc){
         page.keyboard.press('Enter');
         await page.waitForTimeout(2000);
         try {
+            //Couldn’t sign you in
+            let brw = await page.$('text="Couldn’t sign you in"');
+            if(brw!==null) {
+                log('trinh duyet bi phat hien');
+                return status= 'trinh duyet bi phat hien';
+            }
             //if (await page.$('#captchaAudio[src]')!==null) {
             let capcha = await page.$('#captchaAudio[src]');
             if(capcha!==null) {
@@ -326,7 +333,7 @@ async function logingmail(page, acc){
             log('sai tai khoan');
         }else{
             log('login ok');
-            status=acc;
+            status="login ok";
         }
     } catch (error) {
         console.log("loi =>  "+error.stack);

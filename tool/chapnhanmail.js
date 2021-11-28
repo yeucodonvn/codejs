@@ -1,4 +1,4 @@
-//version 1.6 end
+//version 1.7 end
 const {chromium,firefox, devices}  = require('playwright');
 const read = require('prompt-sync')();
 const fs = require('fs');
@@ -123,35 +123,48 @@ async function khoitao(os,sock)
         let launchoptionchrome={
         headless :false,
         chromiumSandbox:false,
-        args:["--disable-gpu",
-        "--disable-dev-shm-usage",
-        "--disable-web-security",
-        "--disable-rtc-smoothness-algorithm",
-        "--disable-webrtc-encryption",
-        "--disable-client-side-phishing-detection",
-        "--disable-webrtc-hw-decoding",
-        "--disable-webrtc-hw-encoding",
-        "--disable-webrtc-multiple-routes",
-        "--disable-webrtc-hw-vp8-encoding",
-        "--enforce-webrtc-ip-permission-check",
-        "--force-webrtc-ip-handling-policy",
-        "--ignore-certificate-errors",
-        "--disable-infobars",
-        "--disable-popup-blocking",
-        "--disable-blink-features=AutomationControlled",
-        "--disable-features=site-per-process",
-        "--disable-user-media-security",
-        "--use-fake-ui-for-media-stream",
-        "--use-fake-mjpeg-decode-accelerator",
-        "--use-fake-device-for-media-stream",
-        "--use-fake-device-for-media-stream",
-        "--disable-setuid-sandbox",
-        "--use-fake-codec-for-peer-connection",
-        "--disable-features=IsolateOrigins,site-per-process",
-        "--no-sandbox",
-        "--reset-variation-state",
-        '--disable-features=site-per-process',
-        ],
+        args:['--disable-gpu',
+            '--disable-dev-shm-usage',
+            '--disable-web-security',
+            '--disable-rtc-smoothness-algorithm',
+            '--disable-webrtc-encryption',
+            '--disable-client-side-phishing-detection',
+            '--disable-webrtc-hw-decoding',
+            '--disable-webrtc-hw-encoding',
+            '--disable-webrtc-multiple-routes',
+            '--disable-webrtc-hw-vp8-encoding',
+            '--enforce-webrtc-ip-permission-check',
+            '--force-webrtc-ip-handling-policy',
+            '--ignore-certificate-errors',
+            '--disable-infobars',
+            '--disable-popup-blocking',
+            '--disable-blink-features=AutomationControlled',
+            '--disable-features=site-per-process',
+            '--disable-user-media-security',
+            '--use-fake-ui-for-media-stream',
+            '--use-fake-mjpeg-decode-accelerator',
+            '--use-fake-device-for-media-stream',
+            '--disable-setuid-sandbox',
+            '--use-fake-codec-for-peer-connection',
+            '--disable-features=IsolateOrigins,site-per-process',
+            '--no-sandbox',
+            '--reset-variation-state',
+            '--disable-features=UserAgentClientHint',
+            '--force-device-scale-factor=1',
+            '--disable-accelerated-2d-canvas',
+            '--lang=en-EN',
+            '--allow-insecure-localhost',
+            '--disable-remote-fonts',
+            '--no-first-run',
+            '--disable-default-apps',
+            '--no-default-browser-check',
+            '--prerender-from-omnibox=disabled',
+            '--silent-debugger-extension-api',
+            '--allow-running-insecure-content',
+            '--disable-strict-mixed-content-checking',
+            '--allow-file-access-from-files',
+            //"--app=https://music.youtube.com",
+            ],
 
         ignoreDefaultArgs: [ "--enable-automation"],
 
@@ -166,6 +179,10 @@ async function khoitao(os,sock)
         headless :false,
 
     }
+    let chromiumpatch='chrome-win/chrome.exe';
+        if (fs.existsSync(chromiumpatch)) {
+            launchoptionchrome.executablePath=chromiumpatch;
+        }
     let browser=null;
     if (os=='ff') {
          browser = await firefox.launch(launchoptionfirefox);
@@ -181,13 +198,16 @@ async function khoitao(os,sock)
         language : 'en',
         geolocation: { longitude: 48.858455, latitude: 2.294474 },
         permissions: ['geolocation'],
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
         hasTouch:true,
         viewport: { width: widths, height: heights },
         screen : { width: widths, height: heights },
         colorScheme: 'dark' ,
     }
-
+    let UA =[
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
+    ]
+    browsercontextoptions.userAgent=UA[Math.floor(Math.random()*UA.length)]
     const context = await browser.newContext(browsercontextoptions);
 
     log('run');

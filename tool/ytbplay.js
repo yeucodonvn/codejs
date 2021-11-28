@@ -53,7 +53,6 @@ let runos ="chrome"; // chrome , ff
                     const ip = fs.readFileSync(patchip, 'utf8')
                     if (ip.length>0) {
                         var sock = ip.split(/\r?\n/g);
-                        log(sock);
                         var {browser,context,page} = await khoitao(runos,sock[Math.floor(Math.random()*(sock.length))]);
                     }else {
                         var {browser,context,page} = await khoitao(runos,false);

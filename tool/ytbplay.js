@@ -1,8 +1,14 @@
-//version 2.7 end
+//version 2.8 end
 const {chromium,firefox, devices}  = require('playwright');
-const read = require('prompt-sync')();
 const fs = require('fs');
 const { match } = require('assert');
+
+//playwright-extra-stealth
+// var playwrightExtraStealth = require("playwright-extra-stealth")
+// yarn add playwright@1.8.0 playwright-extra@next
+//https://github.com/berstend/puppeteer-extra/tree/automation-extra/packages/playwright-extra#quickstart
+
+//================
 
 let typecapcha=false;
 let b_headFull = true;
@@ -17,7 +23,7 @@ let runos ="chrome"; // chrome , ff
 
             var arg = process.argv;
             if (typeof arg[3] !== 'undefined') {
-                if(arg[3].search('capcha')>-1){
+                if(arg[3].search('--capcha')>-1){
                     typecapcha=true;
                 }
                 // if (arg[3].search('--headless')>-1) {
@@ -45,51 +51,53 @@ let runos ="chrome"; // chrome , ff
                 // chinh useragnet, screen size
                 let i=0;
                 while(true) {
-                    if (typeof acc[i] == 'undefined') {
-                        log('het gmail');
-                        return;
-                    }
-                    let gmail = acc[i].split('|');
-                    const ip = fs.readFileSync(patchip, 'utf8')
-                    if (ip.length>0) {
-                        var sock = ip.split(/\r?\n/g);
-                        var {browser,context,page} = await khoitao(runos,sock[Math.floor(Math.random()*(sock.length))]);
-                    }else {
-                        var {browser,context,page} = await khoitao(runos,false);
-                    }
-                    log(`${i} acc:  ${gmail} `)
-                    let login = await logingmail(page, gmail);
-                    if (login=='login ok' ) {
-                        let check_pre = await checkpre(page);
-                        switch (check_pre) {
-                            case 1:
-                                await ytb(page);
-                                i++;
-                                break;
-                            case 2:
-                                log("ytb het han");
-                                // remove acc[i] khoi file goc
-                                savefile('acc_het_han',acc[i])
-                                acc.splice(i,1);
-                                writefile(patchgmail,acc);
-                                break;
-                            case 3:
-                                log("ytb chua reg");
-                                savefile('acc_chua_reg',acc[i])
-                                acc.splice(i,1);
-                                writefile(patchgmail,acc);
-                                break;
-                            default:
-                                break;
+                    if (typeof acc[i] !== 'undefined') {
+                        let gmail = acc[i].split('|');
+                        const ip = fs.readFileSync(patchip, 'utf8')
+                        if (ip.length>0) {
+                            var sock = ip.split(/\r?\n/g);
+                            var {browser,context,page} = await khoitao(runos,sock[Math.floor(Math.random()*(sock.length))]);
+                        }else {
+                            var {browser,context,page} = await khoitao(runos,false);
                         }
-                    }else{
-                        savefile('acc_loi',acc[i]+' | '+login);
-                        acc.splice(i,1);
-                        writefile(patchgmail,acc);
-                    }
-                    await browser.close();
-                    if (i>=acc.length) {
-                        i=0;
+                        log(`${i} acc:  ${gmail} `)
+                        let login = await logingmail(page, gmail);
+                        if (login=='login ok' ) {
+                            let check_pre = await checkpre(page);
+                            switch (check_pre) {
+                                case 1:
+                                    await ytb(page);
+                                    i++;
+                                    break;
+                                case 2:
+                                    log("ytb het han");
+                                    // remove acc[i] khoi file goc
+                                    savefile('acc_het_han',acc[i])
+                                    acc.splice(i,1);
+                                    writefile(patchgmail,acc);
+                                    break;
+                                case 3:
+                                    log("ytb chua reg");
+                                    savefile('acc_chua_reg',acc[i])
+                                    acc.splice(i,1);
+                                    writefile(patchgmail,acc);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }else{
+                            savefile('acc_loi',acc[i]+' | '+login);
+                            acc.splice(i,1);
+                            writefile(patchgmail,acc);
+                        }
+                        await browser.close();
+                        if (i>=acc.length) {
+                            i=0;
+                        }
+                        if (acc.length==0) {
+                            log('het gmail');
+                            return;
+                        }
                     }
                 }
             } else {
@@ -277,8 +285,10 @@ let runos ="chrome"; // chrome , ff
                 if(capcha!==null) {
                     log('dinh capcha');
                     if (typecapcha) {
-                        read('hay giai capcha => ');
-                        await page.waitForLoadState('networkidle');
+                        log('hay giai capcha => ');
+                        if(!await waitForTime(page,'[name="password"]',20))
+                        {return status="doi capcha"};
+                        //await page.waitForLoadState('networkidle');
                     }else {
                         return status="doi capcha";
                     }

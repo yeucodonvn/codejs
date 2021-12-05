@@ -1,4 +1,4 @@
-//version 2.9 end
+//version 2.9.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -246,7 +246,7 @@ let runos ="chrome"; // chrome , ff
                     log('dinh capcha');
                     if (typecapcha) {
                         log('hay giai capcha => ');
-                        if(!await waitForTime(page,'[name="password"]',20))
+                        if(!await waitForTime(page,'[name="password"]',120))
                         {return status="doi capcha"};
                         //await page.waitForLoadState('networkidle');
                     }else {

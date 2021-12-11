@@ -1,7 +1,11 @@
-//version 2.9.1 end
+//version 3.0 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
+const http      = require('http'),
+      https     = require('https');
+const request = require('request').defaults({ encoding: null });
+const Captcha = require('2captcha');
 
 //playwright-extra-stealth
 // var playwrightExtraStealth = require("playwright-extra-stealth")
@@ -10,7 +14,7 @@ const { match } = require('assert');
 
 //================
 
-let typecapcha=false;
+let typecapcha=true;
 let b_headFull = true;
 let isStop=false;
 let runos ="chrome"; // chrome , ff
@@ -24,7 +28,7 @@ let runos ="chrome"; // chrome , ff
             var arg = process.argv;
             if (typeof arg[3] !== 'undefined') {
                 if(arg[3].search('--capcha')>-1){
-                    typecapcha=true;
+                    typecapcha=false;
                 }
                 // if (arg[3].search('--headless')>-1) {
                 //     b_headFull=false;
@@ -169,23 +173,24 @@ let runos ="chrome"; // chrome , ff
 
             }
             launchoptionchrome.tracesDir='';
-        let launchoptionfirefox={
-           
-        }
+        let launchoptionfirefox={ };
         if (b_headFull) {
             launchoptionfirefox.headless =false;
             launchoptionchrome.headless =false;
         }
 
         if (sock!==false) {
-            launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
-                            username:sock.split(':')[2],
-                            password:sock.split(':')[3]
-                        }
-            launchoptionfirefox.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
-                        username:sock.split(':')[2],
-                        password:sock.split(':')[3]
-                    }
+            if (sock.search(':')<0) {
+                launchoptionchrome.proxy=  { server:sock+':3128',
+                username:'copcoi',
+                password:'Pedped99'
+                }
+            }else {
+                launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
+                username:sock.split(':')[2],
+                password:sock.split(':')[3]
+                }
+            }
         }
 
         let chromiumpatch='chrome-win/chrome.exe';
@@ -220,11 +225,102 @@ let runos ="chrome"; // chrome , ff
 
         log('run');
         const page = await  context.newPage();
+        const enabledEvasions = [
+            'chrome.app',
+            'chrome.csi',
+            'chrome.loadTimes',
+            'chrome.runtime',
+            'iframe.contentWindow',
+            'media.codecs',
+            'navigator.hardwareConcurrency',
+            'navigator.languages',
+            'navigator.permissions',
+            'navigator.plugins',
+            'navigator.webdriver',
+            'sourceurl',
+            // 'user-agent-override', // doesn't work since playwright has no page.browser()
+            'webgl.vendor',
+            'window.outerdimensions'
+        ];
+        const evasions = enabledEvasions.map(e => new require(`puppeteer-extra-plugin-stealth/evasions/${e}`));
+        const stealth = {
+            callbacks: [],
+            async evaluateOnNewDocument(...args) {
+                this.callbacks.push({ cb: args[0], a: args[1] })
+            }
+        }
+        evasions.forEach(e => e().onPageCreated(stealth));
+        for (let evasion of stealth.callbacks) {
+            await context.addInitScript(evasion.cb, evasion.a);
+        }
         page.setDefaultTimeout(0);
+        await evaluateOnNewDocument(context);
         return {browser,context,page};
         } catch (error) {
             log(error.stack);
         }
+    }
+    async function evaluateOnNewDocument(context) {
+        //Skip images/styles/fonts loading for performance
+   
+        await context.addInitScript(() => {
+            // Pass webdriver check
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => false,
+            });
+        });
+    
+        await context.addInitScript(() => {
+            // Pass chrome check
+            window.chrome = {
+                runtime: {},
+                // etc.
+            };
+        });
+    
+        await context.addInitScript(() => {
+            //Pass notifications check
+            const originalQuery = window.navigator.permissions.query;
+            return window.navigator.permissions.query = (parameters) => (
+                parameters.name === 'notifications' ?
+                    Promise.resolve({ state: Notification.permission }) :
+                    originalQuery(parameters)
+            );
+        });
+    
+        await context.addInitScript(() => {
+            // Overwrite the `plugins` property to use a custom getter.
+            Object.defineProperty(navigator, 'plugins', {
+                // This just needs to have `length > 0` for the current test,
+                // but we could mock the plugins too if necessary.
+                get: () => [1, 2, 3, 4, 5],
+            });
+        });
+    
+        await context.addInitScript(() => {
+            // Overwrite the `languages` property to use a custom getter.
+            Object.defineProperty(navigator, 'languages', {
+                get: () => ['en-US', 'en'],
+            });
+        });
+    
+        await context.addInitScript(() => {
+    
+            Object.defineProperty(navigator, 'maxTouchPoints', {
+                get() {
+                    "¯\_(ツ)_/¯";
+                    return 1;
+                },
+            });
+        
+            navigator.permissions.query = i => ({then: f => f({state: "prompt", onchange: null})});
+        
+        });
+    
+        await context.addInitScript(() => {
+            window.qs = document.querySelector;
+            window.qsAll = document.querySelectorAll;
+          });
     }
     async function logingmail(page, acc){
         let status = "";
@@ -237,7 +333,7 @@ let runos ="chrome"; // chrome , ff
             // await page.fill('#identifierId',email);
             log('login mail ' +email);
             await page.keyboard.type(email,{delay: 100});
-            page.keyboard.press('Enter');
+            await page.keyboard.press('Enter');
             await page.waitForTimeout(2000);
             try {
                 //if (await page.$('#captchaAudio[src]')!==null) {
@@ -245,9 +341,16 @@ let runos ="chrome"; // chrome , ff
                 if(capcha!==null) {
                     log('dinh capcha');
                     if (typecapcha) {
-                        log('hay giai capcha => ');
-                        if(!await waitForTime(page,'[name="password"]',120))
-                        {return status="doi capcha"};
+                        log('capcha => ');
+                        let i = 0;
+                        while (true){
+                            await recapcha(page);
+                            if(await waitForTime(page,'[name="password"]',10)) break;
+                            else{
+                                i++;
+                                if (i >=3)return status="doi capcha";
+                            }
+                        };
                         //await page.waitForLoadState('networkidle');
                     }else {
                         return status="doi capcha";
@@ -311,6 +414,43 @@ let runos ="chrome"; // chrome , ff
         }
         return status;
     }
+    async function recapcha(page){
+        const linkcaptcha = await page.locator('img#captchaimg[src *= "Captcha"]');
+        let url = await linkcaptcha.getAttribute('src');
+        let basecode = await base64('https://accounts.google.com'+url);
+        let resuiltcode = await slovercode(basecode);
+        log(`code capcha ${resuiltcode.data}`);
+        let inputbtn = url.replace('/Captcha?v=2&ctoken=',"")
+        await page.tap('input[aria-label="Type the text you hear or see"]');
+        await page.keyboard.type(resuiltcode.data,{delay: 100});
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(2000);
+    }
+
+    async function base64(url){  
+        log(`convert captcha to base64`);
+        return new Promise((resolve, reject)=>{  
+            request.get(url, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    data = "data:" + response.headers["content-type"] + ";base64," + Buffer.from(body).toString('base64');
+                    resolve(data);
+                }else{
+                    reject(error);
+                }
+            });
+        })
+    }
+    async function slovercode(basecode){ 
+        log(`Slover captcha`);
+        return new Promise((resolve, reject)=>{
+            const solver = new Captcha.Solver('eec2a83bcbf570d877b23d815087ce3e');
+            solver
+                //.imageCaptcha(fs.readFileSync('Captcha.jpg', 'base64'))
+                .imageCaptcha(basecode)
+                .then((res) => { resolve (res); })
+                .catch((err) => {  reject(err); });
+        })
+     }
     function savefile(file,mess) {
         try {
             let path = 'data/'+file+'.txt';
@@ -394,8 +534,6 @@ let runos ="chrome"; // chrome , ff
     function getlink(params,file) {
         const getScript = (url) => {
             return new Promise((resolve, reject) => {
-                const http      = require('http'),
-                      https     = require('https');
                 let client = http;
                 if (url.toString().indexOf("https") === 0) {
                     client = https;

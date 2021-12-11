@@ -407,7 +407,7 @@ async function logingmail(page, acc){
         // await page.fill('#identifierId',email);
         log('login mail email ' +email);
         await page.keyboard.type(email,{delay: 100});
-        page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
         await page.waitForTimeout(2000);
         try {
             //if (await page.$('#captchaAudio[src]')!==null) {

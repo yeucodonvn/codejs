@@ -229,7 +229,7 @@ async function logingmail(page, acc){
         await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
         log('login mail email ' +email);
         await typeinput(page,'#identifierId',email)
-        page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
         await page.waitForTimeout(2000);
         try {
             //Couldn’t sign you in

@@ -3,72 +3,58 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "eastus"
+            "type": "string"
         },
         "networkInterfaceName": {
-            "value": "win-2012-a1471"
+            "type": "string"
         },
         "networkSecurityGroupName": {
-            "value": "win-2012-a1-nsg"
+            "type": "string"
         },
         "networkSecurityGroupRules": {
-            "value": [
-                {
-                    "name": "RDP",
-                    "properties": {
-                        "priority": 300,
-                        "protocol": "TCP",
-                        "access": "Allow",
-                        "direction": "Inbound",
-                        "sourceAddressPrefix": "*",
-                        "sourcePortRange": "*",
-                        "destinationAddressPrefix": "*",
-                        "destinationPortRange": "3389"
-                    }
-                }
-            ]
+            "type": "array"
         },
         "subnetName": {
-            "value": "default"
+            "type": "string"
         },
         "virtualNetworkId": {
-            "value": "/subscriptions/e8cd612d-c2e7-4cee-931a-5a116c7cd328/resourceGroups/FTYHJKBJFGY/providers/Microsoft.Network/virtualNetworks/FTYHJKBJFGY-vnet"
+            "type": "string"
         },
         "publicIpAddressName": {
-            "value": "win-2012-a1-ip"
+            "type": "string"
         },
         "publicIpAddressType": {
-            "value": "Dynamic"
+            "type": "string"
         },
         "publicIpAddressSku": {
-            "value": "Basic"
+            "type": "string"
         },
         "virtualMachineName": {
-            "value": "win-2012-a1"
+            "type": "string"
         },
         "virtualMachineComputerName": {
-            "value": "win-2012-a1"
+            "type": "string"
         },
         "virtualMachineRG": {
-            "value": "FTYHJKBJFGY"
+            "type": "string"
         },
         "osDiskType": {
-            "value": "Standard_LRS"
+            "type": "string"
         },
         "virtualMachineSize": {
-            "value": "Standard_B1s"
+            "type": "string"
         },
         "adminUsername": {
-            "value": "administrator1"
+            "type": "string"
         },
         "adminPassword": {
-            "value": "&!TeamLamViec.99"
+            "type": "secureString"
         },
         "patchMode": {
-            "value": "AutomaticByOS"
+            "type": "string"
         },
         "enableHotpatching": {
-            "value": false
+            "type": "bool"
         }
     },
     "variables": {

@@ -60,11 +60,11 @@
         console.log("add list");
         await   sleep(2);
         document.querySelector('button[data-test="show-context-menu-button"]').click();
-        await   sleep(2);
+        await    sleep(0.5);
             document.querySelector('div[data-track--icon-clicked="add_to_playlist\"]>button[data-test=\"add-to-playlist"]').click();
-            await    sleep(2);
+            await    sleep(0.5);
             document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button').click();
-            await   sleep(2);
+            await    sleep(0.5);
             dup();
             await   sleep(2);
             await   changelink();
@@ -93,7 +93,7 @@
         let temp =0 ;
         curUrl= window.location.href;
         console.log("curUrl "+curUrl);
-        await sleep(5);
+        await sleep(3);
         let indexurl = paragram.list.indexOf(curUrl);
         if (indexurl==-1) {
             window.location.href=paragram.list[0];

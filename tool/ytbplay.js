@@ -278,6 +278,11 @@ let runos ="chrome"; // chrome , ff
                 // etc.
             };
         });
+        await context.addInitScript(() => {
+            const newProto = navigator.__proto__
+            delete newProto.webdriver
+            navigator.__proto__ = newProto
+        });
     
         await context.addInitScript(() => {
             //Pass notifications check

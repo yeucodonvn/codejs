@@ -1,4 +1,4 @@
-//version 3.0.1 end
+//version 3.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');

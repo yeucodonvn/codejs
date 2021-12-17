@@ -1,4 +1,4 @@
-//version 3.0 end
+//version 3.0.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -597,6 +597,7 @@ let runos ="chrome"; // chrome , ff
                     page.waitForNavigation(),
                 ]);
                 return
+                
             } catch (error) {
                 log("loi load link => "+urllink + '\n'+error.stack);
                 i++;

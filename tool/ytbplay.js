@@ -89,6 +89,8 @@ let runos ="chrome"; // chrome , ff
                                 default:
                                     break;
                             }
+                        }else if(login=="Could'nt sign you in"){
+                            continue;
                         }else{
                             savefile('acc_loi',acc[i]+' | '+login);
                             acc.splice(i,1);
@@ -363,7 +365,7 @@ let runos ="chrome"; // chrome , ff
                 let botsingin = await page.$('text=Couldn’t sign you in');
                 if (botsingin) {
                     log('Couldn’t sign you in =>'+useragnets);
-                    {return status="Couldn’t sign you in"};
+                    {return status="Could'nt sign you in"};
                     //await page.waitForLoadState('networkidle');
                 }
             } catch (error) {

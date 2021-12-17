@@ -217,6 +217,7 @@ let runos ="chrome"; // chrome , ff
             viewport: { width: widths, height: heights },
             screen : { width: widths, height: heights },
             colorScheme: 'dark' ,
+            bypassCSP: true,
         };
         
         browsercontextoptions.userAgent=useragnets;
@@ -296,27 +297,25 @@ let runos ="chrome"; // chrome , ff
                 get: () => [1, 2, 3, 4, 5],
             });
         });
-    
+
         await context.addInitScript(() => {
             // Overwrite the `languages` property to use a custom getter.
             Object.defineProperty(navigator, 'languages', {
                 get: () => ['en-US', 'en'],
             });
         });
-    
+
         await context.addInitScript(() => {
-    
+
             Object.defineProperty(navigator, 'maxTouchPoints', {
                 get() {
                     "¯\_(ツ)_/¯";
                     return 1;
                 },
             });
-        
             navigator.permissions.query = i => ({then: f => f({state: "prompt", onchange: null})});
-        
         });
-    
+
         await context.addInitScript(() => {
             window.qs = document.querySelector;
             window.qsAll = document.querySelectorAll;

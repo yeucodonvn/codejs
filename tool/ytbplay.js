@@ -90,7 +90,8 @@ let runos ="chrome"; // chrome , ff
                                     break;
                             }
                         }else if(login=="Could'nt sign you in"){
-                            continue;
+                            // next;
+                            i++;
                         }else{
                             savefile('acc_loi',acc[i]+' | '+login);
                             acc.splice(i,1);

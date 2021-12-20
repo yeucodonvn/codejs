@@ -1,4 +1,4 @@
-//version 3.1 end
+//version 3.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -89,7 +89,7 @@ let runos ="chrome"; // chrome , ff
                                 default:
                                     break;
                             }
-                        }else if(login=="Could'nt sign you in"){
+                        }else if(login=="Couldnt sign you in"){
                             // next;
                             i++;
                         }else{
@@ -362,11 +362,11 @@ let runos ="chrome"; // chrome , ff
                     }else {
                         return status="doi capcha";
                     }
-                }
-                let botsingin = await page.$('text=Couldn’t sign you in');
+                };
+                let botsingin = await page.$('text=Couldn\'t sign you in');
                 if (botsingin) {
                     log('Couldn’t sign you in =>'+useragnets);
-                    {return status="Could'nt sign you in"};
+                    return status="Couldnt sign you in";
                     //await page.waitForLoadState('networkidle');
                 }
             } catch (error) {
@@ -574,7 +574,7 @@ let runos ="chrome"; // chrome , ff
         }
     }
 
-    function log(mess) {
+    async function log(mess) {
         try {
             let path = 'data/log.txt';
             if (!fs.existsSync(path)) {

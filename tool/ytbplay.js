@@ -1,4 +1,4 @@
-//version 3.2 end
+//version 3.2.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -89,7 +89,7 @@ let runos ="chrome"; // chrome , ff
                                 default:
                                     break;
                             }
-                        }else if(login=="Couldnt sign you in"){
+                        }else if(login=="This browser or app may not be secure"){
                             // next;
                             i++;
                         }else{
@@ -363,10 +363,10 @@ let runos ="chrome"; // chrome , ff
                         return status="doi capcha";
                     }
                 };
-                let botsingin = await page.$('text=Couldn\'t sign you in');
+                let botsingin = await page.$('text=This browser or app may not be secure.');
                 if (botsingin) {
                     log('Couldn’t sign you in =>'+useragnets);
-                    return status="Couldnt sign you in";
+                    return status="This browser or app may not be secure";
                     //await page.waitForLoadState('networkidle');
                 }
             } catch (error) {

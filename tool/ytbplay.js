@@ -1,4 +1,4 @@
-//version 3.2.2 end
+//version 3.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -6,7 +6,7 @@ const http      = require('http'),
       https     = require('https');
 const request = require('request').defaults({ encoding: null });
 const Captcha = require('2captcha');
-const fse = require('fs-extra');
+
 
 //playwright-extra-stealth
 // var playwrightExtraStealth = require("playwright-extra-stealth")
@@ -20,6 +20,10 @@ let typecapcha=true;
 let b_headFull = true;
 let isStop=false;
 let runos ="chrome"; // chrome , ff
+let UA =[
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
+]
+let useragnets = UA[Math.floor(Math.random()*UA.length)];
 (async() => {
         try {
             pathfile ='ytbplay.js';
@@ -60,11 +64,16 @@ let runos ="chrome"; // chrome , ff
                     if (typeof acc[i] !== 'undefined') {
                         let gmail = acc[i].split('|');
 
-                        let destDir='data/'+gmail[0];;
-                        if (!await fse.pathExists(destDir)) {
-                            await fse.copy(srcDir, destDir,{ overwrite: true } )
-                            .then(() => console.log('tao profile thanh cong!'))
-                            .catch(err => console.error(err))
+                        let destDir='data/'+gmail[0];
+                        // const fse = require('fs-extra');
+                        // if (!await fse.pathExists(destDir)) {
+                        //     await fse.copy(srcDir, destDir,{ overwrite: true } )
+                        //     .then(() => console.log('tao profile thanh cong!'))
+                        //     .catch(err => console.error(err))
+                        // }
+                        if (!fs.existsSync(destDir)){
+                            console.log('tao folder');
+                           fs.mkdirSync(destDir);
                         }
 
 
@@ -137,10 +146,7 @@ let runos ="chrome"; // chrome , ff
 
     })();
 
-    let UA =[
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
-    ]
-    let useragnets = UA[Math.floor(Math.random()*UA.length)];
+    
     async function khoitao(browsertype,userdata,sock)
     {
         try {
@@ -604,7 +610,7 @@ let runos ="chrome"; // chrome , ff
             await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
             await page.waitForTimeout(2000);
             let url = await page.evaluate(async () => document.location.href);
-            if (url.search('signin/v2')>-1) {
+            if (url.search('signin/v2')>-1||url.search('/about/')>-1) {
                 await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube');
                 log('login gmail');
                 await page.tap('#identifierId');

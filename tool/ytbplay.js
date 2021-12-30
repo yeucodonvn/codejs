@@ -33,7 +33,6 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
             let heights=Math.floor(Math.random()*(1024-600)+600);
             let launchoptionchrome={
                 //headless :false,
-                
                 chromiumSandbox:false,
                 args:[
                     '--no-sandbox',
@@ -169,16 +168,11 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
             if (fs.existsSync(chromiumpatch)) {
                 launchoptionchrome.executablePath=chromiumpatch;
             }
-           
             log(`windows size ${widths} ${heights}`);
-            
             launchoptionchrome.userAgent=useragnets;
-            let browser=null;
-            // const launchPersistentoption = Object.assign(launchoptionchrome,browsercontextoptions);
-            if (userdata!==null) {
-                browser = await chromium.launchPersistentContext(userdata,launchoptionchrome);
-                const page = await  browser.newPage();
-                log('run');
+            const browser = await chromium.launchPersistentContext(userdata,launchoptionchrome);
+            const page = await  browser.newPage();
+            log('run');
             const enabledEvasions = [
                 'chrome.app',
                 'chrome.csi',
@@ -210,13 +204,8 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
             page.setDefaultTimeout(0);
             await evaluateOnNewDocument(page);
             return {browser,page};
-        }else{
-            
         }
-        
-
-        
-        } catch (error) {
+         catch (error) {
             log(error.stack);
         }
     };
@@ -329,88 +318,88 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
 
             }
             launchoptionchrome.tracesDir='';
-        let launchoptionfirefox={ };
-        if (b_headFull) {
-            launchoptionfirefox.headless =false;
-            launchoptionchrome.headless =false;
-        }
+            let launchoptionfirefox={ };
+            if (b_headFull) {
+                launchoptionfirefox.headless =false;
+                launchoptionchrome.headless =false;
+            }
 
-        if (sock!==false) {
-            if (sock.search(':')<0) {
-                launchoptionchrome.proxy=  { server:sock+':3128',
-                username:'copcoi',
-                password:'Pedped99'
-                }
-            }else {
-                launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
-                username:sock.split(':')[2],
-                password:sock.split(':')[3]
+            if (sock!==false) {
+                if (sock.search(':')<0) {
+                    launchoptionchrome.proxy=  { server:sock+':3128',
+                    username:'copcoi',
+                    password:'Pedped99'
+                    }
+                }else {
+                    launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
+                    username:sock.split(':')[2],
+                    password:sock.split(':')[3]
+                    }
                 }
             }
-        }
 
-        let chromiumpatch='chrome-win/chrome.exe';
-        if (fs.existsSync(chromiumpatch)) {
-            launchoptionchrome.executablePath=chromiumpatch;
-        }
-        let widths=Math.floor(Math.random()*(1280-800)+800);
-        let heights=Math.floor(Math.random()*(1024-600)+600);
-        log(`windows size ${widths} ${heights}`);
-        let browsercontextoptions={
-            //...emu,
-            language : 'en',
-            geolocation: { longitude: 48.858455, latitude: 2.294474 },
-            permissions: ['geolocation'],
-            hasTouch:true,
-            viewport: { width: widths, height: heights },
-            screen : { width: widths, height: heights },
-            colorScheme: 'dark' ,
-            bypassCSP: true,
-        };
-        
-        browsercontextoptions.userAgent=useragnets;
-        let browser=null;
-        if (browsertype=='ff') {
-            browser = await firefox.launch(launchoptionfirefox);
-        } else {
-            browser = await chromium.launch(launchoptionchrome);
-        }
-        const context = await browser.newContext(browsercontextoptions);
-        const page = await  context.newPage();
-        
-
-        log('run');
-        const enabledEvasions = [
-            'chrome.app',
-            'chrome.csi',
-            'chrome.loadTimes',
-            'chrome.runtime',
-            'iframe.contentWindow',
-            'media.codecs',
-            'navigator.hardwareConcurrency',
-            'navigator.languages',
-            'navigator.permissions',
-            'navigator.plugins',
-            'navigator.webdriver',
-            'sourceurl',
-            // 'user-agent-override', // doesn't work since playwright has no page.browser()
-            'webgl.vendor',
-            'window.outerdimensions'
-        ];
-        const evasions = enabledEvasions.map(e => new require(`puppeteer-extra-plugin-stealth/evasions/${e}`));
-        const stealth = {
-            callbacks: [],
-            async evaluateOnNewDocument(...args) {
-                this.callbacks.push({ cb: args[0], a: args[1] })
+            let chromiumpatch='chrome-win/chrome.exe';
+            if (fs.existsSync(chromiumpatch)) {
+                launchoptionchrome.executablePath=chromiumpatch;
             }
-        }
-        evasions.forEach(e => e().onPageCreated(stealth));
-        for (let evasion of stealth.callbacks) {
-            await page.addInitScript(evasion.cb, evasion.a);
-        }
-        page.setDefaultTimeout(0);
-        await evaluateOnNewDocument(context);
-        return {browser,page};
+            let widths=Math.floor(Math.random()*(1280-800)+800);
+            let heights=Math.floor(Math.random()*(1024-600)+600);
+            log(`windows size ${widths} ${heights}`);
+            let browsercontextoptions={
+                //...emu,
+                language : 'en',
+                geolocation: { longitude: 48.858455, latitude: 2.294474 },
+                permissions: ['geolocation'],
+                hasTouch:true,
+                viewport: { width: widths, height: heights },
+                screen : { width: widths, height: heights },
+                colorScheme: 'dark' ,
+                bypassCSP: true,
+            };
+            
+            browsercontextoptions.userAgent=useragnets;
+            let browser=null;
+            if (browsertype=='ff') {
+                browser = await firefox.launch(launchoptionfirefox);
+            } else {
+                browser = await chromium.launch(launchoptionchrome);
+            }
+            const context = await browser.newContext(browsercontextoptions);
+            const page = await  context.newPage();
+            
+
+            log('run');
+            const enabledEvasions = [
+                'chrome.app',
+                'chrome.csi',
+                'chrome.loadTimes',
+                'chrome.runtime',
+                'iframe.contentWindow',
+                'media.codecs',
+                'navigator.hardwareConcurrency',
+                'navigator.languages',
+                'navigator.permissions',
+                'navigator.plugins',
+                'navigator.webdriver',
+                'sourceurl',
+                // 'user-agent-override', // doesn't work since playwright has no page.browser()
+                'webgl.vendor',
+                'window.outerdimensions'
+            ];
+            const evasions = enabledEvasions.map(e => new require(`puppeteer-extra-plugin-stealth/evasions/${e}`));
+            const stealth = {
+                callbacks: [],
+                async evaluateOnNewDocument(...args) {
+                    this.callbacks.push({ cb: args[0], a: args[1] })
+                }
+            }
+            evasions.forEach(e => e().onPageCreated(stealth));
+            for (let evasion of stealth.callbacks) {
+                await page.addInitScript(evasion.cb, evasion.a);
+            }
+            page.setDefaultTimeout(0);
+            await evaluateOnNewDocument(context);
+            return {browser,page};
         } catch (error) {
             log(error.stack);
         }

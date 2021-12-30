@@ -1,4 +1,4 @@
-//version 3.3 end
+//version 3.3.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -39,7 +39,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                     '--no-sandbox',
                     '--no-pings',
                     '--no-zygote',
-                    '--mute-audio',
+                    // '--mute-audio',
                     '--no-first-run',
                     '--no-default-browser-check',
                     '--disable-software-rasterizer',

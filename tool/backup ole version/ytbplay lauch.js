@@ -1,4 +1,4 @@
-//version 3.2.2 end
+//version 3.2.1 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -6,7 +6,6 @@ const http      = require('http'),
       https     = require('https');
 const request = require('request').defaults({ encoding: null });
 const Captcha = require('2captcha');
-const fse = require('fs-extra');
 
 //playwright-extra-stealth
 // var playwrightExtraStealth = require("playwright-extra-stealth")
@@ -14,7 +13,6 @@ const fse = require('fs-extra');
 //https://github.com/berstend/puppeteer-extra/tree/automation-extra/packages/playwright-extra#quickstart
 
 //================
-const srcDir = `data/profile`;
 
 let typecapcha=true;
 let b_headFull = true;
@@ -59,31 +57,14 @@ let runos ="chrome"; // chrome , ff
                 while(true) {
                     if (typeof acc[i] !== 'undefined') {
                         let gmail = acc[i].split('|');
-
-                        let destDir='data/'+gmail[0];;
-                        if (!await fse.pathExists(destDir)) {
-                            await fse.copy(srcDir, destDir,{ overwrite: true } )
-                            .then(() => console.log('tao profile thanh cong!'))
-                            .catch(err => console.error(err))
-                        }
-
-
                         const ip = fs.readFileSync(patchip, 'utf8')
                         if (ip.length>0) {
                             var sock = ip.split(/\r?\n/g);
-                            var {browser,page} = await khoitao(runos,destDir,sock[Math.floor(Math.random()*(sock.length))]);
+                            var {browser,context,page} = await khoitao(runos,sock[Math.floor(Math.random()*(sock.length))]);
                         }else {
-                            var {browser,page} = await khoitao(runos,destDir,false);
+                            var {browser,context,page} = await khoitao(runos,false);
                         }
                         log(`${i} acc:  ${gmail} `)
-                        //===== close blank tab
-                        const pages = await browser.pages();
-                        console.log("tabs "+pages.length );
-                        if (pages.length > 1) {
-                            console.log("close blank tab");
-                            await pages[0].close();
-                        }
-                        //=========
                         let login = await logingmail(page, gmail);
                         if (login=='login ok' ) {
                             let check_pre = await checkpre(page);
@@ -141,302 +122,53 @@ let runos ="chrome"; // chrome , ff
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:83.0) Gecko/20100101 Firefox/83.0',
     ]
     let useragnets = UA[Math.floor(Math.random()*UA.length)];
-    async function khoitao(browsertype,userdata,sock)
-    {
-        try {
-            let widths=Math.floor(Math.random()*(1280-800)+800);
-            let heights=Math.floor(Math.random()*(1024-600)+600);
-            let launchoptionchrome={
-                //headless :false,
-                
-                chromiumSandbox:false,
-                args:[
-                    '--no-sandbox',
-                    '--no-pings',
-                    '--no-zygote',
-                    '--mute-audio',
-                    '--no-first-run',
-                    '--no-default-browser-check',
-                    '--disable-software-rasterizer',
-                    '--disable-cloud-import',
-                    '--disable-gesture-typing',
-                    '--disable-setuid-sandbox',
-                    '--disable-offer-store-unmasked-wallet-cards',
-                    '--disable-offer-upload-credit-cards',
-                    '--disable-print-preview',
-                    '--disable-voice-input',
-                    '--disable-wake-on-wifi',
-                    '--disable-cookie-encryption',
-                    '--ignore-gpu-blocklist',
-                    '--enable-async-dns',
-                    '--enable-simple-cache-backend',
-                    '--enable-tcp-fast-open',
-                    '--enable-webgl',
-                    '--prerender-from-omnibox=disabled',
-                    '--enable-web-bluetooth',
-                    '--ignore-certificate-errors',
-                    '--ignore-certificate-errors-spki-list',
-                    '--disable-site-isolation-trials',
-                    '--disable-features=AudioServiceOutOfProcess,IsolateOrigins,site-per-process,TranslateUI,BlinkGenPropertyTrees', // do not disable UserAgentClientHint
-                    '--aggressive-cache-discard',
-                    '--disable-extensions',
-                    '--disable-blink-features',
-                    '--disable-blink-features=AutomationControlled',
-                    '--disable-ipc-flooding-protection',
-                    '--enable-features=NetworkService,NetworkServiceInProcess,TrustTokens,TrustTokensAlwaysAllowIssuance',  // support ServiceWorkers
-                    '--disable-component-extensions-with-background-pages',
-                    '--disable-default-apps',
-                    '--disable-breakpad',
-                    '--disable-component-update',
-                    '--disable-domain-reliability',
-                    '--disable-sync',
-                    '--disable-client-side-phishing-detection',
-                    '--disable-hang-monitor',
-                    '--disable-popup-blocking',
-                    '--disable-prompt-on-repost',
-                    '--metrics-recording-only',
-                    '--safebrowsing-disable-auto-update',
-                    '--password-store=basic',
-                    '--autoplay-policy=no-user-gesture-required',
-                    '--use-mock-keychain',
-                    '--force-webrtc-ip-handling-policy=default_public_interface_only',
-                    '--disable-session-crashed-bubble',
-                    '--disable-crash-reporter',
-                    '--disable-dev-shm-usage',
-                    '--force-color-profile=srgb',
-                    '--disable-accelerated-2d-canvas',
-                    '--disable-translate',
-                    '--disable-background-networking',
-                    '--disable-background-timer-throttling',
-                    '--disable-backgrounding-occluded-windows',
-                    '--disable-infobars',
-                    '--hide-scrollbars',
-                    '--disable-renderer-backgrounding',
-                    '--font-render-hinting=none',
-                    '--disable-logging',
-                    '--use-gl=swiftshader',             // better cpu usage with --use-gl=desktop rather than --use-gl=swiftshader, still needs more testing.
-                
-                    // optimze fps
-                    '--enable-surface-synchronization',
-                    '--run-all-compositor-stages-before-draw',
-                    '--disable-threaded-animation',
-                    '--disable-threaded-scrolling',
-                    '--disable-checker-imaging',
-                
-                    '--disable-new-content-rendering-timeout',
-                    '--disable-image-animation-resync',
-                    '--disable-partial-raster',
-                
-                    '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
-                
-                    // '--deterministic-mode',                          // Some friends commented that with this parameter mouse movement is stuck, so let's comment it out
-                    // '--disable-web-security',
-                    // '--disable-cache',                               // cache
-                    // '--disable-application-cache',
-                    // '--disable-offline-load-stale-cache',
-                    // '--disable-gpu-shader-disk-cache',
-                    // '--media-cache-size=0',
-                    // '--disk-cache-size=0',
-                    // '--enable-experimental-web-platform-features',   // Make Chrome for Linux support Bluetooth. eg: navigator.bluetooth, window.BluetoothUUID
-                    // '--disable-gpu',                                 // Cannot be disabled: otherwise webgl will not work
-                    // '--disable-speech-api',                          // Cannot be disabled: some websites use speech-api as fingerprint
-                    // '--no-startup-window',                           // Cannot be enabled: Chrome won't open the window and puppeteer thinks it's not connected
-                    // '--disable-webgl',                               // Requires webgl fingerprint
-                    // '--disable-webgl2',
-                    // '--disable-notifications',                       // Cannot be disabled: notification-api not available, fingerprints will be dirty
-                
-                //"--app=https://music.youtube.com",
-                ],
-                ignoreDefaultArgs: [ "--enable-automation"],//--no-audio ? --mute-audio
-                ignoreDefaultArgs: ['--disable-component-extensions-with-background-pages'],
-                //...emu,
-                language : 'en',
-                geolocation: { longitude: 48.858455, latitude: 2.294474 },
-                permissions: ['geolocation'],
-                hasTouch:true,
-                viewport: { width: widths, height: heights },
-                screen : { width: widths, height: heights },
-                colorScheme: 'dark' ,
-                bypassCSP: true,
-            }
-            launchoptionchrome.tracesDir='';
-            let launchoptionfirefox={ };
-            if (b_headFull) {
-                launchoptionfirefox.headless =false;
-                launchoptionchrome.headless =false;
-            }
-
-            if (sock!==false) {
-                if (sock.search(':')<0) {
-                    launchoptionchrome.proxy=  { server:sock+':3128',
-                    username:'copcoi',
-                    password:'Pedped99'
-                    }
-                }else {
-                    launchoptionchrome.proxy=  { server:sock.split(':')[0]+':'+sock.split(':')[1],
-                    username:sock.split(':')[2],
-                    password:sock.split(':')[3]
-                    }
-                }
-            }
-
-            let chromiumpatch='chrome-win/chrome.exe';
-            if (fs.existsSync(chromiumpatch)) {
-                launchoptionchrome.executablePath=chromiumpatch;
-            }
-           
-            log(`windows size ${widths} ${heights}`);
-            
-            launchoptionchrome.userAgent=useragnets;
-            let browser=null;
-            // const launchPersistentoption = Object.assign(launchoptionchrome,browsercontextoptions);
-            if (userdata!==null) {
-                browser = await chromium.launchPersistentContext(userdata,launchoptionchrome);
-                const page = await  browser.newPage();
-                log('run');
-            const enabledEvasions = [
-                'chrome.app',
-                'chrome.csi',
-                'chrome.loadTimes',
-                'chrome.runtime',
-                'iframe.contentWindow',
-                'media.codecs',
-                'navigator.hardwareConcurrency',
-                'navigator.languages',
-                'navigator.permissions',
-                'navigator.plugins',
-                'navigator.webdriver',
-                'sourceurl',
-                // 'user-agent-override', // doesn't work since playwright has no page.browser()
-                'webgl.vendor',
-                'window.outerdimensions'
-            ];
-            const evasions = enabledEvasions.map(e => new require(`puppeteer-extra-plugin-stealth/evasions/${e}`));
-            const stealth = {
-                callbacks: [],
-                async evaluateOnNewDocument(...args) {
-                    this.callbacks.push({ cb: args[0], a: args[1] })
-                }
-            }
-            evasions.forEach(e => e().onPageCreated(stealth));
-            for (let evasion of stealth.callbacks) {
-                await page.addInitScript(evasion.cb, evasion.a);
-            }
-            page.setDefaultTimeout(0);
-            await evaluateOnNewDocument(page);
-            return {browser,page};
-        }else{
-            
-        }
-        
-
-        
-        } catch (error) {
-            log(error.stack);
-        }
-    };
-    async function khoitao_lauch(browsertype,sock)
+    async function khoitao(browsertype,sock)
     {
         try {
             let launchoptionchrome={
                 //headless :false,
                 
                 chromiumSandbox:false,
-                args:[
-                    '--no-sandbox',
-                    '--no-pings',
-                    '--no-zygote',
-                    '--mute-audio',
-                    '--no-first-run',
-                    '--no-default-browser-check',
-                    '--disable-software-rasterizer',
-                    '--disable-cloud-import',
-                    '--disable-gesture-typing',
-                    '--disable-setuid-sandbox',
-                    '--disable-offer-store-unmasked-wallet-cards',
-                    '--disable-offer-upload-credit-cards',
-                    '--disable-print-preview',
-                    '--disable-voice-input',
-                    '--disable-wake-on-wifi',
-                    '--disable-cookie-encryption',
-                    '--ignore-gpu-blocklist',
-                    '--enable-async-dns',
-                    '--enable-simple-cache-backend',
-                    '--enable-tcp-fast-open',
-                    '--enable-webgl',
-                    '--prerender-from-omnibox=disabled',
-                    '--enable-web-bluetooth',
-                    '--ignore-certificate-errors',
-                    '--ignore-certificate-errors-spki-list',
-                    '--disable-site-isolation-trials',
-                    '--disable-features=AudioServiceOutOfProcess,IsolateOrigins,site-per-process,TranslateUI,BlinkGenPropertyTrees', // do not disable UserAgentClientHint
-                    '--aggressive-cache-discard',
-                    '--disable-extensions',
-                    '--disable-blink-features',
-                    '--disable-blink-features=AutomationControlled',
-                    '--disable-ipc-flooding-protection',
-                    '--enable-features=NetworkService,NetworkServiceInProcess,TrustTokens,TrustTokensAlwaysAllowIssuance',  // support ServiceWorkers
-                    '--disable-component-extensions-with-background-pages',
-                    '--disable-default-apps',
-                    '--disable-breakpad',
-                    '--disable-component-update',
-                    '--disable-domain-reliability',
-                    '--disable-sync',
-                    '--disable-client-side-phishing-detection',
-                    '--disable-hang-monitor',
-                    '--disable-popup-blocking',
-                    '--disable-prompt-on-repost',
-                    '--metrics-recording-only',
-                    '--safebrowsing-disable-auto-update',
-                    '--password-store=basic',
-                    '--autoplay-policy=no-user-gesture-required',
-                    '--use-mock-keychain',
-                    '--force-webrtc-ip-handling-policy=default_public_interface_only',
-                    '--disable-session-crashed-bubble',
-                    '--disable-crash-reporter',
-                    '--disable-dev-shm-usage',
-                    '--force-color-profile=srgb',
-                    '--disable-accelerated-2d-canvas',
-                    '--disable-translate',
-                    '--disable-background-networking',
-                    '--disable-background-timer-throttling',
-                    '--disable-backgrounding-occluded-windows',
-                    '--disable-infobars',
-                    '--hide-scrollbars',
-                    '--disable-renderer-backgrounding',
-                    '--font-render-hinting=none',
-                    '--disable-logging',
-                    '--use-gl=swiftshader',             // better cpu usage with --use-gl=desktop rather than --use-gl=swiftshader, still needs more testing.
-                
-                    // optimze fps
-                    '--enable-surface-synchronization',
-                    '--run-all-compositor-stages-before-draw',
-                    '--disable-threaded-animation',
-                    '--disable-threaded-scrolling',
-                    '--disable-checker-imaging',
-                
-                    '--disable-new-content-rendering-timeout',
-                    '--disable-image-animation-resync',
-                    '--disable-partial-raster',
-                
-                    '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
-                
-                    // '--deterministic-mode',                          // Some friends commented that with this parameter mouse movement is stuck, so let's comment it out
-                    // '--disable-web-security',
-                    // '--disable-cache',                               // cache
-                    // '--disable-application-cache',
-                    // '--disable-offline-load-stale-cache',
-                    // '--disable-gpu-shader-disk-cache',
-                    // '--media-cache-size=0',
-                    // '--disk-cache-size=0',
-                    // '--enable-experimental-web-platform-features',   // Make Chrome for Linux support Bluetooth. eg: navigator.bluetooth, window.BluetoothUUID
-                    // '--disable-gpu',                                 // Cannot be disabled: otherwise webgl will not work
-                    // '--disable-speech-api',                          // Cannot be disabled: some websites use speech-api as fingerprint
-                    // '--no-startup-window',                           // Cannot be enabled: Chrome won't open the window and puppeteer thinks it's not connected
-                    // '--disable-webgl',                               // Requires webgl fingerprint
-                    // '--disable-webgl2',
-                    // '--disable-notifications',                       // Cannot be disabled: notification-api not available, fingerprints will be dirty
-                
+                args:['--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-web-security',
+                '--disable-rtc-smoothness-algorithm',
+                '--disable-webrtc-encryption',
+                '--disable-client-side-phishing-detection',
+                '--disable-webrtc-hw-decoding',
+                '--disable-webrtc-hw-encoding',
+                '--disable-webrtc-multiple-routes',
+                '--disable-webrtc-hw-vp8-encoding',
+                '--enforce-webrtc-ip-permission-check',
+                '--force-webrtc-ip-handling-policy',
+                '--ignore-certificate-errors',
+                '--disable-infobars',
+                '--disable-popup-blocking',
+                '--disable-blink-features=AutomationControlled',
+                '--disable-features=site-per-process',
+                '--disable-user-media-security',
+                '--use-fake-ui-for-media-stream',
+                '--use-fake-mjpeg-decode-accelerator',
+                '--use-fake-device-for-media-stream',
+                '--disable-setuid-sandbox',
+                '--use-fake-codec-for-peer-connection',
+                '--disable-features=IsolateOrigins,site-per-process',
+                '--no-sandbox',
+                '--reset-variation-state',
+                '--disable-features=UserAgentClientHint',
+                '--force-device-scale-factor=1',
+                '--disable-accelerated-2d-canvas',
+                '--lang=en-EN',
+                '--allow-insecure-localhost',
+                '--disable-remote-fonts',
+                '--no-first-run',
+                '--disable-default-apps',
+                '--no-default-browser-check',
+                '--prerender-from-omnibox=disabled',
+                '--silent-debugger-extension-api',
+                '--allow-running-insecure-content',
+                '--disable-strict-mixed-content-checking',
+                '--allow-file-access-from-files',
                 //"--app=https://music.youtube.com",
                 ],
                 ignoreDefaultArgs: [ "--enable-automation"],//--no-audio ? --mute-audio
@@ -468,6 +200,14 @@ let runos ="chrome"; // chrome , ff
         if (fs.existsSync(chromiumpatch)) {
             launchoptionchrome.executablePath=chromiumpatch;
         }
+
+        let browser=null;
+        if (browsertype=='ff') {
+             browser = await firefox.launch(launchoptionfirefox);
+        } else {
+             browser = await chromium.launch(launchoptionchrome);
+        }
+        //const emu = devices["Desktop Firefox"];
         let widths=Math.floor(Math.random()*(1280-800)+800);
         let heights=Math.floor(Math.random()*(1024-600)+600);
         log(`windows size ${widths} ${heights}`);
@@ -484,17 +224,11 @@ let runos ="chrome"; // chrome , ff
         };
         
         browsercontextoptions.userAgent=useragnets;
-        let browser=null;
-        if (browsertype=='ff') {
-            browser = await firefox.launch(launchoptionfirefox);
-        } else {
-            browser = await chromium.launch(launchoptionchrome);
-        }
+
         const context = await browser.newContext(browsercontextoptions);
-        const page = await  context.newPage();
-        
 
         log('run');
+        const page = await  context.newPage();
         const enabledEvasions = [
             'chrome.app',
             'chrome.csi',
@@ -521,11 +255,11 @@ let runos ="chrome"; // chrome , ff
         }
         evasions.forEach(e => e().onPageCreated(stealth));
         for (let evasion of stealth.callbacks) {
-            await page.addInitScript(evasion.cb, evasion.a);
+            await context.addInitScript(evasion.cb, evasion.a);
         }
         page.setDefaultTimeout(0);
         await evaluateOnNewDocument(context);
-        return {browser,page};
+        return {browser,context,page};
         } catch (error) {
             log(error.stack);
         }
@@ -601,94 +335,85 @@ let runos ="chrome"; // chrome , ff
             let email = acc[0];
             let pass = acc[1];
             let emailkp = acc[2];
-            await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
+            await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube', {waitUntil: 'load', timeout: 0});
+            await page.tap('#identifierId');
+            // await page.fill('#identifierId',email);
+            log('login mail ' +email);
+            await page.keyboard.type(email,{delay: 100});
+            await page.keyboard.press('Enter');
             await page.waitForTimeout(2000);
+            try {
+                //if (await page.$('#captchaAudio[src]')!==null) {
+                let capcha = await page.$('#captchaAudio[src]');
+                if(capcha!==null) {
+                    log('dinh capcha');
+                    if (typecapcha) {
+                        log('capcha => ');
+                        let i = 0;
+                        while (true){
+                            await recapcha(page);
+                            if(await waitForTime(page,'[name="password"]',10)) break;
+                            else{
+                                i++;
+                                if (i >=3)return status="doi capcha";
+                            }
+                        };
+                        //await page.waitForLoadState('networkidle');
+                    }else {
+                        return status="doi capcha";
+                    }
+                };
+                let botsingin = await page.$('text=This browser or app may not be secure.');
+                if (botsingin) {
+                    log('Couldn’t sign you in =>'+useragnets);
+                    return status="This browser or app may not be secure";
+                    //await page.waitForLoadState('networkidle');
+                }
+            } catch (error) {
+                log('loi capcha => '+error.stack);
+            }
+            await page.tap('[name="password"]');
+            await page.keyboard.type(pass,{delay: 100});
+            await page.keyboard.press('Enter');
+            await page.waitForTimeout(4000);
+            try {
+                // let verphone = await page.$('text=Verify it’s you');
+                let verphone = await page.evaluate(()=>(document.querySelector('[type="tel"]').textContent=="Verify it’s you"));
+                if(verphone) {
+                    log('verrphone');
+                    return status= 'ver phone';
+                }
+            } catch (error) {
+            }
+            try {
+                let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
+                if(emailrecovery) {
+                    log('emailkp');
+                    await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
+                    await page.tap('#knowledge-preregistered-email-response');
+                    await page.keyboard.type(emailkp,{delay: 100});
+                    await Promise.all([
+                        page.waitForNavigation(),
+                        await page.keyboard.press('Enter')
+                    ]);
+                }
+            } catch (error) {
+                //console.log('loi email kp => '+error.stack);
+            }
+            try {
+                let url = await page.evaluate(async () => document.location.href);
+                if (url.search('accounts.google.com/CheckCookie')>-1) {
+                        page.waitForNavigation()
+                }
+            } catch (error) {
+            }
+            await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
+            await page.waitForTimeout(4000);
             let url = await page.evaluate(async () => document.location.href);
             if (url.search('signin/v2')>-1) {
-                await navigatorload(page,'https://accounts.google.com/signin/v2/identifier?service=youtube');
-                log('login gmail');
-                await page.tap('#identifierId');
-                // await page.fill('#identifierId',email);
-                log('login mail ' +email);
-                await page.keyboard.type(email,{delay: 100});
-                await page.keyboard.press('Enter');
-                await page.waitForTimeout(2000);
-                try {
-                    //if (await page.$('#captchaAudio[src]')!==null) {
-                    let capcha = await page.$('#captchaAudio[src]');
-                    if(capcha!==null) {
-                        log('dinh capcha');
-                        if (typecapcha) {
-                            log('capcha => ');
-                            let i = 0;
-                            while (true){
-                                await recapcha(page);
-                                if(await waitForTime(page,'[name="password"]',10)) break;
-                                else{
-                                    i++;
-                                    if (i >=3)return status="doi capcha";
-                                }
-                            };
-                            //await page.waitForLoadState('networkidle');
-                        }else {
-                            return status="doi capcha";
-                        }
-                    };
-                    let botsingin = await page.$('text=This browser or app may not be secure.');
-                    if (botsingin) {
-                        log('Couldn’t sign you in =>'+useragnets);
-                        return status="This browser or app may not be secure";
-                        //await page.waitForLoadState('networkidle');
-                    }
-                } catch (error) {
-                    log('loi capcha => '+error.stack);
-                }
-                await page.tap('[name="password"]');
-                await page.keyboard.type(pass,{delay: 100});
-                await page.keyboard.press('Enter');
-                await page.waitForTimeout(4000);
-                try {
-                    // let verphone = await page.$('text=Verify it’s you');
-                    let verphone = await page.evaluate(()=>(document.querySelector('[type="tel"]').textContent=="Verify it’s you"));
-                    if(verphone) {
-                        log('verrphone');
-                        return status= 'ver phone';
-                    }
-                } catch (error) {
-                }
-                try {
-                    let emailrecovery = await page.$('div[role="link"]:has-text("Confirm your recovery email")');
-                    if(emailrecovery) {
-                        log('emailkp');
-                        await page.tap('div[role="link"]:has-text("Confirm your recovery email")')
-                        await page.tap('#knowledge-preregistered-email-response');
-                        await page.keyboard.type(emailkp,{delay: 100});
-                        await Promise.all([
-                            page.waitForNavigation(),
-                            await page.keyboard.press('Enter')
-                        ]);
-                    }
-                } catch (error) {
-                    //console.log('loi email kp => '+error.stack);
-                }
-                try {
-                    let url = await page.evaluate(async () => document.location.href);
-                    if (url.search('accounts.google.com/CheckCookie')>-1) {
-                            page.waitForNavigation()
-                    }
-                } catch (error) {
-                }
-                await navigatorload(page,'https://mail.google.com/mail/u/0/h/esqtsrzq9zd7/?v=prfap');
-                await page.waitForTimeout(4000);
-                let url = await page.evaluate(async () => document.location.href);
-                if (url.search('signin/v2')>-1) {
-                    log('sai tai khoan');
-                }else{
-                    log('login ok');
-                    status = 'login ok';
-                }
+                log('sai tai khoan');
             }else{
-                log('da login');
+                log('login ok');
                 status = 'login ok';
             }
         } catch (error) {
@@ -875,7 +600,7 @@ let runos ="chrome"; // chrome , ff
         do {
             try {
                 await Promise.all([
-                    page.goto(urllink,{waitUntil: 'load', timeout: 0}),
+                    page.goto(urllink),
                     page.waitForNavigation(),
                 ]);
                 return

@@ -777,6 +777,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                     console.log("create button");
                 }
                 function clickLike(){
+
                     let ytplayer = document.getElementById("movie_player");
                         if(ADDED_EVENT!==1){
                             ytplayer.addEventListener("onStateChange", function(state){
@@ -812,7 +813,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                                 }
                             },5000);
                         }
-                    }, 10*1000);
+                    }, 5*1000);
                 }
 
                 function checkspinloader(){
@@ -842,11 +843,18 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                     },60 * 1000);
                 };
                 function run() {
-                    addele();
-                    checkVideoPaused();
-                    clickLike();
-                    togglepage();
-                    checkspinloader();
+                    let checkytb =  setInterval(() => {
+                        let ytplayer = document.getElementById("movie_player");
+                    if (ytplayer!==null) {
+                        clearInterval(checkytb);
+                        addele();
+                        checkVideoPaused();
+                        clickLike();
+                        togglepage();
+                        checkspinloader();
+                    }
+                    }, 2000);
+                    
                 }
                 console.log("run script");
                 run();

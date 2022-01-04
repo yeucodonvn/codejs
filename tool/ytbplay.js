@@ -1,4 +1,4 @@
-//version 3.3.1 end
+//version 3.3.2 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -940,8 +940,8 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
         try{
             let url = "https://music.youtube.com/paid_memberships";
             await navigatorload(page,url);
-
-            if (await waitForTime(page,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',10)) {
+            await page.waitForTimeout(3000);
+            if (await waitForTime(page,'yt-card-item-renderer.style-scope.yt-card-item-container-renderer',20)) {
                 if (await waitForTime(page,'#error-text-renderer.style-scope.yt-card-item-error-renderer',5)) {
                     status=2;
                 }else{status=1;}
@@ -951,6 +951,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
         }
         return status;
     }
+    let B_profile=true;
     (async() => {
         try {
             pathfile ='ytbplay.js';
@@ -962,6 +963,14 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
             if (typeof arg[3] !== 'undefined') {
                 if(arg[3].search('--capcha')>-1){
                     typecapcha=false;
+                }
+                // if (arg[3].search('--headless')>-1) {
+                //     b_headFull=false;
+                // }
+            }
+            if (typeof arg[3] !== 'undefined') {
+                if(arg[3].search('--profile')>-1){
+                    B_profile=false;
                 }
                 // if (arg[3].search('--headless')>-1) {
                 //     b_headFull=false;
@@ -990,35 +999,47 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                 while(true) {
                     if (typeof acc[i] !== 'undefined') {
                         let gmail = acc[i].split('|');
+                        if (B_profile) {
+                            let destDir='data/'+gmail[0];
+                            // const fse = require('fs-extra');
+                            // if (!await fse.pathExists(destDir)) {
+                            //     await fse.copy(srcDir, destDir,{ overwrite: true } )
+                            //     .then(() => console.log('tao profile thanh cong!'))
+                            //     .catch(err => console.error(err))
+                            // }
+                            if (!fs.existsSync(destDir)){
+                                console.log('tao folder');
+                               fs.mkdirSync(destDir);
+                            }
 
-                        let destDir='data/'+gmail[0];
-                        // const fse = require('fs-extra');
-                        // if (!await fse.pathExists(destDir)) {
-                        //     await fse.copy(srcDir, destDir,{ overwrite: true } )
-                        //     .then(() => console.log('tao profile thanh cong!'))
-                        //     .catch(err => console.error(err))
-                        // }
-                        if (!fs.existsSync(destDir)){
-                            console.log('tao folder');
-                           fs.mkdirSync(destDir);
-                        }
 
-
-                        const ip = fs.readFileSync(patchip, 'utf8')
-                        if (ip.length>0) {
-                            var sock = ip.split(/\r?\n/g);
-                            var {browser,page} = await khoitao(runos,destDir,sock[Math.floor(Math.random()*(sock.length))]);
+                            const ip = fs.readFileSync(patchip, 'utf8')
+                            if (ip.length>0) {
+                                var sock = ip.split(/\r?\n/g);
+                                var {browser,page} = await khoitao(runos,destDir,sock[Math.floor(Math.random()*(sock.length))]);
+                            }else {
+                                var {browser,page} = await khoitao(runos,destDir,false);
+                            }
+                            log(`${i} acc:  ${gmail} `)
+                            //===== close blank tab
+                            const pages = await browser.pages();
+                            console.log("tabs "+pages.length );
+                            if (pages.length > 1) {
+                                console.log("close blank tab");
+                                await pages[0].close();
+                            }
                         }else {
-                            var {browser,page} = await khoitao(runos,destDir,false);
+                            const ip = fs.readFileSync(patchip, 'utf8')
+                            if (ip.length>0) {
+                                var sock = ip.split(/\r?\n/g);
+                                var {browser,page} = await khoitao_lauch(runos,sock[Math.floor(Math.random()*(sock.length))]);
+                            }else {
+                                var {browser,page} = await khoitao_lauch(runos,destDir,false);
+                                log(`${i} acc:  ${gmail} `)
+                            }
                         }
-                        log(`${i} acc:  ${gmail} `)
-                        //===== close blank tab
-                        const pages = await browser.pages();
-                        console.log("tabs "+pages.length );
-                        if (pages.length > 1) {
-                            console.log("close blank tab");
-                            await pages[0].close();
-                        }
+                        
+                        
                         //=========
                         let login = await logingmail(page, gmail);
                         if (login=='login ok' ) {

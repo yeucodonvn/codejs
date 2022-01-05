@@ -1,4 +1,4 @@
-//version 3.3.2 end
+//version 3.3.3 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -845,14 +845,14 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                 function run() {
                     let checkytb =  setInterval(() => {
                         let ytplayer = document.getElementById("movie_player");
-                    if (ytplayer!==null) {
-                        clearInterval(checkytb);
-                        addele();
-                        checkVideoPaused();
-                        clickLike();
-                        togglepage();
-                        checkspinloader();
-                    }
+                        if (ytplayer!==null) {
+                            clearInterval(checkytb);
+                            addele();
+                            checkVideoPaused();
+                            clickLike();
+                            togglepage();
+                            checkspinloader();
+                        }
                     }, 2000);
                     
                 }
@@ -959,7 +959,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
         }
         return status;
     }
-    let B_profile=true;
+    let B_profile=false;
     (async() => {
         try {
             pathfile ='ytbplay.js';

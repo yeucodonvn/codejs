@@ -1,4 +1,4 @@
-//version 3.3.3 end
+//version 3.3.4 end
 const {chromium,firefox, devices}  = require('playwright');
 const fs = require('fs');
 const { match } = require('assert');
@@ -1042,7 +1042,7 @@ let useragnets = UA[Math.floor(Math.random()*UA.length)];
                                 var sock = ip.split(/\r?\n/g);
                                 var {browser,page} = await khoitao_lauch(runos,sock[Math.floor(Math.random()*(sock.length))]);
                             }else {
-                                var {browser,page} = await khoitao_lauch(runos,destDir,false);
+                                var {browser,page} = await khoitao_lauch(runos,false);
                                 log(`${i} acc:  ${gmail} `)
                             }
                         }

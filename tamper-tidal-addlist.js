@@ -14,7 +14,7 @@
 (function() {
     'use strict';
     var paragram={
-        NameAlbum:"liist-thang12",
+        NameAlbum:"list-thang1-2022",
         list: [
             "https://listen.tidal.com/album/179130881",
 "https://listen.tidal.com/album/179130893",
@@ -51,7 +51,13 @@
 "https://listen.tidal.com/album/178111064",
 "https://listen.tidal.com/album/206658689",
 "https://listen.tidal.com/album/205701358",
-"https://listen.tidal.com/album/205701323"
+"https://listen.tidal.com/album/205701323",
+"https://listen.tidal.com/album/208235369",
+"https://listen.tidal.com/album/208235426",
+"https://listen.tidal.com/album/202217467",
+"https://listen.tidal.com/album/207424538",
+"https://listen.tidal.com/album/207454328",
+"https://listen.tidal.com/album/209460014"
         ]
     };
 
@@ -61,13 +67,19 @@
         await   sleep(2);
         document.querySelector('button[data-test="show-context-menu-button"]').click();
         await    sleep(0.5);
-            document.querySelector('div[data-track--icon-clicked="add_to_playlist\"]>button[data-test=\"add-to-playlist"]').click();
-            await    sleep(0.5);
-            document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button').click();
-            await    sleep(0.5);
-            dup();
-            await   sleep(2);
-            await   changelink();
+        document.querySelector('div[data-track--icon-clicked="add_to_playlist\"]>button[data-test=\"add-to-playlist"]').click();
+        await    sleep(0.5);
+        let clickname = document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button');
+        if (clickname!==null) {
+            clickname.click();
+            // document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button').click();
+        }else{
+            window.location.reload();
+        }
+        await    sleep(0.5);
+        dup();
+        await   sleep(2);
+        await   changelink();
 
     }
     var dup = (()=>{

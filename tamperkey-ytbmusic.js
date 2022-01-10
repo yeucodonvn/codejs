@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9.6
-// @version      0.9.6
+// @name         YouTube AutoPlay - version 0.9.7
+// @version      0.9.7
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -268,7 +268,7 @@
         console.log("gotoPercent "+GOTO_PERCENT);
         console.log("LISTEN_DURATION "+LISTEN_DURATION);
 
-        if (detecturl()==1||detecturl()==3){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
+        if (detecturl()==1){setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))],5*60*1000);}
         else{
             let templop=0;
             let loop = setInterval(() => {

@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         iheart
+// @name         iheart 0.8
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 
 // @description  try to take over the world!
 // @author       You
@@ -46,7 +46,7 @@
 			var element = document.querySelector('[data-test="play-button"]');
             if(element !== null && shuffle !== null){
                 var repeatLabel = element.getAttribute("data-test-state");
-                if(repeatLabel == "paused"){
+                if(repeatLabel.toLowerCase() == "paused"){
 					clearInterval(loopClickRepeat);
 					console.log("click shuffle");
                     shuffle.click();
@@ -130,7 +130,7 @@
 					}
 				if(demloi>3)
 				{
-					document.querySelector('.playback-controls__button--white-icon').click();
+					document.querySelector('[data-test="next-button"]').click();
 					get_time();
 					demloi=0
 					clearInterval(loopchecktime);
@@ -144,13 +144,15 @@
 	function run() {
         console.log("IHEAT AutoPlay - MANAGER - Repeat Number "+temp_number);
 		var loopsearch = setInterval(function(){
-			var element = document.querySelector('[data-test="play-button"]');
+			var element = document.querySelector('[data-test="Shuffle"]');
 			if(element!==null){
 				clearInterval(loopsearch);
 				setTimeout(play_btn, 10000);
-				setInterval(searchconfirm,25*60*1000);
-				setInterval(get_loading,50*1000);
-				setInterval(searchstop,50*1000);
+				setTimeout(() => {
+					setInterval(searchconfirm,25*60*1000);
+					setInterval(get_loading,50*1000);
+					setInterval(searchstop,50*1000);
+				}, 1000);
 			};
 		},5000);
 		

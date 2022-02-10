@@ -318,8 +318,27 @@ let element= document.querySelectorAll('a[dir="ltr"]');
             console.log(element.getAttribute('href'));
            });
 
-//==== nháp
+//==== copy vafo clipboad
+let ips=document.querySelectorAll('[data-qa-ip-main]');
+let lis='';
+ips.forEach(element => {
+    lis+=element.textContent+'\n';
+});
+console.log(lis);
+CopyMe(lis);
 
+  function CopyMe(TextToCopy) {
+    var TempText = document.createElement("input");
+    TempText.value = TextToCopy;
+    document.body.appendChild(TempText);
+    TempText.select();
+    
+    document.execCommand("copy");
+    document.body.removeChild(TempText);
+    
+    alert("Copied the text: " + TempText.value);
+  }
+  //==== nháp
 /*
 
 

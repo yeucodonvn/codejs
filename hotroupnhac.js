@@ -324,7 +324,9 @@ let lis='';
 ips.forEach(element => {
     lis+=element.textContent+'\n';
 });
+
 console.log(lis);
+// copy vao clipboad
 CopyMe(lis);
 
   function CopyMe(TextToCopy) {
@@ -338,7 +340,68 @@ CopyMe(lis);
     
     alert("Copied the text: " + TempText.value);
   }
-  //==== nháp
+
+  //================================================================
+// save consolog to file
+(function(console){
+
+    console.save = function(data, filename){
+    
+        if(!data) {
+            console.error('Console.save: No data')
+            return;
+        }
+    
+        if(!filename) filename = 'console.json'
+    
+        if(typeof data === "object"){
+            data = JSON.stringify(data, undefined, 4)
+        }
+    
+        var blob = new Blob([data], {type: 'text/json'}),
+            e    = document.createEvent('MouseEvents'),
+            a    = document.createElement('a')
+    
+        a.download = filename
+        a.href = window.URL.createObjectURL(blob)
+        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+        a.dispatchEvent(e)
+     }
+    })(console)
+
+  ///======= click power on linode====
+  let t= 0;
+  let vps=document.querySelector('tbody');
+  let vpsoff = vps.querySelectorAll('tr');
+  for (let i = 0; i < vpsoff.length; i++) {
+      const element = vpsoff[i];
+      let tdds=element.querySelectorAll('td');
+      if (tdds[1].textContent=='Offline') {
+        let a =tdds[6];
+        let poweroff = a.querySelectorAll('button')[0];
+        console.log(poweroff);
+        poweroff.click();
+        await sleep(2);
+        let dilog = document.querySelector('.MuiDialog-paperScrollPaper');
+        if (dilog) {
+            console.log('click');
+            dilog.querySelectorAll('button')[1].click();
+        }
+        await sleep(2);
+        t++;
+      }
+  };
+console.log(t);
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms*1000));
+    };
+
+
+
+
+
+    //==== nháp
 /*
 
 

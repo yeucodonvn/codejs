@@ -62,7 +62,7 @@
 
     var curUrl;
     async function addlist(params) {
-        console.log("add list");
+        // console.log("add list");
         await   sleep(2);
         document.querySelector('button[data-test="show-context-menu-button"]').click();
         await    sleep(0.5);
@@ -70,6 +70,7 @@
         await    sleep(0.5);
         let clickname = document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button');
         if (clickname!==null) {
+            console.log("click list");
             clickname.click();
             // document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button').click();
         }else{
@@ -109,6 +110,7 @@
         if (indexurl==-1) {
             window.location.href=paragram.list[0];
         }
+        console.log("index  "+indexurl);
         let loop = setInterval( async () => {
             let morebtn = document.querySelector('div.header-details');
             if (morebtn!==null) {

@@ -14,7 +14,7 @@
 (function() {
     'use strict';
     var paragram={
-        NameAlbum:"list-thang4-2022",
+        NameAlbum:"list-thang5-2022",
         list: [
         "https://listen.tidal.com/album/179130881",
         "https://listen.tidal.com/album/179130893",
@@ -52,9 +52,8 @@
         "https://listen.tidal.com/album/208235426",
         "https://listen.tidal.com/album/202217467",
         "https://listen.tidal.com/album/207424538",
-        "https://listen.tidal.com/album/207454328",
         "https://listen.tidal.com/album/209460014",
-        "https://listen.tidal.com/album/183433306/track/183433307",
+        "https://listen.tidal.com/album/183433306",
         "https://listen.tidal.com/album/222324129",
         "https://listen.tidal.com/album/224777421"
         ]
@@ -90,11 +89,11 @@
     })
     async function changelink(params) {
         let indexurl = paragram.list.indexOf(curUrl);
-        console.log("index  "+indexurl);
+        // console.log("index  "+indexurl);
 
         if (indexurl>=paragram.list.length-1) {
             console.log('xong');
-        }else if (indexurl>-1) {
+        }else if (indexurl>=0) {
             window.location.href=paragram.list[indexurl+1];
         }
     }
@@ -110,7 +109,7 @@
         if (indexurl==-1) {
             window.location.href=paragram.list[0];
         }
-        console.log("index  "+indexurl);
+        console.log("index  "+indexurl +" / "+paragram.list.length-1);
         let loop = setInterval( async () => {
             let morebtn = document.querySelector('div.header-details');
             if (morebtn!==null) {

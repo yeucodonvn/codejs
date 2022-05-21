@@ -55,7 +55,10 @@
         "https://listen.tidal.com/album/209460014",
         "https://listen.tidal.com/album/183433306",
         "https://listen.tidal.com/album/222324129",
-        "https://listen.tidal.com/album/224777421"
+        "https://listen.tidal.com/album/224777421",
+        "https://listen.tidal.com/album/227187113",
+        "https://listen.tidal.com/album/227187134",
+        "https://listen.tidal.com/album/227187160"
         ]
     };
 

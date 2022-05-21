@@ -397,6 +397,26 @@ console.log(t);
     return new Promise(resolve => setTimeout(resolve, ms*1000));
     };
 
+// aria-activedescendant="option-0--menu--14"
+menu-button-
+// data-selected
+function querry(params,doc) {
+    return doc ? doc.querySelector(params) :document.querySelector(params);
+}
+function querryAll(params,doc) {
+    return doc ? doc.querySelectorAll(params) :document.querySelectorAll(params);
+}
+let geBackup = querry('tbody');
+let tr_vps = querryAll('tr',geBackup);
+let getMenu = querry('button[aria-controls*="menu"]',tr_vps[0]);
+getMenu.setAttribute('aria-expanded',"true");
+getMenu.click();
+let atname = getMenu.getAttribute('aria-controls');
+let divselect = querry(`[aria-labelledby="menu-button--${atname}"]`);
+divselect.setAttribute('aria-activedescendant',`option-0--${atname}`);
+let poweroff = querry('[data-valuetext="Power Off"]',divselect);
+poweroff.setAttribute('data-selected',''); //
+poweroff.click();
 
 
 

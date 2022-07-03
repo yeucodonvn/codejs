@@ -419,8 +419,6 @@ poweroff.setAttribute('data-selected',''); //
 poweroff.click();
 
 
-
-
     //==== nháp
 /*
 

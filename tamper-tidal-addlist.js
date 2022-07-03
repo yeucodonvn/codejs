@@ -14,7 +14,7 @@
 (function() {
     'use strict';
     var paragram={
-        NameAlbum:"list-thang5-2022",
+        NameAlbum:"list-thang6-2022",
         list: [
         "https://listen.tidal.com/album/179130881",
         "https://listen.tidal.com/album/179130893",
@@ -29,7 +29,6 @@
         "https://listen.tidal.com/album/195497426",
         "https://listen.tidal.com/album/195963077",
         "https://listen.tidal.com/album/196039609",
-        "https://listen.tidal.com/album/198366248",
         "https://listen.tidal.com/album/203008328",
         "https://listen.tidal.com/album/203008282",
         "https://listen.tidal.com/album/201628725",
@@ -76,6 +75,7 @@
             clickname.click();
             // document.querySelector('div[data-track--icon-clicked="' + paragram.NameAlbum + '"]>button').click();
         }else{
+            alert(`khong tim thay album name ${paragram.NameAlbum}`);
             window.location.reload();
         }
         await  sleep(2);

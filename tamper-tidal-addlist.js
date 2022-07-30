@@ -82,6 +82,7 @@
 
         if (indexurl>=paragram.list.length-1) {
             console.log('xong');
+            alert('xong');
         }else if (indexurl>=0) {
             window.location.href=paragram.list[indexurl+1];
         }

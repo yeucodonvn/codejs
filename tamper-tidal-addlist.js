@@ -14,7 +14,7 @@
 (function() {
     'use strict';
     var paragram={
-        NameAlbum:"list-thang6-2022",
+        NameAlbum:"list-thang8-2022",
         list: [
             "https://listen.tidal.com/album/179130881",
             "https://listen.tidal.com/album/179130893",
@@ -43,9 +43,6 @@
             "https://listen.tidal.com/album/209460014",
             "https://listen.tidal.com/album/183433306/track/183433307",
             "https://listen.tidal.com/album/222324129",
-            "https://listen.tidal.com/album/224777421",
-            "https://listen.tidal.com/album/227187113",
-            "https://listen.tidal.com/album/227187134",
             "https://listen.tidal.com/album/227187160"
         ]
     };

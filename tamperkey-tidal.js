@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.5
-// @version      1.5
+// @name         Tidal - version 1.6
+// @version      1.6
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -125,21 +125,35 @@
 
 	var temp_number=200;
 	function get_time() {//dem lui reload
+		try {
 			if(temp_number>0){
 				console.log(temp_number);
 				let loopGetDuration = setInterval(
 				function(){
-						var Duration = document.querySelector('[data-test="duration-time"]');
+						var Duration = document.querySelector('[data-test="duration"]');
+						if (Duration==null) {
+							console.log("khong tim thay thoi gian cua bai, thong bao lai cho em");
+						}
+						let current_time = document.querySelector('[data-test="current-time"]')
+						if (current_time==null) {
+							console.log("khong tim thay thoi gian hien tai cua bai, thong bao lai cho em");
+						}
+
 						if(hmsToSecondsOnly(Duration.textContent.trim())>0){
 							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
 								clearInterval(loopGetDuration);
-							let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
-							let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+								let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
+								let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 								if(totalDuration>0){
 									var endtime=totalDuration-current_time;
-									console.log("Get duration Total "+endtime);
-									temp_number--;
-									setTimeout(get_time,(endtime+5)*1000);
+									if (endtime>0) {
+										console.log("Get duration Total "+endtime);
+										temp_number--;
+										setTimeout(get_time,(endtime+5)*1000);
+									}else{
+										document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+										REPEAT_NUMB--;
+									}
 								}else{
 									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 									REPEAT_NUMB--;
@@ -171,6 +185,10 @@
 					},5000);
 			} else {
 			location.reload(true);
+			}
+
+		} catch (error) {
+			console.log(`loi get time${error}`);
 		}
 	};
 

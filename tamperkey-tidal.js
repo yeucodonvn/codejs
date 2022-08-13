@@ -161,7 +161,11 @@
 							}else
 							// get theo% processbar
 							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())==0) {
-								let current_prcess = document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim();
+								let progress_bar = document.querySelector('[data-test="progress-bar"]');
+								if (progress_bar==null) {
+									console.log("khong tim thay progress bar cua bai, thong bao lai cho em");
+								}
+								let current_prcess = progress_bar.getAttribute('style').trim();
 								current_prcess= current_prcess.replace("transform: translateX(-","");
 								// loi neu dinh k chay bai hat
 								current_prcess= current_prcess.replace("%);","");

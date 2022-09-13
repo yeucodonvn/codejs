@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.6
-// @version      1.6
+// @name         Tidal - version 1.7
+// @version      1.7
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -86,11 +86,11 @@
 	var search_spincount=0;
 	function search_play_spin_load(){
 		if (document.querySelector('#progressBar')) {
-			let current_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
+			let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 			let demloi=0;
 			let demok=0;
 			let loopchecktime = setInterval(function(){
-				let temp_time = document.querySelector('.knob--129sB[style]').getAttribute('style');
+				let temp_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 				if(current_time.localeCompare(temp_time)==0){
 					demloi++;
 					console.log("search dung giua chung"+search_spincount);
@@ -130,20 +130,26 @@
 				console.log(temp_number);
 				let loopGetDuration = setInterval(
 				function(){
-						var Duration = document.querySelector('[data-test="duration"]');
+						// var Duration = document.querySelector('[data-test="duration"]');
+						var Duration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
 						if (Duration==null) {
 							console.log("khong tim thay thoi gian cua bai, thong bao lai cho em");
 						}
-						let current_time = document.querySelector('[data-test="current-time"]')
+						// let current_time = document.querySelector('[data-test="current-time"]')
+						let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 						if (current_time==null) {
 							console.log("khong tim thay thoi gian hien tai cua bai, thong bao lai cho em");
 						}
 
-						if(hmsToSecondsOnly(Duration.textContent.trim())>0){
-							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
+						// if(hmsToSecondsOnly(Duration.textContent.trim())>0){
+						if(Duration>0){
+							// if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
+							if (current_time>0) {
 								clearInterval(loopGetDuration);
-								let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
-								let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+								// let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
+								// let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
+								let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
+								let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 								if(totalDuration>0){
 									var endtime=totalDuration-current_time;
 									if (endtime>0) {

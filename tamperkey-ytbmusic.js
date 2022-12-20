@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9.7
-// @version      0.9.7
+// @name         YouTube AutoPlay - version 0.9.8
+// @version      0.9.8
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -272,7 +272,7 @@
         else{
             let templop=0;
             let loop = setInterval(() => {
-                let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer');
+                let Shufflealbum = document.querySelector('.style-scope.yt-button-renderer[aria-label="Shuffle"],[aria-label="PLAY ALL"],[aria-label="PHÁT TẤT CẢ"],[aria-label="Phát ngẫu nhiên"]');;
                 if(Shufflealbum!==null){
                     console.log("wait 20s");
                     clearInterval(loop);

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.7
-// @version      1.7
+// @name         Tidal - version 1.8
+// @version      1.8
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -11,8 +11,8 @@
 // @namespace http://tampermonkey.net/
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(function () {
+	'use strict';
 
 	var REPEAT_NUMB = 200;
 	let urlarr = ["8f632cdf-74ce-4a09-99b1-956fe453582a"];
@@ -35,166 +35,191 @@
 	// 		alert(err);
 	// 	}
 	// });
- 	function clickshuffle(){
+	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
 		shufflebtn.click();
+		setTimeout(checkHIFI, 10000);
 		setTimeout(get_time, 10000);
 		repeat();
 	};
-	let search_stop_count=0;
-	function checkstop(){
-		let stop = setInterval(function(){
+	let search_stop_count = 0;
+	function checkstop() {
+		let stop = setInterval(function () {
 			var playbtn = document.querySelector('[data-test="play"]');
-			if(playbtn){
+			if (playbtn) {
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				//playbtn.click();
-				console.log("search stop: "+search_stop_count);
+				console.log("search stop: " + search_stop_count);
 				search_stop_count++;
 				clearInterval(stop);
 			}
-			if(search_stop_count>=15) {
+			if (search_stop_count >= 15) {
 				console.log("reload search stop");
 				window.location.reload(true)
 			};
-		},50000)
+		}, 50000)
 	};
+	//check HIFI status
+	async function checkHIFI() {
+		try {
+			let streaming_quality = document.querySelector("button[data-test-streaming-quality]")
+			let modestream = streaming_quality.getAttribute('data-test-streaming-quality')
+			if (modestream.toLowerCase().search('low') == -1) {
+				streaming_quality.click()
+				console.log('change mode click');
+				await sleep(5);
+				let changemode = document.querySelector('button[data-test="streaming-audio-quality-standard"]')
+				changemode.click();
+				console.log('change mode');
+				await sleep(3);
+				window.location.reload(true);
+			}
+		} catch (error) {
+			console.log("error checkHIFI ");
+		}
+	}
+
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms * 1000));
+	}
+
 	function repeat() {
 		console.log("click repeat")
-		let intload=0;
-		let loop = setInterval(function() {
+		let intload = 0;
+		let loop = setInterval(function () {
 			let repeatt = document.querySelector('[class^="repeatButton"],.withBackground[title="Repeat"]');
 			if (repeatt) {
 				let attribute = repeatt.getAttribute('data-type')
-				if (attribute=='button__repeatAll') {
+				if (attribute == 'button__repeatAll') {
 					clearInterval(loop);
-				}else{repeatt.click()};;
-			if(intload>10){clearInterval(loop)}
+				} else { repeatt.click() };;
+				if (intload > 10) { clearInterval(loop) }
 			}
 			intload++;
-		},2000)
+		}, 2000)
 
 	}
 
-	function search_footer_player(){
-		let searchft=document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
-		if(searchft==null){
+	function search_footer_player() {
+		let searchft = document.querySelector("[data-test='footer-player'][data-track--module-id='footer_player']");
+		if (searchft == null) {
 			console.log("search footer player");
 			clickshuffle();
-			}
+		}
 	};
-	var search_spincount=0;
-	function search_play_spin_load(){
+
+	var search_spincount = 0;
+	function search_play_spin_load() {
 		if (document.querySelector('#progressBar')) {
 			let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-			let demloi=0;
-			let demok=0;
-			let loopchecktime = setInterval(function(){
+			let demloi = 0;
+			let demok = 0;
+			let loopchecktime = setInterval(function () {
 				let temp_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-				if(current_time.localeCompare(temp_time)==0){
+				if (current_time.localeCompare(temp_time) == 0) {
 					demloi++;
-					console.log("search dung giua chung"+search_spincount);
-					}
-				if(demloi>3)
-				{
+					console.log("search dung giua chung" + search_spincount);
+				}
+				if (demloi > 3) {
 					search_spincount++;
 					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 					get_time();
-					demloi=0;
+					demloi = 0;
 					clearInterval(loopchecktime);
-				}else{demok++;}
-				if(demok>3){demok=0;clearInterval(loopchecktime)}
-			}, 10*1000);
-				if(search_spincount>=10) {
-					console.log("reload spinloader");
-					window.location.reload(true)
-				};
+				} else { demok++; }
+				if (demok > 3) { demok = 0; clearInterval(loopchecktime) }
+			}, 10 * 1000);
+			if (search_spincount >= 10) {
+				console.log("reload spinloader");
+				window.location.reload(true)
+			};
 		}
 	};
 
 	function hmsToSecondsOnly(str) {
-        let p = str.split(':'),
-            s = 0, m = 1;
-        while (p.length > 0) {
-            s += m * parseInt(p.pop(), 10);
-            m *= 60;
-        }
+		let p = str.split(':'),
+			s = 0, m = 1;
+		while (p.length > 0) {
+			s += m * parseInt(p.pop(), 10);
+			m *= 60;
+		}
 
-        return s;
-    };
+		return s;
+	};
 
-	var temp_number=200;
+	var temp_number = 200;
 	function get_time() {//dem lui reload
 		try {
-			if(temp_number>0){
+			if (temp_number > 0) {
 				console.log(temp_number);
 				let loopGetDuration = setInterval(
-				function(){
+					function () {
 						// var Duration = document.querySelector('[data-test="duration"]');
 						var Duration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-						if (Duration==null) {
+						if (Duration == null) {
 							console.log("khong tim thay thoi gian cua bai, thong bao lai cho em");
 						}
 						// let current_time = document.querySelector('[data-test="current-time"]')
 						let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-						if (current_time==null) {
+						if (current_time == null) {
 							console.log("khong tim thay thoi gian hien tai cua bai, thong bao lai cho em");
 						}
 
 						// if(hmsToSecondsOnly(Duration.textContent.trim())>0){
-						if(Duration>0){
+						if (Duration > 0) {
 							// if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
-							if (current_time>0) {
+							if (current_time > 0) {
 								clearInterval(loopGetDuration);
 								// let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
 								// let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
 								let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
 								let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-								if(totalDuration>0){
-									var endtime=totalDuration-current_time;
-									if (endtime>0) {
-										console.log("Get duration Total "+endtime);
+								if (totalDuration > 0) {
+									var endtime = totalDuration - current_time;
+									if (endtime > 0) {
+										console.log("Get duration Total " + endtime);
 										temp_number--;
-										setTimeout(get_time,(endtime+5)*1000);
-									}else{
+										setTimeout(get_time, (endtime + 5) * 1000);
+									} else {
 										document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 										REPEAT_NUMB--;
 									}
-								}else{
+								} else {
 									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 									REPEAT_NUMB--;
 								}
-							}else
-							// get theo% processbar
-							if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())==0) {
-								let progress_bar = document.querySelector('[data-test="progress-bar"]');
-								if (progress_bar==null) {
-									console.log("khong tim thay progress bar cua bai, thong bao lai cho em");
+							} else
+								// get theo% processbar
+								if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim()) == 0) {
+									let progress_bar = document.querySelector('[data-test="progress-bar"]');
+									if (progress_bar == null) {
+										console.log("khong tim thay progress bar cua bai, thong bao lai cho em");
+									}
+									let current_prcess = progress_bar.getAttribute('style').trim();
+									current_prcess = current_prcess.replace("transform: translateX(-", "");
+									// loi neu dinh k chay bai hat
+									current_prcess = current_prcess.replace("%);", "");
+									if (current_prcess > 0) {
+										let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
+										let endtime = totalDuration * (current_prcess / 100);
+										console.log("Get duration Total " + endtime);
+										temp_number--;
+										setTimeout(get_time, (endtime + 5) * 1000);
+									} else {
+										const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
+										document.querySelector(next).click();
+										REPEAT_NUMB--;
+									}
 								}
-								let current_prcess = progress_bar.getAttribute('style').trim();
-								current_prcess= current_prcess.replace("transform: translateX(-","");
-								// loi neu dinh k chay bai hat
-								current_prcess= current_prcess.replace("%);","");
-								if (current_prcess>0) {
-									let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
-									let endtime = totalDuration*(current_prcess/100);
-									console.log("Get duration Total "+endtime);
-									temp_number--;
-									setTimeout(get_time,(endtime+5)*1000);
-								}else{
-									const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
-									document.querySelector(next).click();
-									REPEAT_NUMB--;
-								}
-							}
 						}
-						if (document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim()=='transform: translateX(0%);') {
+						if (document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim() == 'transform: translateX(0%);') {
 							document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-									REPEAT_NUMB--;
+							REPEAT_NUMB--;
 						}
-					},5000);
+					}, 5000);
 			} else {
-			location.reload(true);
+				location.reload(true);
 			}
 
 		} catch (error) {
@@ -202,34 +227,37 @@
 		}
 	};
 
-	function ruuun(){
-		setTimeout(clickshuffle,10*1000);
-		setInterval(search_footer_player,50*1000);
-		setInterval(search_play_spin_load,50*1000);
+	function ruuun() {
+		setTimeout(clickshuffle, 10 * 1000);
+		setInterval(search_footer_player, 50 * 1000);
+		setInterval(search_play_spin_load, 50 * 1000);
 		setInterval(checkstop, 50 * 1000);
 	}
 	function run() {
-        console.log("Tidal AutoPlay - MANAGER");
-        //$(window).off('beforeunload.windowReload');
-		var intload =0;
-       	let load = setInterval(function(){
+		console.log("Tidal AutoPlay - MANAGER");
+		//$(window).off('beforeunload.windowReload');
+		var intload = 0;
+		let load = setInterval(function () {
 			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
 			let login = document.querySelector('[datatest="no-user--login"]');
 			let signup = document.querySelector('[datatest="no-user--signup"]');
 
-			if(login!==null&&signup!==null) {
+			if (login !== null && signup !== null) {
 				console.log("page doi login");
 				clearInterval(load);
-			}else{if(shuflle!==null){
-				ruuun();
-				clearInterval(load);
-			}else{intload++;console.log("tim nut shuffle");}
-			if(intload>7){
-				console.log("reload search btn");
-				window.location.reload(true);}}
-		},5000)
-    };
+			} else {
+				if (shuflle !== null) {
+					ruuun();
+					clearInterval(load);
+				} else { intload++; console.log("tim nut shuffle"); }
+				if (intload > 7) {
+					console.log("reload search btn");
+					window.location.reload(true);
+				}
+			}
+		}, 5000)
+	};
 
-    setTimeout(run, 5000);
+	setTimeout(run, 5000);
 
 })();

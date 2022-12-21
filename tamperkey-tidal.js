@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 1.8
-// @version      1.8
+// @name         Tidal - version 1.9
+// @version      1.9
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -193,23 +193,23 @@
 								// get theo% processbar
 								if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim()) == 0) {
 									let progress_bar = document.querySelector('[data-test="progress-bar"]');
-									if (progress_bar == null) {
-										console.log("khong tim thay progress bar cua bai, thong bao lai cho em");
-									}
-									let current_prcess = progress_bar.getAttribute('style').trim();
-									current_prcess = current_prcess.replace("transform: translateX(-", "");
-									// loi neu dinh k chay bai hat
-									current_prcess = current_prcess.replace("%);", "");
-									if (current_prcess > 0) {
-										let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
-										let endtime = totalDuration * (current_prcess / 100);
-										console.log("Get duration Total " + endtime);
-										temp_number--;
-										setTimeout(get_time, (endtime + 5) * 1000);
-									} else {
-										const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
-										document.querySelector(next).click();
-										REPEAT_NUMB--;
+									if (progress_bar != null) {
+										let sstyle = progress_bar.querySelector('[style]')
+										let current_prcess = sstyle.getAttribute('style').trim();
+										current_prcess = current_prcess.replace("transform: translateX(-", "");
+										// loi neu dinh k chay bai hat
+										current_prcess = current_prcess.replace("%);", "");
+										if (current_prcess > 0) {
+											let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
+											let endtime = totalDuration * (current_prcess / 100);
+											console.log("Get duration Total " + endtime);
+											temp_number--;
+											setTimeout(get_time, (endtime + 5) * 1000);
+										} else {
+											const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
+											document.querySelector(next).click();
+											REPEAT_NUMB--;
+										}
 									}
 								}
 						}

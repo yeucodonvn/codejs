@@ -284,7 +284,7 @@
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		//$(window).off('beforeunload.windowReload');
-		if (detecturl() == 1) { setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))], 5 * 60 * 1000); }
+		if (detecturl() == 1) { setTimeout(changelist, 5 * 1000); }
 		else {
 			var intload = 0;
 			let load = setInterval(function () {
@@ -303,7 +303,7 @@
 					} else { intload++; console.log("tim nut shuffle"); }
 					if (intload > 7) {
 						console.log("reload search btn");
-						window.location.reload(true);
+						setTimeout(changelist, 5 * 1000);
 					}
 				}
 			}, 5000)

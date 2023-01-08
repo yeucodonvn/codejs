@@ -8,33 +8,33 @@
 // @match        https://listen.tidal.com/*
 // @run-at       document-start
 // @grant        none
+// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @namespace http://tampermonkey.net/
 // ==/UserScript==
 
 (function () {
 	'use strict';
 
-	var REPEAT_NUMB = 200;
-	let urlarr = ["8f632cdf-74ce-4a09-99b1-956fe453582a"];
+	var REPEAT_NUMB = 10;
+	let urlarr = [];
 	//list cu ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
 
-	/*//@require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js */
 	// @run-at       document-end
 	// phai la end k se loi jquery
 	// var URLsc;
-	// $.ajax ( {
-	// 	type:       'GET',
-	// 	url:        'https://raw.githubusercontent.com/yeucodonvn/codejs/master/URL.json',
-	// 	dataType:   'JSON',
-	// 	success:    function (apiJSON) {
-	// 		let PARAMS = apiJSON;
-	// 		URLsc=PARAMS.tidal;
-	// 	},
-	// 	error:      function(err){
-	// 		alert("Cannot load JSON file");
-	// 		alert(err);
-	// 	}
-	// });
+	$.ajax({
+		type: 'GET',
+		url: 'https://raw.githubusercontent.com/yeucodonvn/codejs/master/tidal-artist.json',
+		dataType: 'JSON',
+		success: function (apiJSON) {
+			let PARAMS = apiJSON;
+			urlarr = PARAMS.list;
+		},
+		error: function (err) {
+			alert("Cannot load JSON file");
+			alert(err);
+		}
+	});
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
@@ -148,11 +148,12 @@
 		return s;
 	};
 
-	var temp_number = 200;
+	var temp_number = 20;
 	function get_time() {//dem lui reload
 		try {
-			if (temp_number > 0) {
-				console.log(temp_number);
+			// if (temp_number > 0) {
+			if (REPEAT_NUMB > 0) {
+				console.log(REPEAT_NUMB);
 				let loopGetDuration = setInterval(
 					function () {
 						// var Duration = document.querySelector('[data-test="duration"]');
@@ -169,6 +170,7 @@
 						// if(hmsToSecondsOnly(Duration.textContent.trim())>0){
 						if (Duration > 0) {
 							// if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
+							checktime()
 							if (current_time > 0) {
 								clearInterval(loopGetDuration);
 								// let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
@@ -179,7 +181,7 @@
 									var endtime = totalDuration - current_time;
 									if (endtime > 0) {
 										console.log("Get duration Total " + endtime);
-										temp_number--;
+										REPEAT_NUMB--;
 										setTimeout(get_time, (endtime + 5) * 1000);
 									} else {
 										document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
@@ -219,16 +221,62 @@
 						}
 					}, 5000);
 			} else {
-				location.reload(true);
+				changelist();
+				// location.reload(true);
 			}
 
 		} catch (error) {
 			console.log(`loi get time${error}`);
 		}
 	};
+	function changelist(params) {
+		setTimeout(function () {
+			if (urlarr.length > 1) {
+				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+			} else {
+				location.reload(true)
+			}
+		}, 5000);
+	}
+	function checktime(params) {
+		try {
+			let currenttimes = $('[data-test="current-time"]');
+			let totaltime = $('[data-test="duration""]');
+			if (hmsToSecondsOnly(currenttimes) > hmsToSecondsOnly(totaltime)) {
+				location.reload(true)
+			}
+		} catch (error) {
+
+		}
+	}
+	function detecturl() {
+		/* code laays link tw
+		let element1= document.querySelectorAll('a[dir="ltr"][href]')
+		   element1.forEach(element => {
+			console.log(element.getAttribute('href'));
+		   }); */
+		switch (true) {
+			case window.location.href.indexOf("/explore") > -1:
+				return 1;
+			case window.location.href.indexOf("/album") > -1:
+				return 2;
+			case window.location.href.indexOf("/playlist") > -1:
+				return 3;
+			default:
+				return 0;
+		}
+	}
+	function playlist(params) {
+		let header = document.querySelector('.header-details')
+		let trk = header.querySelector('[value]')
+		let numbertrack = trk.getAttribute('value')
+		REPEAT_NUMB = Number(numbertrack.replace(' TRACKS', ''))+7;
+		temp_number = Number(numbertrack.replace(' TRACKS', ''))+7;
+	}
 
 	function ruuun() {
 		setTimeout(clickshuffle, 10 * 1000);
+		setTimeout(playlist, 10 * 1000);
 		setInterval(search_footer_player, 50 * 1000);
 		setInterval(search_play_spin_load, 50 * 1000);
 		setInterval(checkstop, 50 * 1000);
@@ -236,26 +284,31 @@
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		//$(window).off('beforeunload.windowReload');
-		var intload = 0;
-		let load = setInterval(function () {
-			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
-			let login = document.querySelector('[datatest="no-user--login"]');
-			let signup = document.querySelector('[datatest="no-user--signup"]');
+		if (detecturl() == 1) { setTimeout(window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length))], 5 * 60 * 1000); }
+		else {
+			var intload = 0;
+			let load = setInterval(function () {
+				let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+				let login = document.querySelector('[datatest="no-user--login"]');
+				let signup = document.querySelector('[datatest="no-user--signup"]');
 
-			if (login !== null && signup !== null) {
-				console.log("page doi login");
-				clearInterval(load);
-			} else {
-				if (shuflle !== null) {
-					ruuun();
+				if (login !== null && signup !== null) {
+					console.log("page doi login");
 					clearInterval(load);
-				} else { intload++; console.log("tim nut shuffle"); }
-				if (intload > 7) {
-					console.log("reload search btn");
-					window.location.reload(true);
+				} else {
+					//https://listen.tidal.com/view/pages/explore
+					if (shuflle !== null) {
+						ruuun();
+						clearInterval(load);
+					} else { intload++; console.log("tim nut shuffle"); }
+					if (intload > 7) {
+						console.log("reload search btn");
+						window.location.reload(true);
+					}
 				}
-			}
-		}, 5000)
+			}, 5000)
+		}
+
 	};
 
 	setTimeout(run, 5000);

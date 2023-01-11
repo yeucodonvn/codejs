@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.0
-// @version      2.0
+// @name         Tidal - version 2.1
+// @version      2.1
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -166,7 +166,7 @@
 						if (current_time == null) {
 							console.log("khong tim thay thoi gian hien tai cua bai, thong bao lai cho em");
 						}
-
+						let iniduration = 0;
 						// if(hmsToSecondsOnly(Duration.textContent.trim())>0){
 						if (Duration > 0) {
 							// if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
@@ -215,9 +215,13 @@
 									}
 								}
 						}
-						if (document.querySelector('[data-test="progress-indicator"]').getAttribute('style').trim() == 'transform: translateX(0%);') {
+						else{
+							iniduration++;
 							document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 							REPEAT_NUMB--;
+							if (iniduration>10) {
+								changelist();
+							}
 						}
 					}, 5000);
 			} else {
@@ -229,12 +233,28 @@
 			console.log(`loi get time${error}`);
 		}
 	};
+	function newtab(params) {
+		setTimeout(function () {
+			if (urlarr.length > 1) {
+				alert("hay tat trang hien tai");
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+			} else {
+				location.reload(true)
+			}
+		}, 5000);
+	}
 	function changelist(params) {
 		setTimeout(function () {
 			if (urlarr.length > 1) {
-				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+				// window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				setTimeout(() => {
+					window.close();
+				}, 2000);
+
 			} else {
-				location.reload(true)
+				window.open(window.location.href, "_blank");
+				window.close();
 			}
 		}, 5000);
 	}
@@ -284,7 +304,7 @@
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		//$(window).off('beforeunload.windowReload');
-		if (detecturl() == 1) { changelist(); }
+		if (detecturl() == 1) { newtab(); }
 		else {
 			var intload = 0;
 			let load = setInterval(function () {

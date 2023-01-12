@@ -238,7 +238,7 @@
 			if (urlarr.length > 1) {
 				// alert("hay tat trang hien tai");
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],true)
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
 				setTimeout(() => {
 					window.close();
 				}, 2000);
@@ -252,7 +252,7 @@
 			if (urlarr.length > 1) {
 				// window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))])
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
 				setTimeout(() => {
 					window.close();
 				}, 2000);

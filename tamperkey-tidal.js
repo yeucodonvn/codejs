@@ -7,9 +7,9 @@
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @match        https://listen.tidal.com/*
 // @run-at       document-start
-// @grant        none
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-// @namespace http://tampermonkey.net/
+// @grant    	GM_openInTab
+// @require  	https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @namespace 	http://tampermonkey.net/
 // ==/UserScript==
 
 (function () {
@@ -215,11 +215,11 @@
 									}
 								}
 						}
-						else{
+						else {
 							iniduration++;
 							document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 							REPEAT_NUMB--;
-							if (iniduration>10) {
+							if (iniduration > 10) {
 								changelist();
 							}
 						}
@@ -237,7 +237,11 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				// alert("hay tat trang hien tai");
-				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],true)
+				setTimeout(() => {
+					window.close();
+				}, 2000);
 			} else {
 				location.reload(true)
 			}
@@ -247,7 +251,8 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				// window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
-				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))])
 				setTimeout(() => {
 					window.close();
 				}, 2000);
@@ -258,6 +263,7 @@
 			}
 		}, 5000);
 	}
+	
 	function checktime(params) {
 		try {
 			let currenttimes = $('[data-test="current-time"]');

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1
-// @version      2.1
+// @name         Tidal - version 2.1.1
+// @version      2.1.1
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -236,7 +236,7 @@
 	function newtab(params) {
 		setTimeout(function () {
 			if (urlarr.length > 1) {
-				alert("hay tat trang hien tai");
+				// alert("hay tat trang hien tai");
 				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
 			} else {
 				location.reload(true)

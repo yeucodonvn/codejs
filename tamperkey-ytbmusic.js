@@ -226,8 +226,8 @@
     function changelist(params) {
         setTimeout(function () {
             if (urlarr.length > 1) {
-                // window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
-                GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
+                window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+                // GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
             } else {
                 location.reload(true)
             }

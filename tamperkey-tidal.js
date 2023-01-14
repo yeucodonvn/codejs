@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.2
-// @version      2.1.2
+// @name         Tidal - version 2.1.3
+// @version      2.1.3
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -238,7 +238,7 @@
 			if (urlarr.length > 1) {
 				// alert("hay tat trang hien tai");
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
 				setTimeout(() => {
 					window.close();
 				}, 2000);
@@ -252,7 +252,7 @@
 			if (urlarr.length > 1) {
 				// window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
+				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
 				setTimeout(() => {
 					window.close();
 				}, 2000);
@@ -263,13 +263,14 @@
 			}
 		}, 5000);
 	}
-	
+
 	function checktime(params) {
 		try {
-			let currenttimes = $('[data-test="current-time"]');
-			let totaltime = $('[data-test="duration""]');
-			if (hmsToSecondsOnly(currenttimes) > hmsToSecondsOnly(totaltime)) {
-				location.reload(true)
+			let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
+			let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
+			if (hmsToSecondsOnly(current_time) > hmsToSecondsOnly(totalDuration)) {
+				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+				// changelist();
 			}
 		} catch (error) {
 

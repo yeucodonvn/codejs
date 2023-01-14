@@ -7,7 +7,7 @@
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
 // @match        *music.youtube.com/*
 // @run-at       document-end
-// @grant        none
+// @grant    	 GM_openInTab
 // @namespace	 https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // ==/UserScript==
@@ -226,7 +226,8 @@
     function changelist(params) {
         setTimeout(function () {
             if (urlarr.length > 1) {
-                window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+                // window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+                GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))],{ active: true })
             } else {
                 location.reload(true)
             }

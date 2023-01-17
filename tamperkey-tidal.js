@@ -161,59 +161,54 @@
 						if (Duration == null) {
 							console.log("khong tim thay thoi gian cua bai, thong bao lai cho em");
 						}
-						// let current_time = document.querySelector('[data-test="current-time"]')
 						let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 						if (current_time == null) {
 							console.log("khong tim thay thoi gian hien tai cua bai, thong bao lai cho em");
 						}
 						let iniduration = 0;
-						// if(hmsToSecondsOnly(Duration.textContent.trim())>0){
 						if (Duration > 0) {
-							// if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim())>0) {
 							checktime()
-							if (current_time > 0) {
-								clearInterval(loopGetDuration);
-								// let totalDuration=hmsToSecondsOnly(Duration.textContent.trim());
-								// let current_time = hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim());
-								let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-								let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-								if (totalDuration > 0) {
-									var endtime = totalDuration - current_time;
-									if (endtime > 0) {
-										console.log("Get duration Total " + endtime);
-										REPEAT_NUMB--;
-										setTimeout(get_time, (endtime + 5) * 1000);
-									} else {
-										document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-										REPEAT_NUMB--;
-									}
+							// if (current_time > 0) {
+							clearInterval(loopGetDuration);
+							let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
+							let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
+							if (totalDuration > 0) {
+								var endtime = totalDuration - current_time;
+								if (endtime > 0) {
+									console.log("Get duration Total " + endtime);
+									REPEAT_NUMB--;
+									setTimeout(get_time, (endtime + 5) * 1000);
 								} else {
 									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 									REPEAT_NUMB--;
 								}
-							} else
-								// get theo% processbar
-								if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim()) == 0) {
-									let progress_bar = document.querySelector('[data-test="progress-bar"]');
-									if (progress_bar != null) {
-										let sstyle = progress_bar.querySelector('[style]')
-										let current_prcess = sstyle.getAttribute('style').trim();
-										current_prcess = current_prcess.replace("transform: translateX(-", "");
-										// loi neu dinh k chay bai hat
-										current_prcess = current_prcess.replace("%);", "");
-										if (current_prcess > 0) {
-											let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
-											let endtime = totalDuration * (current_prcess / 100);
-											console.log("Get duration Total " + endtime);
-											temp_number--;
-											setTimeout(get_time, (endtime + 5) * 1000);
-										} else {
-											const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
-											document.querySelector(next).click();
-											REPEAT_NUMB--;
-										}
-									}
-								}
+							} else {
+								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+								REPEAT_NUMB--;
+							}
+							// } else
+							// 	// get theo% processbar
+							// 	if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim()) == 0) {
+							// 		let progress_bar = document.querySelector('[data-test="progress-bar"]');
+							// 		if (progress_bar != null) {
+							// 			let sstyle = progress_bar.querySelector('[style]')
+							// 			let current_prcess = sstyle.getAttribute('style').trim();
+							// 			current_prcess = current_prcess.replace("transform: translateX(-", "");
+							// 			// loi neu dinh k chay bai hat
+							// 			current_prcess = current_prcess.replace("%);", "");
+							// 			if (current_prcess > 0) {
+							// 				let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
+							// 				let endtime = totalDuration * (current_prcess / 100);
+							// 				console.log("Get duration Total " + endtime);
+							// 				temp_number--;
+							// 				setTimeout(get_time, (endtime + 5) * 1000);
+							// 			} else {
+							// 				const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
+							// 				document.querySelector(next).click();
+							// 				REPEAT_NUMB--;
+							// 			}
+							// 		}
+							// 	}
 						}
 						else {
 							iniduration++;
@@ -268,7 +263,7 @@
 		try {
 			let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
 			let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-			if (hmsToSecondsOnly(current_time) > hmsToSecondsOnly(totalDuration)) {
+			if (current_time > totalDuration) {
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				// changelist();
 			}
@@ -305,6 +300,7 @@
 		setTimeout(clickshuffle, 10 * 1000);
 		setTimeout(playlist, 10 * 1000);
 		setInterval(search_footer_player, 50 * 1000);
+		setInterval(checktime, 50 * 1000);
 		setInterval(search_play_spin_load, 50 * 1000);
 		setInterval(checkstop, 50 * 1000);
 	}

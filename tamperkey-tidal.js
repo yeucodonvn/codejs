@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.3
-// @version      2.1.3
+// @name         Tidal - version 2.1.4
+// @version      2.1.4
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -232,11 +232,11 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				// alert("hay tat trang hien tai");
-				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
-				setTimeout(() => {
-					window.close();
-				}, 2000);
+				window.location.href = (urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				// GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
+				// setTimeout(() => {
+				// 	window.close();
+				// }, 2000);
 			} else {
 				location.reload(true)
 			}
@@ -245,16 +245,17 @@
 	function changelist(params) {
 		setTimeout(function () {
 			if (urlarr.length > 1) {
-				// window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
-				setTimeout(() => {
-					window.close();
-				}, 2000);
+				// GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
+				// setTimeout(() => {
+				// 	window.close();
+				// }, 2000);
 
 			} else {
-				window.open(window.location.href, "_blank");
-				window.close();
+				location.reload(true)
+				// window.open(window.location.href, "_blank");
+				// window.close();
 			}
 		}, 5000);
 	}

@@ -48,9 +48,9 @@
 		let stop = setInterval(function () {
 			var playbtn = document.querySelector('[data-test="play"]');
 			if (playbtn) {
+				console.log("search stop: " + search_stop_count);
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				//playbtn.click();
-				console.log("search stop: " + search_stop_count);
 				search_stop_count++;
 				clearInterval(stop);
 			}
@@ -118,10 +118,12 @@
 			let loopchecktime = setInterval(function () {
 				let temp_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 				if (current_time.localeCompare(temp_time) == 0) {
-					demloi++;
 					console.log("search dung giua chung" + search_spincount);
+					demloi++;
 				}
 				if (demloi > 3) {
+					console.log("search dung giua chung nex" + search_spincount);
+
 					search_spincount++;
 					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 					get_time();
@@ -180,9 +182,11 @@
 									setTimeout(get_time, (endtime + 5) * 1000);
 								} else {
 									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
+									console.log(`next ${endtime}`);
 									REPEAT_NUMB--;
 								}
 							} else {
+								console.log(`khong thay time${endtime}`);
 								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 								REPEAT_NUMB--;
 							}
@@ -212,6 +216,8 @@
 						}
 						else {
 							iniduration++;
+							console.log(`khong thay Duration${Duration}`);
+
 							document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 							REPEAT_NUMB--;
 							if (iniduration > 10) {
@@ -264,7 +270,8 @@
 		try {
 			let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
 			let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-			if (current_time > totalDuration) {
+			if (Number(current_time) > Number(totalDuration)) {
+				console.log(`check time errorr ${current_time} total ${totalDuration}`);
 				document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 				// changelist();
 			}
@@ -291,8 +298,9 @@
 	}
 	function playlist(params) {
 		let header = document.querySelector('.header-details')
-		let trk = header.querySelector('[value]')
-		let numbertrack = trk.getAttribute('value')
+		let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
+		let numbertrack = trk.textContent;
+		console.log(numbertrack);
 		REPEAT_NUMB = Number(numbertrack.replace(' TRACKS', '')) + 7;
 		temp_number = Number(numbertrack.replace(' TRACKS', '')) + 7;
 	}

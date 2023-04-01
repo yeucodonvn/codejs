@@ -43,6 +43,11 @@
 		setTimeout(get_time, 10000);
 		repeat();
 	};
+	function cookiebanner(params) {
+		document.querySelector('#onetrust-banner-sdk');
+		document.querySelector('#onetrust-reject-all-handler');
+
+	}
 	let search_stop_count = 0;
 	function checkstop() {
 		let stop = setInterval(function () {

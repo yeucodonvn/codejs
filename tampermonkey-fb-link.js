@@ -6,7 +6,7 @@
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @match        https://www.facebook.com
-// @run-at       document-start
+// @run-at       document-idle
 // @grant        none
 // @namespace    alex
 // ==/UserScript==

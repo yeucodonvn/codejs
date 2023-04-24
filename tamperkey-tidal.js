@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.5
-// @version      2.1.5
+// @name         Tidal - version 2.1.6
+// @version      2.1.6
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @match        https://listen.tidal.com/*
-// @run-at       document-start
+// @run-at       document-idle
 // @grant    	GM_openInTab
 // @require  	https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @namespace 	http://tampermonkey.net/

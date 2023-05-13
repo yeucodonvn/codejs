@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.6
-// @version      2.1.6
+// @name         Tidal - version 2.1.7
+// @version      2.1.7
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -311,41 +311,49 @@
 	}
 
 	function ruuun() {
-		setTimeout(clickshuffle, 10 * 1000);
-		setTimeout(playlist, 10 * 1000);
-		setInterval(search_footer_player, 50 * 1000);
-		setInterval(checktime, 50 * 1000);
-		setInterval(search_play_spin_load, 50 * 1000);
-		setInterval(checkstop, 50 * 1000);
+		var intload = 0;
+		let load = setInterval(function () {
+			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+			let login = document.querySelector('[datatest="no-user--login"]');
+			let signup = document.querySelector('[datatest="no-user--signup"]');
+
+			if (login !== null && signup !== null) {
+				console.log("page doi login");
+				clearInterval(load);
+			} else {
+				//https://listen.tidal.com/view/pages/explore
+				if (shuflle !== null) {
+					setTimeout(clickshuffle, 10 * 1000);
+					setTimeout(playlist, 10 * 1000);
+					setInterval(search_footer_player, 50 * 1000);
+					setInterval(checktime, 50 * 1000);
+					setInterval(search_play_spin_load, 50 * 1000);
+					setInterval(checkstop, 50 * 1000);
+					clearInterval(load);
+				} else { intload++; console.log("tim nut shuffle"); }
+				if (intload > 7) {
+					console.log("reload search btn");
+					changelist();
+				}
+			}
+		}, 5000)
 	}
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		//$(window).off('beforeunload.windowReload');
-		if (detecturl() == 1) { newtab(); }
-		else {
-			var intload = 0;
-			let load = setInterval(function () {
-				let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
-				let login = document.querySelector('[datatest="no-user--login"]');
-				let signup = document.querySelector('[datatest="no-user--signup"]');
-
-				if (login !== null && signup !== null) {
-					console.log("page doi login");
-					clearInterval(load);
-				} else {
-					//https://listen.tidal.com/view/pages/explore
-					if (shuflle !== null) {
-						ruuun();
-						clearInterval(load);
-					} else { intload++; console.log("tim nut shuffle"); }
-					if (intload > 7) {
-						console.log("reload search btn");
-						changelist();
-					}
-				}
-			}, 5000)
+		let detectloign = document.querySelector('#login-button');
+		if (detectloign !== null) {
+			return;
 		}
-
+		let loop = setInterval(() => {
+			if (detecturl() !== 0) {
+				if (detecturl() == 1) {
+					newtab();
+				}
+				clearInterval(loop);
+				ruuun();
+			}
+		}, 5000);
 	};
 
 	setTimeout(run, 5000);

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.7
-// @version      2.1.7
+// @name         Tidal - version 2.1.8
+// @version      2.1.8
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -8,6 +8,8 @@
 // @match        https://listen.tidal.com/*
 // @run-at       document-idle
 // @grant    	GM_openInTab
+// @grant 		GM_getTabs
+// @grant 		GM_saveTab
 // @require  	https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @namespace 	http://tampermonkey.net/
 // ==/UserScript==
@@ -268,11 +270,20 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
 				// GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
 				// setTimeout(() => {
 				// 	window.close();
 				// }, 2000);
+				GM_saveTab({ active: true }); // save the current tab as active
+				GM_getTabs((tabs) => {
+					for (const [tabId, tab] of Object.entries(tabs)) {
+						if (!tab.active) { // if the tab is not active
+							window.close(tabId); // close it
+						}
+					}
+				});
 
 			} else {
 				location.reload(true)

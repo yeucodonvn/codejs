@@ -35,6 +35,16 @@
 			alert(err);
 		}
 	});
+	/* fetch('https://raw.githubusercontent.com/yeucodonvn/codejs/master/tidal-artist.json')
+		.then(response => response.json())
+		.then(apiJSON => {
+			let PARAMS = apiJSON;
+			urlarr = PARAMS.list;
+		})
+		.catch(err => {
+			alert("Cannot load JSON file");
+			alert(err);
+		}); */
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
@@ -123,11 +133,11 @@
 			let loopchecktime = setInterval(function () {
 				let temp_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
 				if (current_time.localeCompare(temp_time) == 0) {
-					console.log("search dung giua chung" + search_spincount);
+					console.log("search xoay tron" + search_spincount);
 					demloi++;
 				}
 				if (demloi > 3) {
-					console.log("search dung giua chung nex" + search_spincount);
+					console.log("xoay tron next" + search_spincount);
 
 					search_spincount++;
 					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
@@ -139,7 +149,8 @@
 			}, 10 * 1000);
 			if (search_spincount >= 10) {
 				console.log("reload spinloader");
-				window.location.reload(true)
+				//window.location.reload(true)
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
 			};
 		}
 	};
@@ -243,8 +254,8 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				// alert("hay tat trang hien tai");
-				window.location.href = (urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
-				// GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
+				// window.location.href = (urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
 				// setTimeout(() => {
 				// 	window.close();
 				// }, 2000);
@@ -340,7 +351,7 @@
 	}
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
-		//$(window).off('beforeunload.windowReload');
+		$(window).off('beforeunload.windowReload');
 		let detectloign = document.querySelector('#login-button');
 		if (detectloign !== null) {
 			return;
@@ -355,7 +366,6 @@
 			}
 		}, 5000);
 	};
-
 	setTimeout(run, 5000);
 
 })();

@@ -73,7 +73,16 @@
 			}
 			if (search_stop_count >= 15) {
 				console.log("reload search stop");
-				window.location.reload(true)
+				//window.location.reload(true)
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
+				GM_saveTab({ active: true }); // save the current tab as active
+				GM_getTabs((tabs) => {
+					for (const [tabId, tab] of Object.entries(tabs)) {
+						if (!tab.active) { // if the tab is not active
+							window.close(tabId); // close it
+						}
+					}
+				});
 			};
 		}, 50000)
 	};
@@ -152,7 +161,15 @@
 			if (search_spincount >= 10) {
 				console.log("reload spinloader");
 				//window.location.reload(true)
-				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
+				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
+				GM_saveTab({ active: true }); // save the current tab as active
+				GM_getTabs((tabs) => {
+					for (const [tabId, tab] of Object.entries(tabs)) {
+						if (!tab.active) { // if the tab is not active
+							window.close(tabId); // close it
+						}
+					}
+				});
 			};
 		}
 	};
@@ -276,14 +293,7 @@
 				// setTimeout(() => {
 				// 	window.close();
 				// }, 2000);
-				GM_saveTab({ active: true }); // save the current tab as active
-				GM_getTabs((tabs) => {
-					for (const [tabId, tab] of Object.entries(tabs)) {
-						if (!tab.active) { // if the tab is not active
-							window.close(tabId); // close it
-						}
-					}
-				});
+
 
 			} else {
 				location.reload(true)

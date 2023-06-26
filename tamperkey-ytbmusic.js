@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         YouTube AutoPlay - version 0.9.9
-// @version      0.9.9
+// @name         YouTube AutoPlay - version 1.0
+// @version      1.0
 // @description  This script Autoplay Youtube
 // @author       bjemtj
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-ytbmusic.js
@@ -125,10 +125,10 @@
                     if (REPEAT_NUMB > 0) {
                         clickLike();
                     } else {
-                        explorers();
-                        if (stopss) {
+                        // explorers();
+                        // if (stopss) {
                             stopvideo(ytplayer);
-                        }
+                        // }
                     }
                     REPEAT_NUMB--;
                 }
@@ -156,7 +156,7 @@
             }
         }, 5000);
     }
-    let stopss = false;
+    let stopss = true;
     function explorers() {
         let topbar = document.querySelector('.center-content.style-scope.ytmusic-nav-bar');
         topbar.querySelectorAll('.style-scope.ytmusic-pivot-bar-renderer')[1].click();

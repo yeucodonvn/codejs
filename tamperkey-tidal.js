@@ -47,6 +47,22 @@
 			alert("Cannot load JSON file");
 			alert(err);
 		}); */
+
+	/* function wait(delay) {
+		return new Promise((resolve) => setTimeout(resolve, delay));
+	}
+	function fetchRetry(url, delay, tries, fetchOptions = {}) {
+		function onError(err) {
+			triesLeft = tries - 1; if (!triesLeft) { throw err; } return wait(delay).then(() => fetchRetry(url, delay, triesLeft, fetchOptions));
+
+		} console.log('Fetch : ' + tries);
+		return fetch(url, fetchOptions)
+			.then(response => response.json())
+			.then(apiJSON => { let PARAMS = apiJSON; urlarr = PARAMS.list; })
+			.catch(onError)
+	};
+	// Goi lai sau 3s, retry toi da 100 lan 
+	fetchRetry(url, 3000, 100); */
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.1.9
-// @version      2.1.9
+// @name         Tidal - version 2.2
+// @version      2.2
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -379,12 +379,19 @@
 					setInterval(checkstop, 50 * 1000);
 					clearInterval(load);
 				} else { intload++; console.log("tim nut shuffle"); }
+
 				if (intload > 7) {
 					console.log("reload search btn");
+					// check block
+
+
 					changelist();
 				}
 			}
 		}, 5000)
+	}
+	function Sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms * 1000));
 	}
 	function run() {
 		console.log("Tidal AutoPlay - MANAGER");
@@ -394,13 +401,17 @@
 			return;
 		}
 		let loop = setInterval(() => {
-			if (detecturl() !== 0) {
-				if (detecturl() == 1) {
-					newtab();
+			let captchas = document.querySelector('iframe[src *= "captcha-delivery.com"]');
+			if (captchas) {
+				Sleep(20 * 60);
+			} else
+				if (detecturl() !== 0) {
+					if (detecturl() == 1) {
+						newtab();
+					}
+					clearInterval(loop);
+					ruuun();
 				}
-				clearInterval(loop);
-				ruuun();
-			}
 		}, 5000);
 	};
 	setTimeout(run, 5000);

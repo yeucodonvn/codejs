@@ -14,38 +14,34 @@
 (function() {
     'use strict';
     var paragram={
-        NameAlbum:"list-thang8-2022",
-        list: [
-            "https://listen.tidal.com/album/179130881",
-            "https://listen.tidal.com/album/179130893",
-            "https://listen.tidal.com/album/179306059",
-            "https://listen.tidal.com/album/179302544",
-            "https://listen.tidal.com/album/179306063",
-            "https://listen.tidal.com/album/203008328",
-            "https://listen.tidal.com/album/203008282",
-            "https://listen.tidal.com/album/201628725",
-            "https://listen.tidal.com/album/201628568",
-            "https://listen.tidal.com/album/201628552",
-            "https://listen.tidal.com/album/201451761",
-            "https://listen.tidal.com/album/200828961",
+        NameAlbum:"list-thang7-2023",
+        list:  [
+            "https://listen.tidal.com/album/270558578",
+            "https://listen.tidal.com/album/270666298",
             "https://listen.tidal.com/album/201136331",
             "https://listen.tidal.com/album/204474055",
             "https://listen.tidal.com/album/207454328",
-            "https://listen.tidal.com/album/186203251",
-            "https://listen.tidal.com/album/178111064",
-            "https://listen.tidal.com/album/206658689",
-            "https://listen.tidal.com/album/205701358",
-            "https://listen.tidal.com/album/205701323",
-            "https://listen.tidal.com/album/208235369",
-            "https://listen.tidal.com/album/208235426",
-            "https://listen.tidal.com/album/202217467",
-            "https://listen.tidal.com/album/207424538",
-            "https://listen.tidal.com/album/209460014",
-            "https://listen.tidal.com/album/183433306/track/183433307",
-            "https://listen.tidal.com/album/222324129",
-            "https://listen.tidal.com/album/227187160"
+            "https://listen.tidal.com/album/270667845",
+            "https://listen.tidal.com/album/270665485",
+            "https://listen.tidal.com/album/227187160",
+            "https://listen.tidal.com/album/251503722",
+            "https://listen.tidal.com/album/263216638",
+            "https://listen.tidal.com/album/266525376",
+            "https://listen.tidal.com/album/247688994/track/247688995",
+            "https://listen.tidal.com/album/263335043",
+            "https://listen.tidal.com/album/270961362",
+            "https://listen.tidal.com/album/295137327",
+            "https://listen.tidal.com/album/270758041",
+            "https://listen.tidal.com/album/280385581",
+            "https://listen.tidal.com/album/296770299",
+            "https://listen.tidal.com/album/298403538",
+            "https://listen.tidal.com/album/301237429/track/301237435",
+            "https://listen.tidal.com/album/301236778",
+            "https://listen.tidal.com/album/304711918"
         ]
     };
+
+    //https://tidal.com/browse/playlist/f04d7504-c65d-4406-bb65-3c84c6b1047b
 
     var curUrl;
     async function addlist(params) {

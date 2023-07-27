@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.1
-// @version      2.2.1
+// @name         Tidal - version 2.2.2
+// @version      2.2.2
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -17,7 +17,7 @@
 (function () {
 	'use strict';
 
-	var REPEAT_NUMB = 30;
+	var REPEAT_NUMB = 50;
 	let urlarr = [];
 	//list cu ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
 

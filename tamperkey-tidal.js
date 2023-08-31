@@ -17,7 +17,7 @@
 (function () {
 	'use strict';
 
-	var REPEAT_NUMB = 50;
+	var REPEAT_NUMB = 30;
 	let urlarr = [];
 	//list cu ["d60d7202-4074-4923-b037-30f6ee9e7a1a","67422e19-a08e-4a9b-909b-034b2749362b"];
 

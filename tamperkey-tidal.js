@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.2
-// @version      2.2.2
+// @name         Tidal - version 2.2.3
+// @version      2.2.3
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -401,9 +401,10 @@
 			return;
 		}
 		let loop = setInterval(() => {
-			let captchas = document.querySelector('iframe[src *= "captcha-delivery.com"]');
+			let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
 			if (captchas) {
-				Sleep(20 * 60);
+				console.log("wait block");
+				Sleep(90 * 60);
 			} else
 				if (detecturl() !== 0) {
 					if (detecturl() == 1) {

@@ -224,46 +224,25 @@
 							// if (current_time > 0) {
 							clearInterval(loopGetDuration);
 							let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-							let current_time = document.querySelector('#progressBar').getAttribute('aria-valuenow');
-							if (totalDuration > 0) {
-								var endtime = totalDuration - current_time;
-								if (endtime > 0) {
-									console.log("Get duration Total " + endtime);
-									REPEAT_NUMB--;
-									setTimeout(get_time, (endtime + 5) * 1000);
-								} else {
-									document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-									console.log(`next ${endtime}`);
-									REPEAT_NUMB--;
-								}
+							if (parseInt(totalDuration) > 0) {
+								var observer = new MutationObserver(function (mutations) {
+									mutations.forEach(function (mutation) {
+										if (mutation.type == 'attributes' && mutation.attributeName == 'aria-valuenow') {
+											var newValue = mutation.target.getAttribute('aria-valuenow');
+											if (newValue == 20) {
+												REPEAT_NUMB--;
+											}
+										}
+									});
+								});
+								var progressBar = document.getElementById('progressBar');
+								var config = { attributes: true };
+								observer.observe(progressBar, config);
 							} else {
 								console.log(`khong thay time${endtime}`);
 								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 								REPEAT_NUMB--;
 							}
-							// } else
-							// 	// get theo% processbar
-							// 	if (hmsToSecondsOnly(document.querySelector('[data-test="current-time"]').textContent.trim()) == 0) {
-							// 		let progress_bar = document.querySelector('[data-test="progress-bar"]');
-							// 		if (progress_bar != null) {
-							// 			let sstyle = progress_bar.querySelector('[style]')
-							// 			let current_prcess = sstyle.getAttribute('style').trim();
-							// 			current_prcess = current_prcess.replace("transform: translateX(-", "");
-							// 			// loi neu dinh k chay bai hat
-							// 			current_prcess = current_prcess.replace("%);", "");
-							// 			if (current_prcess > 0) {
-							// 				let totalDuration = hmsToSecondsOnly(Duration.textContent.trim());
-							// 				let endtime = totalDuration * (current_prcess / 100);
-							// 				console.log("Get duration Total " + endtime);
-							// 				temp_number--;
-							// 				setTimeout(get_time, (endtime + 5) * 1000);
-							// 			} else {
-							// 				const next = '.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]';
-							// 				document.querySelector(next).click();
-							// 				REPEAT_NUMB--;
-							// 			}
-							// 		}
-							// 	}
 						}
 						else {
 							iniduration++;
@@ -351,10 +330,13 @@
 	}
 	function playlist(params) {
 		let header = document.querySelector('.header-details')
-		let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
-		let numbertrack = trk.textContent;
-		console.log(numbertrack);
-		REPEAT_NUMB = Number(numbertrack.replace(' TRACKS', '')) + 7;
+let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
+let numbertrack = trk.textContent;
+console.log(numbertrack);
+var regex = /\d/;
+var result = numbertrack.match(regex);
+REPEAT_NUMB = Number(result[0]) + 7; 
+
 		temp_number = Number(numbertrack.replace(' TRACKS', '')) + 7;
 	}
 

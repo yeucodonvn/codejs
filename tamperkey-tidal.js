@@ -109,8 +109,7 @@
 			if (hifi !== null) {
 				hifi.click();
 				Sleep(2);
-				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click();
-			}
+				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click(); }
 		} catch (error) {
 			console.log("error checkHIFI ");
 		}

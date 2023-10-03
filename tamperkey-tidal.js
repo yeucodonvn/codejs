@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.3
-// @version      2.2.3
+// @name         Tidal - version 2.2.4
+// @version      2.2.4
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -105,17 +105,11 @@
 	//check HIFI status
 	async function checkHIFI() {
 		try {
-			let streaming_quality = document.querySelector("button[data-test-streaming-quality]")
-			let modestream = streaming_quality.getAttribute('data-test-streaming-quality')
-			if (modestream.toLowerCase().search('low') == -1) {
-				streaming_quality.click()
-				console.log('change mode click');
-				await sleep(5);
-				let changemode = document.querySelector('button[data-test="streaming-audio-quality-standard"]')
-				changemode.click();
-				console.log('change mode');
-				await sleep(3);
-				window.location.reload(true);
+			let hifi = document.querySelector('[data-test="media-state-high"]')
+			if (hifi !== null) {
+				hifi.click();
+				Sleep(2);
+				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click();
 			}
 		} catch (error) {
 			console.log("error checkHIFI ");
@@ -330,12 +324,12 @@
 	}
 	function playlist(params) {
 		let header = document.querySelector('.header-details')
-let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
-let numbertrack = trk.textContent;
-console.log(numbertrack);
-var regex = /\d/;
-var result = numbertrack.match(regex);
-REPEAT_NUMB = Number(result[0]) + 7; 
+		let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
+		let numbertrack = trk.textContent;
+		console.log(numbertrack);
+		var regex = /\d/;
+		var result = numbertrack.match(regex);
+		REPEAT_NUMB = Number(result[0]) + 7;
 
 		temp_number = Number(numbertrack.replace(' TRACKS', '')) + 7;
 	}

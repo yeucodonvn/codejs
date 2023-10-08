@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.4
-// @version      2.2.4
+// @name         Tidal - version 2.2.5
+// @version      2.2.5
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -109,7 +109,8 @@
 			if (hifi !== null) {
 				hifi.click();
 				Sleep(2);
-				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click(); }
+				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click();
+			}
 		} catch (error) {
 			console.log("error checkHIFI ");
 		}
@@ -161,7 +162,7 @@
 
 					search_spincount++;
 					document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
-					get_time();
+					//get_time();
 					demloi = 0;
 					clearInterval(loopchecktime);
 				} else { demok++; }
@@ -200,6 +201,23 @@
 			// if (temp_number > 0) {
 			if (REPEAT_NUMB > 0) {
 				console.log(REPEAT_NUMB);
+				var observer = new MutationObserver(function (mutations) {
+					mutations.forEach(function (mutation) {
+						if (mutation.type == 'attributes' && mutation.attributeName == 'aria-valuenow') {
+							var newValue = mutation.target.getAttribute('aria-valuenow');
+							if (newValue == 20) {
+								REPEAT_NUMB--;
+								console.log(REPEAT_NUMB);
+							}
+						}
+					});
+				});
+				var progressBar = document.getElementById('progressBar');
+				var config = { attributes: true };
+				observer.observe(progressBar, config);
+
+				//===============
+
 				let loopGetDuration = setInterval(
 					function () {
 						// var Duration = document.querySelector('[data-test="duration"]');
@@ -217,25 +235,11 @@
 							// if (current_time > 0) {
 							clearInterval(loopGetDuration);
 							let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-							if (parseInt(totalDuration) > 0) {
-								var observer = new MutationObserver(function (mutations) {
-									mutations.forEach(function (mutation) {
-										if (mutation.type == 'attributes' && mutation.attributeName == 'aria-valuenow') {
-											var newValue = mutation.target.getAttribute('aria-valuenow');
-											if (newValue == 20) {
-												REPEAT_NUMB--;
-											}
-										}
-									});
-								});
-								var progressBar = document.getElementById('progressBar');
-								var config = { attributes: true };
-								observer.observe(progressBar, config);
-							} else {
+							if (parseInt(totalDuration)<= 0) {
 								console.log(`khong thay time${endtime}`);
 								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 								REPEAT_NUMB--;
-							}
+							} 
 						}
 						else {
 							iniduration++;
@@ -246,6 +250,9 @@
 							if (iniduration > 10) {
 								changelist();
 							}
+						}
+						if (REPEAT_NUMB == 0) {
+							changelist();
 						}
 					}, 5000);
 			} else {
@@ -326,7 +333,7 @@
 		let trk = header.querySelector('[data-test="grid-item-meta-item-count"]')
 		let numbertrack = trk.textContent;
 		console.log(numbertrack);
-		var regex = /\d/;
+		var regex = /\d+/;
 		var result = numbertrack.match(regex);
 		REPEAT_NUMB = Number(result[0]) + 7;
 

@@ -373,18 +373,18 @@
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms * 1000));
 	}
-	function run() {
+	async function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		$(window).off('beforeunload.windowReload');
 		let detectloign = document.querySelector('#login-button');
 		if (detectloign !== null) {
 			return;
 		}
-		let loop = setInterval(() => {
+		let loop = setInterval(async () => {
 			let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
 			if (captchas) {
 				console.log("wait block");
-				sleep(90 * 60);
+				await sleep(90 * 60);
 			} else
 				if (detecturl() !== 0) {
 					if (detecturl() == 1) {

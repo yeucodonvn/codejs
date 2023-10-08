@@ -108,7 +108,7 @@
 			let hifi = document.querySelector('[data-test="media-state-high"]')
 			if (hifi !== null) {
 				hifi.click();
-				Sleep(2);
+				await sleep(5);
 				document.querySelector('[for="streaming-audio-quality-standard-footer"]')?.click();
 			}
 		} catch (error) {
@@ -116,9 +116,7 @@
 		}
 	}
 
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms * 1000));
-	}
+
 
 	function repeat() {
 		console.log("click repeat")
@@ -372,7 +370,7 @@
 			}
 		}, 5000)
 	}
-	function Sleep(ms) {
+	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms * 1000));
 	}
 	function run() {
@@ -386,7 +384,7 @@
 			let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
 			if (captchas) {
 				console.log("wait block");
-				Sleep(90 * 60);
+				sleep(90 * 60);
 			} else
 				if (detecturl() !== 0) {
 					if (detecturl() == 1) {

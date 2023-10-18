@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.6
-// @version      2.2.6
+// @name         Tidal - version 2.2.7
+// @version      2.2.7
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -211,7 +211,10 @@
 					});
 				});
 				var progressBar = document.getElementById('progressBar');
-				var config = { attributes: true };
+				var config = {
+					attributes: true, childList: false,
+					attributeFilter: ['aria-valuenow']
+				};
 				observer.observe(progressBar, config);
 
 				//===============
@@ -233,11 +236,27 @@
 							// if (current_time > 0) {
 							clearInterval(loopGetDuration);
 							let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-							if (parseInt(totalDuration)<= 0) {
+							/*
+							if (parseInt(totalDuration) > 0) {
+								var observer = new MutationObserver(function (mutations) {
+									mutations.forEach(function (mutation) {
+										if (mutation.type == 'attributes' && mutation.attributeName == 'aria-valuenow') {
+											var newValue = mutation.target.getAttribute('aria-valuenow');
+											if (newValue == 20) {
+												REPEAT_NUMB--;
+											}
+										}
+									});
+								});
+								var progressBar = document.getElementById('progressBar');
+								var config = { attributes: true };
+								observer.observe(progressBar, config);
+							} else { */
+							if (parseInt(totalDuration) <= 0) {
 								console.log(`khong thay time${endtime}`);
 								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
 								REPEAT_NUMB--;
-							} 
+							}
 						}
 						else {
 							iniduration++;

@@ -91,16 +91,6 @@
 			if (search_stop_count >= 15) {
 				console.log("reload search stop");
 				window.location.href = "https://www.google.com";
-				//window.location.reload(true)
-				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
-				// GM_saveTab({ active: true }); // save the current tab as active
-				// GM_getTabs((tabs) => {
-				// 	for (const [tabId, tab] of Object.entries(tabs)) {
-				// 		if (!tab.active) { // if the tab is not active
-				// 			window.close(tabId); // close it
-				// 		}
-				// 	}
-				// });
 			};
 		}, 50000)
 	};
@@ -170,16 +160,7 @@
 			}, 10 * 1000);
 			if (search_spincount >= 10) {
 				console.log("reload spinloader");
-				//window.location.reload(true)
-				window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
-				GM_saveTab({ active: true }); // save the current tab as active
-				GM_getTabs((tabs) => {
-					for (const [tabId, tab] of Object.entries(tabs)) {
-						if (!tab.active) { // if the tab is not active
-							window.close(tabId); // close it
-						}
-					}
-				});
+				window.location.href = "https://www.google.com";
 			};
 		}
 	};
@@ -276,39 +257,16 @@
 					}, 5000);
 			} else {
 				changelist();
-				// location.reload(true);
 			}
 
 		} catch (error) {
 			console.log(`loi get time${error}`);
 		}
 	};
-	function newtab(params) {
-		setTimeout(function () {
-			if (urlarr.length > 1) {
-				// alert("hay tat trang hien tai");
-				window.location.href = (urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
-				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
-				// setTimeout(() => {
-				// 	window.close();
-				// }, 2000);
-			} else {
-				location.reload(true)
-			}
-		}, 5000);
-	}
 	function changelist(params) {
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
-
-				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], "_blank");
-				// GM_openInTab(urlarr[Math.floor(Math.random() * (urlarr.length - 1))], { active: true })
-				// setTimeout(() => {
-				// 	window.close();
-				// }, 2000);
-
-
 			} else {
 				location.reload(true)
 				// window.open(window.location.href, "_blank");
@@ -400,7 +358,7 @@
 		console.log("Tidal AutoPlay - MANAGER");
 		$(window).off('beforeunload.windowReload');
 		if (detecturl() == 4) {
-			setTimeout(newtab, 60 * 60 * 1000);
+			setTimeout(changelist, 60 * 60 * 1000);
 		} else {
 			let detectloign = document.querySelector('#login-button');
 			if (detectloign !== null) {
@@ -409,12 +367,11 @@
 			let loop = setInterval(async () => {
 				let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
 				if (captchas) {
-					console.log("wait block");
-					await sleep(90 * 60);
+					window.location.href = "https://www.google.com";
 				} else
 					if (detecturl() !== 0) {
 						if (detecturl() == 1) {
-							newtab();
+							changelist();
 						}
 						clearInterval(loop);
 						ruuun();

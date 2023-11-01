@@ -1,11 +1,12 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.8
-// @version      2.2.8
+// @name         Tidal - version 2.2.9
+// @version      2.2.9
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
 // @match        https://listen.tidal.com/*
+// @match        https://www.google.com/*
 // @run-at       document-idle
 // @grant    	GM_openInTab
 // @grant 		GM_getTabs
@@ -89,7 +90,7 @@
 			}
 			if (search_stop_count >= 15) {
 				console.log("reload search stop");
-				window.location.href = "https://google.com";
+				window.location.href = "https://www.google.com";
 				//window.location.reload(true)
 				// window.open(urlarr[Math.floor(Math.random() * (urlarr.length - 1))]);
 				// GM_saveTab({ active: true }); // save the current tab as active
@@ -342,6 +343,8 @@
 				return 2;
 			case window.location.href.indexOf("/playlist") > -1:
 				return 3;
+			case window.location.href.indexOf("google.com") > -1:
+				return 4;
 			default:
 				return 0;
 		}
@@ -396,24 +399,28 @@
 	async function run() {
 		console.log("Tidal AutoPlay - MANAGER");
 		$(window).off('beforeunload.windowReload');
-		let detectloign = document.querySelector('#login-button');
-		if (detectloign !== null) {
-			return;
-		}
-		let loop = setInterval(async () => {
-			let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
-			if (captchas) {
-				console.log("wait block");
-				await sleep(90 * 60);
-			} else
-				if (detecturl() !== 0) {
-					if (detecturl() == 1) {
-						newtab();
+		if (detecturl() == 4) {
+			setTimeout(newtab, 60 * 60 * 1000);
+		} else {
+			let detectloign = document.querySelector('#login-button');
+			if (detectloign !== null) {
+				return;
+			}
+			let loop = setInterval(async () => {
+				let captchas = document.querySelector('iframe[src*="https://geo.captcha-delivery.com"]');
+				if (captchas) {
+					console.log("wait block");
+					await sleep(90 * 60);
+				} else
+					if (detecturl() !== 0) {
+						if (detecturl() == 1) {
+							newtab();
+						}
+						clearInterval(loop);
+						ruuun();
 					}
-					clearInterval(loop);
-					ruuun();
-				}
-		}, 5000);
+			}, 5000);
+		}
 	};
 	setTimeout(run, 5000);
 

@@ -358,7 +358,9 @@
 		console.log("Tidal AutoPlay - MANAGER");
 		$(window).off('beforeunload.windowReload');
 		if (detecturl() == 4) {
-			setTimeout(changelist, 60 * 60 * 1000);
+			let timewait = 60 * 60;
+			console.log(`wait change link ${timewait}`);
+			setTimeout(changelist, timewait * 1000);
 		} else {
 			let detectloign = document.querySelector('#login-button');
 			if (detectloign !== null) {

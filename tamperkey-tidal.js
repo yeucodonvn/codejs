@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.2.9
-// @version      2.2.9
+// @name         Tidal - version 2.3
+// @version      2.3
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -67,6 +67,11 @@
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+		let upgrader = document.querySelector('[class*="sidebarUpgrade"]')
+		if (upgrader) {
+			alert("tai khoan het han");
+			return;
+		}
 		shufflebtn.click();
 		setTimeout(checkHIFI, 10000);
 		setTimeout(get_time, 10000);

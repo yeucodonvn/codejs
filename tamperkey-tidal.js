@@ -67,11 +67,7 @@
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
-		let upgrader = document.querySelector('[class*="sidebarUpgrade"]')
-		if (upgrader) {
-			alert("tai khoan het han");
-			return;
-		}
+
 		shufflebtn.click();
 		setTimeout(checkHIFI, 10000);
 		setTimeout(get_time, 10000);
@@ -330,9 +326,13 @@
 			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
 			let login = document.querySelector('[datatest="no-user--login"]');
 			let signup = document.querySelector('[datatest="no-user--signup"]');
+			let upgrader = document.querySelector('[class*="sidebarUpgrade"]')
 
 			if (login !== null && signup !== null) {
 				console.log("page doi login");
+				clearInterval(load);
+			} else if (upgrader) {
+				alert("tai khoan het han");
 				clearInterval(load);
 			} else {
 				//https://listen.tidal.com/view/pages/explore

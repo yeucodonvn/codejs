@@ -1,3 +1,7 @@
+/* lọc lấy file dạng srt
+khi get text sẽ tính toán theo thời gian position + duration nếu cách position tiếp theo > 3 giây thì xuống dòng, nếu không thì để liền dòng
+ */
+
 async function getSubs(languageCode = 'en') {
     // Fetch the current page and parse the response
     const response = await fetch(window.location.href);

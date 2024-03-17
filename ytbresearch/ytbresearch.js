@@ -2,7 +2,7 @@ const API_KEY = 'AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E';
 
 const Listurl = [];
 const listoutput = [];
-let time = 'm|6';
+let time = 'd|7';
 let viewpoint = 20000;
 let subpoint = 'n|10000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
@@ -51,7 +51,7 @@ const infovideo = async (element, eleconfig = {}) => {
     videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub}`; // Thêm thông tin vào title video
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
-    listoutput.push(`https://www.youtube.com/watch?v=${videoid}\t${viewCount.toLocaleString()}\tlike ${likeCount.toLocaleString()}\tupload ${uploadDate}\t${channelId}\tSub: ${channelsub}`);
+    listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  ${channelId}  Sub: ${channelsub}`);
   }
 
 }
@@ -165,5 +165,8 @@ async function run(time=0, viewpoint=0, subpoint=0) {
       await fistRunSearch();
   }
 }
-run()
-// tạo một trang popup.html với các textarea để nhập các thông số cần thiết:  time , viewpoint, subpoint, và nút run
+setTimeout(() => {
+  run()
+}, 5*1000);
+// chrome extension
+// https://www.youtube.com/watch?v=Tt2NolG16kQ&list=PLwlNvVIUtWpsjFKGfIXKOz3CjUfg_aQN4&index=2

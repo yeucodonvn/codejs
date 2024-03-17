@@ -1,9 +1,10 @@
 const API_KEY = 'AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E';
 
 const Listurl = [];
+const listoutput = [];
 let time = 'm|6';
 let viewpoint = 20000;
-let subpoint = 'n|2000'
+let subpoint = 'n|10000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
 async function videoinfo(videoid = 'kf0Pzw7cNO8') {
@@ -50,7 +51,9 @@ const infovideo = async (element, eleconfig = {}) => {
     videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub}`; // Thêm thông tin vào title video
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
+    listoutput.push(`https://www.youtube.com/watch?v=${videoid}\t${viewCount.toLocaleString()}\tlike ${likeCount.toLocaleString()}\tupload ${uploadDate}\t${channelId}\tSub: ${channelsub}`);
   }
+
 }
 function setdub(subpoint, channelsub) {
   let query = subpoint.split('|')[0];
@@ -124,8 +127,7 @@ function mutationSv(partennode, childnode, eleconfig) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
-            
+            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
             infovideo(node, eleconfig);
           }
         });
@@ -137,23 +139,31 @@ function mutationSv(partennode, childnode, eleconfig) {
   // Bắt đầu quá trình theo dõi
   observer.observe(targetNode, config);
 }
-if (window.location.href.includes('watch?v')) {
-  eleconfig = {
-    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer',
-    metadataline: '#metadata-line',
-    view: '.inline-metadata-item.ytd-video-meta-block',
-    videoTitle: '#video-title'
-  }
-  mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig)
-  await fistRunWatch();
-} else if (window.location.href.includes('results?search_query=')) {
-  eleconfig = {
-    videoid: 'a#video-title',
-    metadataline: '#metadata-line',
-    view: '.inline-metadata-item.ytd-video-meta-block',
-    videoTitle: 'a#video-title'
-  }
-  mutationSv('ytd-search', 'ytd-video-renderer', eleconfig)
-  await fistRunSearch();
-}
+async function run(time=0, viewpoint=0, subpoint=0) {
+  // Thực hiện công việc của hàm run() với các tham số đã nhận
+  console.log("Time:", time);
+  console.log("Viewpoint:", viewpoint);
+  console.log("Subpoint:", subpoint);
 
+  if (window.location.href.includes('watch?v')) {
+      eleconfig = {
+          videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer',
+          metadataline: '#metadata-line',
+          view: '.inline-metadata-item.ytd-video-meta-block',
+          videoTitle: '#video-title'
+      };
+      mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
+      await fistRunWatch();
+  } else if (window.location.href.includes('results?search_query=')) {
+      eleconfig = {
+          videoid: 'a#video-title',
+          metadataline: '#metadata-line',
+          view: '.inline-metadata-item.ytd-video-meta-block',
+          videoTitle: 'a#video-title'
+      };
+      mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
+      await fistRunSearch();
+  }
+}
+run()
+// tạo một trang popup.html với các textarea để nhập các thông số cần thiết:  time , viewpoint, subpoint, và nút run

@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Research Extension",
+    "version": "1.0",
+    "description": "A Chrome extension for YouTube research",
+    "permissions": [
+        "tabs",
+        "storage"
+    ],
+
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon":{
+            "32": "Research-32.png",
+            "48": "Research-48.png",
+            "64": "Research-64.png",
+            "128": "Research-128.png"
+        }
+    }
+}

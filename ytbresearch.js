@@ -33,7 +33,7 @@ async function getChannelSubscriberCount(channelId) {
 };
 
 const infovideo = async (element, eleconfig = {}) => {
-  let videoid = element.querySelector(eleconfig.videoid)?.href?.split('v=')[1] ?? eleconfig.videoid;
+  let videoid = element.querySelector(eleconfig.videoid)?.href?.split('v=')[1]?.split('&')[0] ?? eleconfig.videoid;
   if (Listurl.includes(videoid)) return;
   Listurl.push(videoid);
   let { viewCount, likeCount, published, channelId } = await videoinfo(videoid);
@@ -103,9 +103,8 @@ async function fistRunSearch() {
   let secondaryNode = document.querySelector('ytd-search');
   let listvideo = secondaryNode.querySelectorAll('ytd-video-renderer');
   listvideo.forEach(async (element) => {
-    let videoid = element.querySelector('a#video-title').getAttribute('href').split('v=')[1].split('&')[0];
     eleconfig = {
-      videoid: videoid,
+      videoid: 'a#video-title',
       metadataline: '#metadata-line',
       view: '.inline-metadata-item.ytd-video-meta-block',
       videoTitle: 'a#video-title'
@@ -126,6 +125,7 @@ function mutationSv(partennode, childnode, eleconfig) {
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
             console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            
             infovideo(node, eleconfig);
           }
         });
@@ -148,7 +148,7 @@ if (window.location.href.includes('watch?v')) {
   await fistRunWatch();
 } else if (window.location.href.includes('results?search_query=')) {
   eleconfig = {
-    videoid: videoid,
+    videoid: 'a#video-title',
     metadataline: '#metadata-line',
     view: '.inline-metadata-item.ytd-video-meta-block',
     videoTitle: 'a#video-title'

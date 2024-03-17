@@ -1,6 +1,9 @@
 const API_KEY = 'AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E';
 
 const Listurl = [];
+let time = 'm|6';
+let viewpoint = 20000;
+let subpoint = 'n|2000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
 async function videoinfo(videoid = 'kf0Pzw7cNO8') {
@@ -9,8 +12,8 @@ async function videoinfo(videoid = 'kf0Pzw7cNO8') {
   );
   const responseText = await response.text();
   const res = JSON.parse(responseText)
-  let viewCount = parseInt(res.items[0].statistics.viewCount).toLocaleString();
-  let likeCount = parseInt(res.items[0].statistics.likeCount).toLocaleString();
+  let viewCount = parseInt(res.items[0].statistics.viewCount);
+  let likeCount = parseInt(res.items[0].statistics.likeCount);
   let published = res.items[0].snippet.publishedAt;
   let channelId = res.items[0].snippet.channelId
   return { viewCount, likeCount, published, channelId };
@@ -29,25 +32,37 @@ async function getChannelSubscriberCount(channelId) {
   }
 };
 
-const infovideo = async (element, time = 'y|1', eleconfig = {}) => {
+const infovideo = async (element, eleconfig = {}) => {
   let videoid = element.querySelector(eleconfig.videoid)?.href?.split('v=')[1] ?? eleconfig.videoid;
   if (Listurl.includes(videoid)) return;
   Listurl.push(videoid);
   let { viewCount, likeCount, published, channelId } = await videoinfo(videoid);
-  let channelsub = parseInt(await getChannelSubscriberCount(channelId)).toLocaleString();
+  let channelsub = parseInt(await getChannelSubscriberCount(channelId));
   let publishedDate = new Date(published);
   let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
   let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
   let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
-  view[0].textContent = viewCount;
-  view[1].textContent = uploadDate + ` Sub: ${channelsub}`;
+  view[0].textContent = viewCount.toLocaleString();
+  view[1].textContent = uploadDate + ` Sub: ${channelsub.toLocaleString()}`;
   let videoTitle = element.querySelector(eleconfig.videoTitle) ?? eleconfig.videoTitle;
 
-  if (settime(time, publishedDate)) {
-    videoTitle.textContent += `view ${viewCount} | like ${likeCount} | upload ${uploadDate} | Sub: ${channelsub}`; // Thêm thông tin vào title video
+  if (settime(time, publishedDate) && viewCount > viewpoint && setdub(subpoint, channelsub)) {
+    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub}`; // Thêm thông tin vào title video
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
   }
+}
+function setdub(subpoint, channelsub) {
+  let query = subpoint.split('|')[0];
+  switch (query) {
+    case 'l':
+      return channelsub >= parseInt(subpoint.split('|')[1]);
+    case 'n':
+      return channelsub <= parseInt(subpoint.split('|')[1]);
+    default:
+      break;
+  }
+  return false;
 }
 function settime(time, publishedDate) {
   let currentDate = new Date();
@@ -80,7 +95,7 @@ async function fistRunWatch() {
       view: '.inline-metadata-item.ytd-video-meta-block',
       videoTitle: '#video-title'
     }
-    await infovideo(element, time = 'm|6', eleconfig);
+    await infovideo(element, eleconfig);
   });
 }
 
@@ -95,11 +110,11 @@ async function fistRunSearch() {
       view: '.inline-metadata-item.ytd-video-meta-block',
       videoTitle: 'a#video-title'
     }
-    await infovideo(element, time = 'm|6', eleconfig);
+    await infovideo(element, eleconfig);
   });
 }
 
-function mutationSv(partennode, childnode) {
+function mutationSv(partennode, childnode, eleconfig) {
   // Lấy element cần theo dõi
   let targetNode = document.querySelector(partennode);
 
@@ -110,8 +125,8 @@ function mutationSv(partennode, childnode) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
-            infovideo(node);
+            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            infovideo(node, eleconfig);
           }
         });
       }
@@ -123,10 +138,22 @@ function mutationSv(partennode, childnode) {
   observer.observe(targetNode, config);
 }
 if (window.location.href.includes('watch?v')) {
-  mutationSv('#secondary-inner', 'ytd-compact-video-renderer')
+  eleconfig = {
+    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer',
+    metadataline: '#metadata-line',
+    view: '.inline-metadata-item.ytd-video-meta-block',
+    videoTitle: '#video-title'
+  }
+  mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig)
   await fistRunWatch();
 } else if (window.location.href.includes('results?search_query=')) {
-  mutationSv('ytd-search', 'ytd-video-renderer')
+  eleconfig = {
+    videoid: videoid,
+    metadataline: '#metadata-line',
+    view: '.inline-metadata-item.ytd-video-meta-block',
+    videoTitle: 'a#video-title'
+  }
+  mutationSv('ytd-search', 'ytd-video-renderer', eleconfig)
   await fistRunSearch();
 }
 

@@ -3,7 +3,7 @@ const API_KEY = 'AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E';
 const Listurl = [];
 const listoutput = [];
 let time = 'd|7';
-let viewpoint = 20000;
+let viewpoint = 200000;
 let subpoint = 'l|1000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
@@ -188,6 +188,6 @@ async function run(time = 0, viewpoint = 0, subpoint = 0) {
 }
 setTimeout(() => {
   run()
-}, 5 * 1000);
+}, 1 * 1000);
 // chrome extension
 // https://www.youtube.com/watch?v=Tt2NolG16kQ&list=PLwlNvVIUtWpsjFKGfIXKOz3CjUfg_aQN4&index=2

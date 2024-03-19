@@ -51,18 +51,20 @@ const infovideo = async (element, eleconfig = {}) => {
     let channelsub = parseInt(await getChannelSubscriberCount(channelId));
     let publishedDate = new Date(published);
     let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
+    let hoursSincePublished = getHoursSincePublished(published);
+    let cph = parseInt(viewCount/hoursSincePublished);
     let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
     let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
     view[0].textContent = viewCount.toLocaleString();
     view[1].textContent = uploadDate + ` Sub: ${channelsub.toLocaleString()}`;
     let videoTitle = element.querySelector(eleconfig.videoTitle) ?? eleconfig.videoTitle;
 
-    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub.toLocaleString()}`; // Thêm thông tin vào title video
+    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | CPH: ${cph.toLocaleString()} | Sub: ${channelsub.toLocaleString()}`; // Thêm thông tin vào title video
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.setAttribute('title', videoTitle.textContent);
     if (settime(time, publishedDate) && viewCount > viewpoint && setdub(subpoint, channelsub)) {
       videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
-      listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
+      listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  CPH: ${cph.toLocaleString()}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
     }
   } catch (error) {
     console.log('Error:', error.stack || error.meessage || error);
@@ -82,6 +84,14 @@ function setdub(subpoint, channelsub) {
   }
   return false;
 }
+function getHoursSincePublished(publishedDate) {
+  let now = new Date();
+  let published = new Date(publishedDate);
+  let differenceInMilliseconds = now - published;
+  let differenceInHours = differenceInMilliseconds / 1000 / 60 / 60;
+  return differenceInHours;
+}
+
 function settime(time, publishedDate) {
   let currentDate = new Date();
   let query = time.split('|')[0];

@@ -153,7 +153,7 @@ function mutationSv(partennode, childnode, eleconfig) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
             infovideo(node, eleconfig);
           }
         });

@@ -141,6 +141,7 @@ async function fistRunSearch() {
   });
 } */
 
+//mutationSv được viết để xử lý một bộ chọn duy nhất khôgn dùng được dấu phẩy
 function mutationSv(partennode, childnode, eleconfig) {
   // Lấy element cần theo dõi
   let targetNode = document.querySelector(partennode);
@@ -152,7 +153,7 @@ function mutationSv(partennode, childnode, eleconfig) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
             infovideo(node, eleconfig);
           }
         });
@@ -170,31 +171,22 @@ async function run(time = 0, viewpoint = 0, subpoint = 0) {
   console.log("Viewpoint:", viewpoint);
   console.log("Subpoint:", subpoint);
 
-  // if (window.location.href.includes('watch?v')) {
-  /*  eleconfig = {
-       videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer',
-       metadataline: '#metadata-line',
-       view: '.inline-metadata-item.ytd-video-meta-block',
-       videoTitle: '#video-title'
-   }; */
+ 
   eleconfig = {
     videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title',
     metadataline: '#metadata-line',
     view: '.inline-metadata-item.ytd-video-meta-block',
     videoTitle: '#video-title,a#video-title'
   }
-  mutationSv('#secondary-inner,ytd-search', 'ytd-compact-video-renderer,ytd-video-renderer', eleconfig);
+  if (document.querySelector('#secondary-inner')!==null) {
+    
+    mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
+  } else if(document.querySelector('ytd-search')!==null){
+    mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
+    
+  }
   await fistRunWatch();
-  /* } else if (window.location.href.includes('results?search_query=')) {
-      eleconfig = {
-          videoid: 'a#video-title',
-          metadataline: '#metadata-line',
-          view: '.inline-metadata-item.ytd-video-meta-block',
-          videoTitle: 'a#video-title'
-      };
-      mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
-      await fistRunSearch();
-  } */
+ 
 }
 setTimeout(() => {
   run()

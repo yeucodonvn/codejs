@@ -9,7 +9,7 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @connect      *
-// @require      https://cdn.jsdelivr.net/npm/abortcontroller-polyfill/dist/abortcontroller.min.js
+// @require  	   https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // ==/UserScript==
 
 (async () => {
@@ -179,31 +179,18 @@
     console.log("Viewpoint:", viewpoint);
     console.log("Subpoint:", subpoint);
 
-    // if (window.location.href.includes('watch?v')) {
-    /*  eleconfig = {
-         videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer',
-         metadataline: '#metadata-line',
-         view: '.inline-metadata-item.ytd-video-meta-block',
-         videoTitle: '#video-title'
-     }; */
     eleconfig = {
       videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title',
       metadataline: '#metadata-line',
       view: '.inline-metadata-item.ytd-video-meta-block',
       videoTitle: '#video-title,a#video-title'
     }
-    mutationSv('#secondary-inner,ytd-search', 'ytd-compact-video-renderer,ytd-video-renderer', eleconfig);
+    if (document.querySelector('#secondary-inner') !== null) {
+      mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
+    } else if (document.querySelector('ytd-search') !== null) {
+      mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
+    }
     await fistRunWatch();
-    /* } else if (window.location.href.includes('results?search_query=')) {
-        eleconfig = {
-            videoid: 'a#video-title',
-            metadataline: '#metadata-line',
-            view: '.inline-metadata-item.ytd-video-meta-block',
-            videoTitle: 'a#video-title'
-        };
-        mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
-        await fistRunSearch();
-    } */
   }
   setTimeout(() => {
     run()

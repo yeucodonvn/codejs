@@ -52,7 +52,7 @@ const infovideo = async (element, eleconfig = {}) => {
     let publishedDate = new Date(published);
     let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
     let hoursSincePublished = getHoursSincePublished(published);
-    let cph = parseInt(viewCount/hoursSincePublished);
+    let cph = parseInt(viewCount / hoursSincePublished);
     let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
     let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
     view[0].textContent = viewCount.toLocaleString();
@@ -171,22 +171,20 @@ async function run(time = 0, viewpoint = 0, subpoint = 0) {
   console.log("Viewpoint:", viewpoint);
   console.log("Subpoint:", subpoint);
 
- 
-  eleconfig = {
-    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title',
+
+  let eleconfig = {
+    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,#video-title-link',
     metadataline: '#metadata-line',
     view: '.inline-metadata-item.ytd-video-meta-block',
-    videoTitle: '#video-title,a#video-title'
+    videoTitle: '#video-title,a#video-title,span#video-title'
   }
-  if (document.querySelector('#secondary-inner')!==null) {
-    
-    mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
-  } else if(document.querySelector('ytd-search')!==null){
-    mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
-    
-  }
+   //gọi  hết các css cần theo dõi để khi chuyển từ search sang video hoặc ngược lại k cần paste code
+  mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
+  mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
+  mutationSv('ytd-page-manager', 'ytd-rich-item-renderer', eleconfig);
+
   await fistRunWatch();
- 
+
 }
 setTimeout(() => {
   run()

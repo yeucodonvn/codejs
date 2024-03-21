@@ -167,22 +167,22 @@
     observer.observe(targetNode, config);
   }
   async function run() {
-    // Thực hiện công việc của hàm run() với các tham số đã nhận
     console.log("Time:", time);
     console.log("Viewpoint:", viewpoint);
     console.log("Subpoint:", subpoint);
-
-
-    //gọi  hết các css cần theo dõi để khi chuyển từ search sang video hoặc ngược lại k cần paste code
-    mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
-    mutationSv('ytd-search', 'ytd-video-renderer');
-    mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
-    mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
-
     await fistRun();
+    if (document.querySelector('#secondary-inner'))
+      mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
+    if (document.querySelector('ytd-search'))
+      mutationSv('ytd-search', 'ytd-video-renderer');
+
+    if (document.querySelector('ytd-page-manager'))
+      mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
+    if (document.querySelector('ytd-two-column-browse-results-renderer'))
+      mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
   }
   setTimeout(() => {
-    run()
+    run().catch(error => console.error(error));
   }, 10 * 1000);
   // chrome extension
   // https://www.youtube.com/watch?v=Tt2NolG16kQ&list=PLwlNvVIUtWpsjFKGfIXKOz3CjUfg_aQN4&index=2

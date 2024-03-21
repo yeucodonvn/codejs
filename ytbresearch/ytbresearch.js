@@ -142,7 +142,7 @@ function mutationSv(partennode, childnode) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
             infovideo(node);
           }
         });
@@ -158,15 +158,19 @@ async function run() {
   console.log("Time:", time);
   console.log("Viewpoint:", viewpoint);
   console.log("Subpoint:", subpoint);
-  //gọi  hết các css cần theo dõi để khi chuyển từ search sang video hoặc ngược lại k cần paste code
-  mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
-  mutationSv('ytd-search', 'ytd-video-renderer');
-  mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
-  mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
   await fistRun();
+  if (document.querySelector('#secondary-inner'))
+    mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
+  if (document.querySelector('ytd-search'))
+    mutationSv('ytd-search', 'ytd-video-renderer');
+
+  if (document.querySelector('ytd-page-manager'))
+    mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
+  if (document.querySelector('ytd-two-column-browse-results-renderer'))
+    mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
 }
-setTimeout(() => {
-  run()
-}, 1 * 1000);
+
+run().catch(error => console.error(error));
+
 // chrome extension
 // https://www.youtube.com/watch?v=Tt2NolG16kQ&list=PLwlNvVIUtWpsjFKGfIXKOz3CjUfg_aQN4&index=2

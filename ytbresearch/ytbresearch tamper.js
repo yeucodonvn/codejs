@@ -3,7 +3,9 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       yeucodon
+// @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbresearch/ytbresearch%20tamper.js
+// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/ytbresearch/ytbresearch%20tamper.js
 // @match        https://www.youtube.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest

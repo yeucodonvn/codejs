@@ -19,8 +19,9 @@
   const Listurl = [];
   const listoutput = [];
   let time = 'd|7';
-  let viewpoint = 200000;
+  let viewpoint = 50000;
   let subpoint = 'l|1000'
+  let cphpoint = 500;
   // https://www.magetop.com/blog/cach-lay-api-key-youtube/
   // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
   function videoinfo(videoid) {

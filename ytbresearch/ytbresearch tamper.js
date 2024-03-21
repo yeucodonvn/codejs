@@ -4,8 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.youtube.com/results?*
-// @match        https://www.youtube.com/watch?*
+// @match        https://www.youtube.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @connect      *
@@ -61,7 +60,7 @@
       });
   }
 
-  const infovideo = async (element, eleconfig = {}) => {
+  const infovideo = async (element) => {
     try {
       let videoid = element.querySelector(eleconfig.videoid)?.href?.split('v=')[1]?.split('&')[0] ?? eleconfig.videoid;
       if (Listurl.includes(videoid)) return;
@@ -122,17 +121,11 @@
     return false;
   }
 
-  async function fistRunWatch() {
-    let secondaryNode = document.querySelector('#secondary-inner,ytd-search');
-    let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer');
+  async function fistRun() {
+    let secondaryNode = document.querySelector('#secondary-inner,ytd-search,ytd-page-manager');
+    let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer,ytd-rich-item-renderer');
     listvideo.forEach(async (element) => {
-      eleconfig = {
-        videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title',
-        metadataline: '#metadata-line',
-        view: '.inline-metadata-item.ytd-video-meta-block',
-        videoTitle: '#video-title,a#video-title'
-      }
-      await infovideo(element, eleconfig);
+      await infovideo(element);
     });
   }
   /* 
@@ -149,8 +142,13 @@
       await infovideo(element, eleconfig);
     });
   } */
-
-  function mutationSv(partennode, childnode, eleconfig) {
+  let eleconfig = {
+    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,#video-title-link',
+    metadataline: '#metadata-line',
+    view: '.inline-metadata-item.ytd-video-meta-block',
+    videoTitle: '#video-title,a#video-title,span#video-title'
+  }
+  function mutationSv(partennode, childnode) {
     // Lấy element cần theo dõi
     let targetNode = document.querySelector(partennode);
 
@@ -162,7 +160,7 @@
           addedNodes.forEach(node => {
             if (node.nodeName.toLowerCase() === childnode) {
               //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
-              infovideo(node, eleconfig);
+              infovideo(node);
             }
           });
         }
@@ -173,28 +171,23 @@
     // Bắt đầu quá trình theo dõi
     observer.observe(targetNode, config);
   }
-  async function run(time = 0, viewpoint = 0, subpoint = 0) {
+  async function run() {
     // Thực hiện công việc của hàm run() với các tham số đã nhận
     console.log("Time:", time);
     console.log("Viewpoint:", viewpoint);
     console.log("Subpoint:", subpoint);
 
-    eleconfig = {
-      videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title',
-      metadataline: '#metadata-line',
-      view: '.inline-metadata-item.ytd-video-meta-block',
-      videoTitle: '#video-title,a#video-title'
-    }
-    if (document.querySelector('#secondary-inner') !== null) {
-      mutationSv('#secondary-inner', 'ytd-compact-video-renderer', eleconfig);
-    } else if (document.querySelector('ytd-search') !== null) {
-      mutationSv('ytd-search', 'ytd-video-renderer', eleconfig);
-    }
-    await fistRunWatch();
+
+    //gọi  hết các css cần theo dõi để khi chuyển từ search sang video hoặc ngược lại k cần paste code
+    mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
+    mutationSv('ytd-search', 'ytd-video-renderer');
+    mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
+
+    await fistRun();
   }
   setTimeout(() => {
     run()
-  }, 1 * 1000);
+  }, 10 * 1000);
   // chrome extension
   // https://www.youtube.com/watch?v=Tt2NolG16kQ&list=PLwlNvVIUtWpsjFKGfIXKOz3CjUfg_aQN4&index=2
 

@@ -40,7 +40,7 @@
         return { viewCount, likeCount, published, channelId };
       })
       .catch(error => {
-        console.log('Error:', error.stack || error.meessage || error);
+        console.log('Error videoinfo :', error.stack || error.meessage || error);
         return null;
       });
   }
@@ -58,7 +58,7 @@
         return null;
       })
       .catch(error => {
-        console.log('Error:', error.stack || error.meessage || error);
+        console.log('Error getChannelSubscriberCount :', error.stack || error.meessage || error);
         return null;
       });
   }
@@ -147,27 +147,31 @@
     videoTitle: '#video-title,a#video-title,span#video-title'
   }
   function mutationSv(partennode, childnode) {
-    // Lấy element cần theo dõi
-    let targetNode = document.querySelector(partennode);
+    try {// Lấy element cần theo dõi
+      let targetNode = document.querySelector(partennode);
 
-    // Tạo một observer instance
-    let observer = new MutationObserver(function (mutations) {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'childList') {
-          let addedNodes = mutation.addedNodes;
-          addedNodes.forEach(node => {
-            if (node.nodeName.toLowerCase() === childnode) {
-              //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
-              infovideo(node);
-            }
-          });
-        }
+      // Tạo một observer instance
+      let observer = new MutationObserver(function (mutations) {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList') {
+            let addedNodes = mutation.addedNodes;
+            addedNodes.forEach(node => {
+              if (node.nodeName.toLowerCase() === childnode) {
+                //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+                infovideo(node);
+              }
+            });
+          }
+        });
       });
-    });
-    // Cấu hình observer: chỉ theo dõi thay đổi childList
-    let config = { childList: true, subtree: true };
-    // Bắt đầu quá trình theo dõi
-    observer.observe(targetNode, config);
+      // Cấu hình observer: chỉ theo dõi thay đổi childList
+      let config = { childList: true, subtree: true };
+      // Bắt đầu quá trình theo dõi
+      observer.observe(targetNode, config);
+    } catch (error) {
+      console.log(`Error mutationSv ${partennode}:`, error.stack || error.meessage || error);
+
+    }
   }
   async function run() {
     console.log("Time:", time);
@@ -178,7 +182,6 @@
       mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
     if (document.querySelector('ytd-search'))
       mutationSv('ytd-search', 'ytd-video-renderer');
-
     if (document.querySelector('ytd-page-manager'))
       mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
     if (document.querySelector('ytd-two-column-browse-results-renderer'))

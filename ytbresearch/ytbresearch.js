@@ -7,7 +7,6 @@ let viewpoint = 200000;
 let subpoint = 'l|1000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
-      let published = res.items[0].snippet.publishedAt;
 
 async function videoinfo(videoid) {
   try {

@@ -5,6 +5,7 @@ const listoutput = [];
 let time = 'd|7';
 let viewpoint = 200000;
 let subpoint = 'l|1000'
+let cphpoint = 100;
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
 
@@ -56,17 +57,17 @@ const infovideo = async (element) => {
     let publishedDate = new Date(published);
     let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
     let hoursSincePublished = getHoursSincePublished(published);
-    let cph = parseInt(viewCount/hoursSincePublished);
+    let cph = parseInt(viewCount / hoursSincePublished);
     let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
     let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
     view[0].textContent = viewCount.toLocaleString();
     view[1].textContent = uploadDate + ` Sub: ${channelsub.toLocaleString()}`;
     let videoTitle = element.querySelector(eleconfig.videoTitle) ?? eleconfig.videoTitle;
 
-    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | CPH: ${cph.toLocaleString()} | Sub: ${channelsub.toLocaleString()}`; 
+    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | CPH: ${cph.toLocaleString()} | Sub: ${channelsub.toLocaleString()}`;
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.setAttribute('title', videoTitle.textContent);
-    if (settime(time, publishedDate) && viewCount > viewpoint && setdub(subpoint, channelsub)) {
+    if (settime(time, publishedDate) && viewCount > viewpoint && cph > cphpoint && setdub(subpoint, channelsub)) {
       videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
       listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  CPH: ${cph.toLocaleString()}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
     }

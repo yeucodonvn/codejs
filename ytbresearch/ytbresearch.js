@@ -7,42 +7,45 @@ let viewpoint = 200000;
 let subpoint = 'l|1000'
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
 // ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
-function videoinfo(videoid) {
-  return $.ajax({
-    url: `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoid}&key=${API_KEY}`,
-    method: 'GET',
-    dataType: 'json',
-  })
-    .then(res => {
-      let viewCount = parseInt(res.items[0].statistics.viewCount);
-      let likeCount = parseInt(res.items[0].statistics.likeCount);
       let published = res.items[0].snippet.publishedAt;
-      let channelId = res.items[0].snippet.channelId;
-      return { viewCount, likeCount, published, channelId };
-    })
-    .catch(error => {
-      console.log('Error:', error.stack || error.meessage || error);
-      return null;
-    });
+
+async function videoinfo(videoid) {
+  try {
+
+    let response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoid}&key=${API_KEY}`
+    );
+    const responseText = await response.text();
+    const res = JSON.parse(responseText)
+    let viewCount = parseInt(res.items[0].statistics.viewCount);
+    let likeCount = parseInt(res.items[0].statistics.likeCount);
+    let published = res.items[0].snippet.publishedAt;
+    let channelId = res.items[0].snippet.channelId
+    return { viewCount, likeCount, published, channelId };
+  } catch (error) {
+    console.log('Error:', error.stack || error.meessage || error);
+    return null;
+  }
 }
 
-function getChannelSubscriberCount(channelId) {
-  return $.ajax({
-    url: `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${API_KEY}`,
-    method: 'GET',
-    dataType: 'json',
-  })
-    .then(data => {
-      if (data.items && data.items.length > 0) {
-        return data.items[0].statistics.subscriberCount;
-      }
+async function getChannelSubscriberCount(channelId) {
+  try {
+
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${API_KEY}`
+    );
+    const data = await response.json();
+
+    if (data.items && data.items.length > 0) {
+      return data.items[0].statistics.subscriberCount;
+    } else {
       return null;
-    })
-    .catch(error => {
-      console.log('Error:', error.stack || error.meessage || error);
-      return null;
-    });
-}
+    }
+  } catch (error) {
+    console.log('Error:', error.stack || error.meessage || error);
+    return null;
+  }
+};
 
 const infovideo = async (element) => {
   try {
@@ -53,18 +56,20 @@ const infovideo = async (element) => {
     let channelsub = parseInt(await getChannelSubscriberCount(channelId));
     let publishedDate = new Date(published);
     let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
+    let hoursSincePublished = getHoursSincePublished(published);
+    let cph = parseInt(viewCount/hoursSincePublished);
     let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
     let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
     view[0].textContent = viewCount.toLocaleString();
     view[1].textContent = uploadDate + ` Sub: ${channelsub.toLocaleString()}`;
     let videoTitle = element.querySelector(eleconfig.videoTitle) ?? eleconfig.videoTitle;
 
-    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub.toLocaleString()}`; // Thêm thông tin vào title video
+    videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | CPH: ${cph.toLocaleString()} | Sub: ${channelsub.toLocaleString()}`; 
     videoTitle.setAttribute('aria-label', videoTitle.textContent);
     videoTitle.setAttribute('title', videoTitle.textContent);
     if (settime(time, publishedDate) && viewCount > viewpoint && setdub(subpoint, channelsub)) {
       videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
-      listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
+      listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  CPH: ${cph.toLocaleString()}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
     }
   } catch (error) {
     console.log('Error:', error.stack || error.meessage || error);
@@ -72,6 +77,14 @@ const infovideo = async (element) => {
   }
 
 }
+function getHoursSincePublished(publishedDate) {
+  let now = new Date();
+  let published = new Date(publishedDate);
+  let differenceInMilliseconds = now - published;
+  let differenceInHours = differenceInMilliseconds / 1000 / 60 / 60;
+  return differenceInHours;
+}
+
 function setdub(subpoint, channelsub) {
   let query = subpoint.split('|')[0];
   switch (query) {
@@ -106,15 +119,15 @@ function settime(time, publishedDate) {
 }
 
 async function fistRun() {
-  let secondaryNode = document.querySelector('#secondary-inner,ytd-search,ytd-page-manager');
-  let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer,ytd-rich-item-renderer');
+  let secondaryNode = document.querySelector('#secondary-inner,ytd-search,ytd-page-manager,ytd-two-column-browse-results-renderer');
+  let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer,ytd-rich-grid-media');
   listvideo.forEach(async (element) => {
     await infovideo(element);
   });
 }
 
 let eleconfig = {
-  videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,#video-title-link',
+  videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,a#video-title-link',
   metadataline: '#metadata-line',
   view: '.inline-metadata-item.ytd-video-meta-block',
   videoTitle: '#video-title,a#video-title,span#video-title'
@@ -129,7 +142,7 @@ function mutationSv(partennode, childnode) {
         let addedNodes = mutation.addedNodes;
         addedNodes.forEach(node => {
           if (node.nodeName.toLowerCase() === childnode) {
-            //console.log('Node ytd-compact-video-renderer được thêm vào:', node);
+            console.log('Node ytd-compact-video-renderer được thêm vào:', node);
             infovideo(node);
           }
         });
@@ -149,6 +162,7 @@ async function run() {
   mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
   mutationSv('ytd-search', 'ytd-video-renderer');
   mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
+  mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
   await fistRun();
 }
 setTimeout(() => {

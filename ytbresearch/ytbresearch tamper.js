@@ -69,25 +69,34 @@
       let channelsub = parseInt(await getChannelSubscriberCount(channelId));
       let publishedDate = new Date(published);
       let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
+      let hoursSincePublished = getHoursSincePublished(published);
+      let cph = parseInt(viewCount/hoursSincePublished);
       let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;
       let view = metadataline.querySelectorAll(eleconfig.view) ?? eleconfig.view;
       view[0].textContent = viewCount.toLocaleString();
       view[1].textContent = uploadDate + ` Sub: ${channelsub.toLocaleString()}`;
       let videoTitle = element.querySelector(eleconfig.videoTitle) ?? eleconfig.videoTitle;
 
-      videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | Sub: ${channelsub.toLocaleString()}`; // Thêm thông tin vào title video
+      videoTitle.textContent += `view ${viewCount.toLocaleString()} | like ${likeCount.toLocaleString()} | upload ${uploadDate} | CPH: ${cph.toLocaleString()} | Sub: ${channelsub.toLocaleString()}`; 
       videoTitle.setAttribute('aria-label', videoTitle.textContent);
       videoTitle.setAttribute('title', videoTitle.textContent);
       if (settime(time, publishedDate) && viewCount > viewpoint && setdub(subpoint, channelsub)) {
         videoTitle.style.color = '#1DAB6F'; // Thay #ff0000 bằng mã màu của bạn
-        listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
+        listoutput.push(`https://www.youtube.com/watch?v=${videoid} ${viewCount.toLocaleString()} like ${likeCount.toLocaleString()}  upload ${uploadDate}  CPH: ${cph.toLocaleString()}  ${channelId}  Sub: ${channelsub.toLocaleString()}`);
       }
     } catch (error) {
       console.log('Error:', error.stack || error.meessage || error);
 
     }
-
   }
+  function getHoursSincePublished(publishedDate) {
+    let now = new Date();
+    let published = new Date(publishedDate);
+    let differenceInMilliseconds = now - published;
+    let differenceInHours = differenceInMilliseconds / 1000 / 60 / 60;
+    return differenceInHours;
+  }
+  
   function setdub(subpoint, channelsub) {
     let query = subpoint.split('|')[0];
     switch (query) {
@@ -120,30 +129,16 @@
     }
     return false;
   }
-
   async function fistRun() {
-    let secondaryNode = document.querySelector('#secondary-inner,ytd-search,ytd-page-manager');
-    let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer,ytd-rich-item-renderer');
+    let secondaryNode = document.querySelector('#secondary-inner,ytd-search,ytd-page-manager,ytd-two-column-browse-results-renderer');
+    let listvideo = secondaryNode.querySelectorAll('ytd-compact-video-renderer,ytd-video-renderer,ytd-rich-grid-media');
     listvideo.forEach(async (element) => {
       await infovideo(element);
     });
   }
-  /* 
-  async function fistRunSearch() {
-    let secondaryNode = document.querySelector('ytd-search');
-    let listvideo = secondaryNode.querySelectorAll('ytd-video-renderer');
-    listvideo.forEach(async (element) => {
-      eleconfig = {
-        videoid: 'a#video-title',
-        metadataline: '#metadata-line',
-        view: '.inline-metadata-item.ytd-video-meta-block',
-        videoTitle: 'a#video-title'
-      }
-      await infovideo(element, eleconfig);
-    });
-  } */
+  
   let eleconfig = {
-    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,#video-title-link',
+    videoid: '.yt-simple-endpoint.style-scope.ytd-compact-video-renderer,a#video-title,a#video-title-link',
     metadataline: '#metadata-line',
     view: '.inline-metadata-item.ytd-video-meta-block',
     videoTitle: '#video-title,a#video-title,span#video-title'
@@ -182,6 +177,7 @@
     mutationSv('#secondary-inner', 'ytd-compact-video-renderer');
     mutationSv('ytd-search', 'ytd-video-renderer');
     mutationSv('ytd-page-manager', 'ytd-rich-item-renderer');
+    mutationSv('ytd-two-column-browse-results-renderer', 'ytd-rich-grid-media');
 
     await fistRun();
   }

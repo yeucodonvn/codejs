@@ -268,6 +268,7 @@
 		setTimeout(function () {
 			if (urlarr.length > 1) {
 				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
+				//window.location.href = urlarr[Math.round(Math.random() * (urlarr.length - 1))];
 			} else {
 				location.reload(true)
 				// window.open(window.location.href, "_blank");

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Tidal - version 2.3
-// @version      2.3
+// @name         Tidal - version 2.4
+// @version      2.4
 // @description  This script Autoplay Tidal
 // @author       yeucodon
 // @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
@@ -217,25 +217,8 @@
 						let iniduration = 0;
 						if (Duration > 0) {
 							checktime()
-							// if (current_time > 0) {
 							clearInterval(loopGetDuration);
 							let totalDuration = document.querySelector('#progressBar').getAttribute('aria-valuemax');
-							/*
-							if (parseInt(totalDuration) > 0) {
-								var observer = new MutationObserver(function (mutations) {
-									mutations.forEach(function (mutation) {
-										if (mutation.type == 'attributes' && mutation.attributeName == 'aria-valuenow') {
-											var newValue = mutation.target.getAttribute('aria-valuenow');
-											if (newValue == 20) {
-												REPEAT_NUMB--;
-											}
-										}
-									});
-								});
-								var progressBar = document.getElementById('progressBar');
-								var config = { attributes: true };
-								observer.observe(progressBar, config);
-							} else { */
 							if (parseInt(totalDuration) <= 0) {
 								console.log(`khong thay time${endtime}`);
 								document.querySelector('.playback-controls__button--white-icon[data-test="next"],[data-type="button__skip-next"][data-test="next"]').click();
@@ -264,15 +247,13 @@
 			console.log(`loi get time${error}`);
 		}
 	};
-	function changelist(params) {
+	function changelist(explore = false) {
 		setTimeout(function () {
-			if (urlarr.length > 1) {
+			if (urlarr.length > 1||explore) {
 				window.location.href = urlarr[Math.floor(Math.random() * (urlarr.length - 1))];
-				//window.location.href = urlarr[Math.round(Math.random() * (urlarr.length - 1))];
 			} else {
 				location.reload(true)
-				// window.open(window.location.href, "_blank");
-				// window.close();
+			
 			}
 		}, 5000);
 	}
@@ -379,7 +360,7 @@
 				} else
 					if (detecturl() !== 0) {
 						if (detecturl() == 1) {
-							changelist();
+							changelist(true);
 						}
 						clearInterval(loop);
 						ruuun();

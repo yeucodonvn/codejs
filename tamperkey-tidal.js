@@ -27,7 +27,7 @@
 	// var URLsc;
 	$.ajax({
 		type: 'GET',
-		url: 'https://raw.githubusercontent.com/yeucodonvn/codejs/master/tidal-artist.json',
+		url: 'https://raw.githubusercontent.com/yeucodonvn/codejs/refs/heads/master/tidal-artist.json',
 		dataType: 'JSON',
 		success: function (apiJSON) {
 			let PARAMS = apiJSON;
@@ -38,32 +38,10 @@
 			alert(err);
 		}
 	});
-	/* fetch('https://raw.githubusercontent.com/yeucodonvn/codejs/master/tidal-artist.json')
-		.then(response => response.json())
-		.then(apiJSON => {
-			let PARAMS = apiJSON;
-			urlarr = PARAMS.list;
-		})
-		.catch(err => {
-			alert("Cannot load JSON file");
-			alert(err);
-		}); */
 
 	/* function wait(delay) {
 		return new Promise((resolve) => setTimeout(resolve, delay));
-	}
-	function fetchRetry(url, delay, tries, fetchOptions = {}) {
-		function onError(err) {
-			triesLeft = tries - 1; if (!triesLeft) { throw err; } return wait(delay).then(() => fetchRetry(url, delay, triesLeft, fetchOptions));
-
-		} console.log('Fetch : ' + tries);
-		return fetch(url, fetchOptions)
-			.then(response => response.json())
-			.then(apiJSON => { let PARAMS = apiJSON; urlarr = PARAMS.list; })
-			.catch(onError)
-	};
-	// Goi lai sau 3s, retry toi da 100 lan 
-	fetchRetry(url, 3000, 100); */
+	}*/
 	function clickshuffle() {
 		console.log("click shuffleAll");
 		let shufflebtn = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
@@ -305,7 +283,7 @@
 	function ruuun() {
 		var intload = 0;
 		let load = setInterval(function () {
-			let shuflle = document.querySelector("[data-test='shuffle-all'][data-track--button-id='shuffle']");
+			let shuflle = document.querySelector('[data-test="shuffle-all"]');
 			let login = document.querySelector('[datatest="no-user--login"]');
 			let signup = document.querySelector('[datatest="no-user--signup"]');
 			let upgrader = document.querySelector('[class*="sidebarUpgrade"]')

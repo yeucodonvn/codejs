@@ -3,8 +3,8 @@
 // @version      2.4
 // @description  This script Autoplay Tidal
 // @author       yeucodon
-// @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
-// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/master/tamperkey-tidal.js
+// @updateURL    https://raw.githubusercontent.com/yeucodonvn/codejs/refs/heads/master/tamperkey-tidal.js
+// @downloadURL  https://raw.githubusercontent.com/yeucodonvn/codejs/refs/heads/master/tamperkey-tidal.js
 // @match        https://listen.tidal.com/*
 // @match        https://www.google.com/*
 // @run-at       document-idle

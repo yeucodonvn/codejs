@@ -1,5 +1,5 @@
 // ===== THAY THẾ CÁC GIÁ TRỊ SAU =====
-const API_KEY = 'AIzaSyAmjxvAnND8hvlJSj5jQZ3acSFzVkzTWb4';//'AIzaSyBw06lFRMrP5b7nGekTlBNA-YDCHAgDTSQ'; // 👈 Dán API Key của bạn vào đây
+const API_KEY = '';// 👈 Dán API Key của bạn vào đây
 // =======================================
 
 function delay(ms) {

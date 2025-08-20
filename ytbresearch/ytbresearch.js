@@ -7,7 +7,7 @@ let viewpoint = 200000;
 let subpoint = 'l|1000'
 let cphpoint = 100;
 // https://www.magetop.com/blog/cach-lay-api-key-youtube/
-// ytb API key AIzaSyAbBIyID9O1HqSqpt-09aR1VrtH3vBHY7E
+// ytb API key
 
 async function videoinfo(videoid) {
   try {

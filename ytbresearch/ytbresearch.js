@@ -55,7 +55,19 @@ const infovideo = async (element) => {
     let { viewCount, likeCount, published, channelId } = await videoinfo(videoid);
     let channelsub = parseInt(await getChannelSubscriberCount(channelId));
     let publishedDate = new Date(published);
-    let uploadDate = publishedDate.getDate() + "/" + (publishedDate.getMonth() + 1) + "/" + publishedDate.getFullYear();
+
+    // Lấy ngày/tháng/năm và thêm '0' vào trước nếu cần
+    let day = String(publishedDate.getDate()).padStart(2, '0');
+    let month = String(publishedDate.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    let year = publishedDate.getFullYear();
+
+    // Lấy giờ/phút/giây và thêm '0' vào trước nếu cần
+    let hours = String(publishedDate.getHours()).padStart(2, '0');
+    let minutes = String(publishedDate.getMinutes()).padStart(2, '0');
+    let seconds = String(publishedDate.getSeconds()).padStart(2, '0');
+
+    // Ghép chuỗi lại theo định dạng DD/MM/YYYY HH:MM:SS
+    let uploadDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     let hoursSincePublished = getHoursSincePublished(published);
     let cph = parseInt(viewCount / hoursSincePublished);
     let metadataline = element.querySelector(eleconfig.metadataline) ?? eleconfig.metadataline;

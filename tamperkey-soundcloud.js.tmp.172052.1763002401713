@@ -54,101 +54,46 @@ function pageScript() {
 			}
 		}, 5000);
 	};
-	// Hàm click với mouse movement simulation
+	// Hàm click giống người dùng thật
 	function humanClick(element) {
 		const rect = element.getBoundingClientRect();
-		// Random offset để không click chính giữa hoàn toàn
-		const offsetX = (Math.random() - 0.5) * rect.width * 0.3;
-		const offsetY = (Math.random() - 0.5) * rect.height * 0.3;
-		const x = rect.left + rect.width / 2 + offsetX;
-		const y = rect.top + rect.height / 2 + offsetY;
+		const x = rect.left + rect.width / 2;
+		const y = rect.top + rect.height / 2;
 
-		// Simulate mouse movement từ vị trí random đến button
-		const startX = x - 50 + Math.random() * 100;
-		const startY = y - 50 + Math.random() * 100;
-
-		// Step 1: Mouse move
-		const moveEvent = new MouseEvent('mousemove', {
-			view: window,
-			bubbles: true,
-			cancelable: true,
-			clientX: startX,
-			clientY: startY
-		});
-		document.dispatchEvent(moveEvent);
-
-		// Step 2: Mouse enter vào element
-		setTimeout(() => {
-			['mouseenter', 'mouseover'].forEach(eventType => {
-				const event = new MouseEvent(eventType, {
-					view: window,
-					bubbles: true,
-					cancelable: true,
-					clientX: x,
-					clientY: y
-				});
-				element.dispatchEvent(event);
-			});
-
-			// Step 3: Click sequence với timing tự nhiên
-			setTimeout(() => {
-				// Thử dùng native click thay vì dispatch
-				element.click();
-			}, 50 + Math.random() * 100);
-		}, 100 + Math.random() * 200);
-	}
-
-	// Thử dùng keyboard event thay vì click
-	function pressSpacebar() {
-		const keyboardEvent = new KeyboardEvent('keydown', {
-			key: ' ',
-			code: 'Space',
-			keyCode: 32,
-			which: 32,
-			bubbles: true,
-			cancelable: true
-		});
-		document.dispatchEvent(keyboardEvent);
-
-		// Keyup event
-		setTimeout(() => {
-			const keyupEvent = new KeyboardEvent('keyup', {
-				key: ' ',
-				code: 'Space',
-				keyCode: 32,
-				which: 32,
+		// Dispatch các event giống click thật
+		['mousedown', 'mouseup', 'click'].forEach(eventType => {
+			const event = new MouseEvent(eventType, {
+				view: window,
 				bubbles: true,
-				cancelable: true
+				cancelable: true,
+				clientX: x,
+				clientY: y,
+				button: 0
 			});
-			document.dispatchEvent(keyupEvent);
-		}, 50 + Math.random() * 50);
+			element.dispatchEvent(event);
+		});
 	}
 
 	function checkstop() {
-		let useKeyboard = true; // Thử keyboard trước, nếu không được thì dùng click
-
-		function checkAndClick() {
+		// Đợi element xuất hiện trước khi bắt đầu check
+		let waitForElement = setInterval(function() {
 			let element = document.querySelector('.soundTitle__playButton>[role="button"][title="Play"]');
 			if (element != null) {
-				console.log('Detected paused state, attempting to play...');
+				console.log('Element found, start monitoring...');
+				clearInterval(waitForElement);
 
-				if (useKeyboard) {
-					console.log('Using keyboard (spacebar)');
-					pressSpacebar();
-				} else {
-					console.log('Using click');
-					humanClick(element);
-				}
+				// Bắt đầu check mỗi 5 giây
+				setInterval(function () {
+					let element = document.querySelector('.soundTitle__playButton>[role="button"][title="Play"]');
+					if (element != null) {
+						console.log('click play');
+						humanClick(element);
+					}
+				}, 5000);
+			} else {
+				console.log('Waiting for play button...');
 			}
-
-			// Random delay: 4-7 giây thay vì đều đặn 5 giây
-			const randomDelay = 4000 + Math.random() * 3000;
-			setTimeout(checkAndClick, randomDelay);
-		}
-
-		// Bắt đầu với delay random
-		const initialDelay = 3000 + Math.random() * 2000;
-		setTimeout(checkAndClick, initialDelay);
+		}, 1000); // Check mỗi giây cho đến khi tìm thấy
 	}
 	function SetLocalStorage(key, value) {
 		localStorage.setItem(key, value);
@@ -184,7 +129,7 @@ function pageScript() {
 			if (btnRender != null) {
 				if (Math.floor(Math.random() * 125) > 100) {
 					console.log("Like Click");
-					humanClick(btnRender);
+					btnRender.click();
 				}
 				clearInterval(loopClickLikeRepeat);
 			}
@@ -196,8 +141,8 @@ function pageScript() {
 			let btnRender = document.querySelector('[aria-label="Follow"]');
 			if (btnRender != null) {
 				if (Math.floor(Math.random() * 105) > 100) {
-					console.log("Follow Click");
-					humanClick(btnRender);
+					console.log("Like Click");
+					btnRender.click();
 				}
 				clearInterval(loopClickLikeRepeat);
 			}

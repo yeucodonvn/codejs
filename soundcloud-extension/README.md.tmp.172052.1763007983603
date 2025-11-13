@@ -1,0 +1,163 @@
+# SoundCloud AutoPlay Extension
+
+Chrome Extension tự động phát nhạc SoundCloud với shuffle và repeat.
+
+## ✨ Tính năng
+
+- ✅ Tự động click Play khi nhạc dừng
+- ✅ Tự động bật Shuffle mode
+- ✅ Tự động bật Repeat All mode
+- ✅ (Optional) Random Like và Follow
+- ✅ **Chạy trong MAIN WORLD** - giống như paste code vào Developer Console
+
+## 🔑 Điểm khác biệt với Tampermonkey
+
+| Feature | Tampermonkey | Extension này |
+|---------|--------------|---------------|
+| Execution Context | ISOLATED World | **MAIN World** ✅ |
+| Click Detection | Bị detect ❌ | Không bị detect ✅ |
+| Native Events | Không | Có ✅ |
+
+## 📦 Cài đặt
+
+### Bước 1: Load Extension vào Chrome
+
+1. Mở Chrome và vào `chrome://extensions/`
+2. Bật **Developer mode** (góc trên bên phải)
+3. Click **"Load unpacked"**
+4. Chọn folder: `D:\Dropbox\github\codejs\soundcloud-extension`
+5. Extension sẽ xuất hiện trong danh sách
+
+### Bước 2: Sử dụng
+
+1. Vào trang SoundCloud: https://soundcloud.com
+2. Lần đầu tiên, extension sẽ hỏi bạn nhập URL playlist/album
+3. Nhập URL (ví dụ: `https://soundcloud.com/your-playlist`)
+4. Extension sẽ tự động:
+   - Chuyển đến URL đó
+   - Bật Shuffle
+   - Bật Repeat
+   - Tự động play khi nhạc dừng
+
+### Bước 3: Kiểm tra hoạt động
+
+Mở Developer Console (F12) và xem logs:
+
+```
+[SoundCloud AutoPlay] Extension loaded in MAIN world
+[SoundCloud AutoPlay] Starting automation...
+[SoundCloud AutoPlay] Enabling shuffle...
+[SoundCloud AutoPlay] Enabling repeat...
+[SoundCloud AutoPlay] Detected pause, clicking play...
+```
+
+## 🛠️ Cấu trúc Extension
+
+```
+soundcloud-extension/
+├── manifest.json          # Chrome Extension manifest (v3)
+├── soundcloud-script.js   # Script chạy trong MAIN world
+└── README.md             # Hướng dẫn này
+```
+
+## 🔄 Update Extension
+
+### Cách 1: Tự động (Khuyến nghị)
+
+1. **Double-click file:** `check-update.bat`
+   - Script sẽ check xem có version mới không
+
+2. **Nếu có update, double-click:** `update.bat`
+   - Script tự động pull code mới từ GitHub
+
+3. **Reload extension:**
+   - Vào `chrome://extensions/`
+   - Click nút **Reload** (🔄) trên extension
+
+### Cách 2: Manual
+
+```bash
+cd D:\Dropbox\github\codejs
+git pull origin master
+```
+
+Sau đó reload extension trong `chrome://extensions/`
+
+### Cách 3: Tự động hoàn toàn (Advanced)
+
+Nếu muốn Chrome tự động update (không cần Chrome Web Store):
+
+1. **Cần Enterprise Policy** - Chỉ dành cho tổ chức/doanh nghiệp
+2. Hoặc sử dụng **Linux** (vẫn hỗ trợ external extensions)
+
+> **Note:** Chrome 73+ đã hạn chế auto-update cho extensions không từ Web Store trên Windows/Mac (trừ khi dùng Enterprise Policy)
+
+## 🔧 Cấu hình
+
+### Thay đổi thời gian check
+
+Mở `soundcloud-script.js` và tìm dòng:
+
+```javascript
+}, 5000); // Check mỗi 5 giây
+```
+
+Đổi `5000` thành giá trị khác (milliseconds).
+
+### Tắt Like/Follow tự động
+
+Các hàm `clickLike()` và `clickFollow()` không được gọi mặc định. Nếu muốn bật, thêm vào hàm `run()`:
+
+```javascript
+setTimeout(clickLike, 30000);
+setTimeout(clickFollow, 60000);
+```
+
+## 🐛 Troubleshooting
+
+### Extension không hoạt động?
+
+1. **Kiểm tra console có log không:**
+   - Mở F12 → Console
+   - Phải thấy `[SoundCloud AutoPlay] Extension loaded in MAIN world`
+
+2. **Kiểm tra permission:**
+   - Vào `chrome://extensions/`
+   - Click "Details" trên extension
+   - Đảm bảo có quyền truy cập `soundcloud.com`
+
+3. **Reload extension:**
+   - Vào `chrome://extensions/`
+   - Click nút reload (🔄) trên extension
+
+4. **Clear localStorage và thử lại:**
+   ```javascript
+   // Paste vào console
+   localStorage.removeItem('urlSoundcloud');
+   location.reload();
+   ```
+
+### Click vẫn bị detect?
+
+Nếu vẫn bị detect (không nên xảy ra vì đã dùng MAIN world):
+
+1. Kiểm tra console có error không
+2. Thử clear cache và cookies của SoundCloud
+3. Reload extension
+
+## 📝 Notes
+
+- Extension này chỉ hoạt động trên Chrome/Edge (Manifest V3 + MAIN world support)
+- Requires Chrome 95+ để hỗ trợ `"world": "MAIN"`
+- Script chạy tự động khi vào SoundCloud, không cần click icon
+
+## 🔐 Privacy
+
+- Extension chỉ chạy trên `soundcloud.com`
+- Không thu thập data
+- Không gửi data về server nào
+- Source code mở, có thể review tất cả
+
+## 📄 License
+
+Free to use and modify.

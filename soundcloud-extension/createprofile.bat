@@ -10,4 +10,4 @@ echo "C:\Program Files\Google\Chrome\Application\chrome.exe" --profile-directory
 cls
 echo Restore complete!
 echo "change password %username%"
-net user %username% "&!TeamLamViec.99"
+net user %username% "Adminis$mc.cae"

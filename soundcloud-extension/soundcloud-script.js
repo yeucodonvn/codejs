@@ -33,8 +33,8 @@
 	}
 	function setstop() {
 		setTimeout(function () {
-		window.location.href = 'https://google.com/';
-		}, temp_number * 60000); // Stop after temp_number minutes
+			window.location.href = 'https://google.com/';
+		}, temp_number * 60 * 1000); // Stop after temp_number minutes
 	}
 	function SetLocalStorage(key, value) {
 		localStorage.setItem(key, value);

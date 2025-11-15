@@ -24,7 +24,7 @@
 
 	function checkstop() {
 		setInterval(function () {
-			let element = document.querySelector('.soundTitle__playButton>[role="button"][title="Play"]');
+			let element = document.querySelector('.playControls__elements>button[aria-label="Play current"],.soundTitle__playButton>[role="button"][title="Play"]:not(.playlock-freeze)');
 			if (element != null) {
 				console.log('[SoundCloud AutoPlay] Detected pause, clicking play...');
 				element.click(); // Native click in MAIN world
@@ -94,7 +94,7 @@
 
 		console.log("[SoundCloud AutoPlay] Starting automation...");
 		let signin = document.querySelector('[aria-label="Sign in"]');
-		if (signin == null) return;
+		if (signin != null) return;
 		let url = localStorage.getItem(LocalStorageKey);
 		if (url == null || url == "" || url == "undefined") {
 			url = prompt("Enter SoundCloud URL:", "https://soundcloud.com/marilyncortez/sets/melodies-from-beyond-1");
